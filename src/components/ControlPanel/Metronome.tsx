@@ -99,7 +99,7 @@ const Metronome = () => {
             <span className='label text-shadow-none text-zinc-600'>BPM</span>
           </div>
 
-          <button onClick={onToggle} className={`btn w-12${isPlaying ? ' active' : ''}`}>
+          <button onClick={onToggle} className={`w-12 btn${isPlaying ? ' active' : ''}`}>
             {isPlaying ? <StopIcon height='1rem' /> : <PlayIcon height='1rem' />}
           </button>
         </div>

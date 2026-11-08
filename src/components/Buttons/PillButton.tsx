@@ -9,9 +9,8 @@ type props = {
 };
 
 const PillButton = ({ isActive, onPointerDown, onPointerUp, text, keybind, onClick, className = '' }: props) => (
-  // <div className='module flex rounded-full transition-all'>
   <button
-    className={`btn gap-1.5 rounded-full text-xs py-1 px-2 ${isActive ? ' active' : ''} ${className}`}
+    className={`gap-1.5 rounded-full text-xs py-1 px-2 btn${isActive ? ' active' : ''} ${className}`}
     onClick={onClick}
     onPointerDown={(e) => {
       e.currentTarget.setPointerCapture(e.pointerId);
@@ -28,6 +27,5 @@ const PillButton = ({ isActive, onPointerDown, onPointerUp, text, keybind, onCli
     <span className='label text-inherit font-normal'>{text}</span>
     {keybind && <span className='keybind'>{keybind}</span>}
   </button>
-  // </div>
 );
 export default PillButton;

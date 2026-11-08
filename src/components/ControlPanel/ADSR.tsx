@@ -21,11 +21,11 @@ const ADSR = (props: props) => {
           onPointerUp={props.onSustainRelease}
         />
       </div>
-      <div className='flex flex-col gap-1'>
-        <Slider id='attack' label='attack' min={0} max={1} step={0.1} />
-        <Slider id='decay' label='decay' min={0} max={1} step={0.1} />
+      <div className='container'>
+        <Slider id='attack' label='attack' min={0} max={5} step={0.1} />
+        <Slider id='decay' label='decay' min={0} max={5} step={0.1} />
         <Slider id='sustain' label='sustain' min={0} max={1} step={0.1} />
-        <Slider id='release' label='release' min={0} max={1} step={0.1} />
+        <Slider id='release' label='release' min={0} max={10} step={0.1} />
       </div>
     </div>
   );

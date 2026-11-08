@@ -61,7 +61,7 @@ const ControlPanel = (props: props) => {
 
       <ADSR sustain={props.sustain} onSustainDown={props.onSustainDown} onSustainRelease={props.onSustainRelease} />
       <Metronome />
-      <Reverb reverb={props.reverb} setReverb={props.setReverb} />
+      <Reverb isActive={props.reverb} setReverb={props.setReverb} />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
