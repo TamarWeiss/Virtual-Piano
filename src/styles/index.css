@@ -40,7 +40,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: min-content;
     font-weight: bold;
     letter-spacing: 0.05rem;
     color: var(--color-zinc-400);
@@ -107,8 +106,7 @@ button {
     opacity: 60%;
     border-radius: 0.25rem;
     padding: 0.125rem 0.25rem;
-    /* font-size: 0.625rem; */
-    font-size: 0.833333em;
+    font-size: 0.625rem;
     background-color: --opacity(var(--color-black), 0.2);
   }
 }

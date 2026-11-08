@@ -65,11 +65,11 @@ const Metronome = () => {
       <div className='module metronome-module'>
         <div className='flex items-center justify-between gap-2'>
           <span className='label mx-auto'>Metronome</span>
-          <LED state={flashState} />
+          <LED state={flashState} className='mr-3' />
         </div>
 
-        <div className='flex grow items-stretch gap-2'>
-          <div className='display flex-col w-12 text-xs'>
+        <div className='flex flex-1 items-stretch gap-2'>
+          <div className='display flex-col text-xs'>
             <NumberInput
               id='time-sig-top'
               min={1}
@@ -77,7 +77,7 @@ const Metronome = () => {
               value={timeSignature[0]}
               onChange={(value) => onTimeSignatureChange([value, timeSignature[1]])}
             />
-            <hr className='h-[1px]' />
+            <hr className='h-[1px] w-full' />
             <NumberInput
               id='time-sig-bottom'
               min={1}
@@ -87,10 +87,10 @@ const Metronome = () => {
             />
           </div>
 
-          <div className='display items-center'>
+          <div className='display'>
             <NumberInput
               id='bpm'
-              className='text-base w-12 text-shadow-inherit'
+              className='text-base text-shadow-inherit'
               min={1}
               max={MAX}
               value={bpm}

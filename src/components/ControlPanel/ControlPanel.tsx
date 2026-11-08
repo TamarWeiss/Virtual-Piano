@@ -45,7 +45,7 @@ const ControlPanel = (props: props) => {
   });
 
   return (
-    <div className='flex items-center justify-between py-1 gap-4'>
+    <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module octave-module'>
         <OctaveButton text='-' isActive={isShift == -1} onClick={() => props.shiftOctave(-1)} />
         <NumberInput
