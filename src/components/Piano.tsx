@@ -15,7 +15,7 @@ const Piano = () => {
     waveform: 'square',
     volume: 0.3,
     adsr: { attack: e, sustain: 1, release: e },
-    reverb: { active: false, volume: 0.4, duration: 2, decay: 2 },
+    reverb: { active: false, volume: 0.5, duration: 2, decay: 2 },
   });
 
   useEffect(() => {

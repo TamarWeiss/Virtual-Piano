@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { midiToFrequency as midiToFrequency } from '../constants/pianoConfig';
+import { e, midiToFrequency as midiToFrequency } from '../constants/pianoConfig';
 import { getAudioContext, getConvolver } from './synth';
 
 type ADSR = {
@@ -72,9 +72,10 @@ export const useSynth = (props: Props) => {
     osc.connect(gain);
     gain.connect(ctx.destination); // Dry path
 
+    let reverbGain = null;
     if (reverb?.active) {
       const convolver = getConvolver(reverb.duration, reverb.decay);
-      const reverbGain = ctx.createGain();
+      reverbGain = ctx.createGain();
       reverbGain.gain.value = reverb.volume;
 
       // Route: source -> main gain -> convolver -> wet gain -> destination
@@ -87,6 +88,7 @@ export const useSynth = (props: Props) => {
     osc.onended = () => {
       osc.disconnect();
       gain.disconnect();
+      if (reverbGain) setTimeout(() => reverbGain.disconnect(), (reverb.duration + e) * 1000);
     };
 
     return { osc, gain };
