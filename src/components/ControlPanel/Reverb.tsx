@@ -22,7 +22,7 @@ const Reverb = ({ reverb, setReverb }: props) => (
 
     <div className='container'>
       <Slider
-        id='volume'
+        id='reverbVolume'
         label='volume'
         value={reverb.volume}
         onChange={(volume) => setReverb((prev) => ({ ...prev, volume }))}
@@ -31,7 +31,7 @@ const Reverb = ({ reverb, setReverb }: props) => (
         step={0.1}
       />
       <Slider
-        id='duration'
+        id='reverbDuration'
         label='duration'
         value={reverb.duration}
         onChange={(duration) => setReverb((prev) => ({ ...prev, duration }))}
@@ -40,11 +40,11 @@ const Reverb = ({ reverb, setReverb }: props) => (
         step={0.1}
       />
       <Slider
-        id='decay'
+        id='reverbDecay'
         label='decay'
         value={reverb.decay}
-        min={0}
         onChange={(decay) => setReverb((prev) => ({ ...prev, decay }))}
+        min={0}
         max={5}
         step={0.1}
       />
