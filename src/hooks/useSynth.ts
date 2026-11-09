@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { midiToFrequency as midiToFrequency } from '../constants/pianoConfig';
+import { getAudioContext, getConvolver } from './synth';
 
 type ADSR = {
   attack: number; // Time to reach peak
@@ -10,27 +11,16 @@ type ADSR = {
 
 type AudioNode = { osc: OscillatorNode; gain: GainNode };
 type RampType = 'linear' | 'exponential';
-
-type PlayParams = {
-  frequency: number;
-  waveform: OscillatorType;
-  adsr: Omit<ADSR, 'release'>;
-  volume: number;
-  time?: number;
-  reverb?: boolean;
-  rampType?: RampType;
-};
+type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
+type PlayParams = { frequency: number; adsr: Omit<ADSR, 'release'>; time?: number };
 
 type Props = {
   volume: number;
   waveform: OscillatorType;
   adsr?: Partial<ADSR>;
   rampType?: RampType;
-  reverb?: boolean;
+  reverb?: ReverbOptions;
 };
-
-let audioContext: AudioContext | null = null;
-let convolver: ConvolverNode | null = null;
 
 export const useSynth = (props: Props) => {
   const { volume, rampType = 'linear' } = props;
@@ -46,7 +36,7 @@ export const useSynth = (props: Props) => {
 
   const [activeKeys, setActiveKeys] = useState<Set<number>>(new Set());
   const [waveform, setWaveform] = useState<OscillatorType>(props.waveform);
-  const [reverb, setReverb] = useState(Boolean(props.reverb));
+  const [reverb, setReverb] = useState(props.reverb);
   const [sustain, setSustain] = useState(false);
   const activeAudioNodes = useRef<Map<number, AudioNode & { isHeld: boolean }>>(new Map());
   const ref = useRef({ adsr });
@@ -55,38 +45,7 @@ export const useSynth = (props: Props) => {
     ref.current.adsr = adsr;
   }, [adsr]);
 
-  const getAudioContext = () => {
-    if (!audioContext) audioContext = new AudioContext();
-    return audioContext;
-  };
-
-  const createReverbBuffer = (duration = 2, decay = 2): AudioBuffer => {
-    const ctx = getAudioContext();
-    const sampleRate = ctx.sampleRate;
-    const length = sampleRate * duration;
-    const impulse = ctx.createBuffer(2, length, sampleRate);
-    const left = impulse.getChannelData(0);
-    const right = impulse.getChannelData(1);
-
-    for (let i = 0; i < length; i++) {
-      // Generate white noise decaying exponentially
-      left[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
-      right[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
-    }
-
-    return impulse;
-  };
-
-  const getConvolver = (): ConvolverNode => {
-    if (!convolver) {
-      const ctx = getAudioContext();
-      convolver = ctx.createConvolver();
-      convolver.buffer = createReverbBuffer();
-    }
-    return convolver;
-  };
-
-  const play = ({ frequency, waveform, time, reverb, adsr, rampType, volume }: PlayParams): AudioNode => {
+  const play = ({ frequency, time, adsr }: PlayParams): AudioNode => {
     const ctx = getAudioContext();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -113,11 +72,10 @@ export const useSynth = (props: Props) => {
     osc.connect(gain);
     gain.connect(ctx.destination); // Dry path
 
-    if (reverb) {
-      const convolver = getConvolver();
+    if (reverb?.active) {
+      const convolver = getConvolver(reverb.duration, reverb.decay);
       const reverbGain = ctx.createGain();
-
-      reverbGain.gain.value = 0.1; // Adjust this value (0 to 1) to control how wet/reverberant it sounds
+      reverbGain.gain.value = reverb.volume;
 
       // Route: source -> main gain -> convolver -> wet gain -> destination
       gain.connect(convolver);
@@ -141,12 +99,8 @@ export const useSynth = (props: Props) => {
       activeAudioNodes.current.get(note) ??
       play({
         frequency: midiToFrequency(note),
-        waveform: waveform,
         adsr: ref.current.adsr,
         time,
-        volume,
-        rampType,
-        reverb,
       });
 
     activeAudioNodes.current.set(note, { ...node, isHeld: true }); // Save reference so we can stop it later

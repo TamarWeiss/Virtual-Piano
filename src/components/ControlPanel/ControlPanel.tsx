@@ -8,6 +8,7 @@ import NumberInput from '../Input/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
 import ADSR from './ADSR';
+import type { ReverbOptions } from '../../hooks/synth';
 
 type props = {
   baseOctave: number;
@@ -17,8 +18,8 @@ type props = {
   sustain: boolean;
   onSustainDown: () => void;
   onSustainRelease: () => void;
-  reverb: boolean;
-  setReverb: React.Dispatch<React.SetStateAction<boolean>>;
+  reverb: ReverbOptions;
+  setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
 };
 
 const ControlPanel = (props: props) => {
@@ -26,7 +27,7 @@ const ControlPanel = (props: props) => {
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
   useKeybinds({
-    KeyZ: { onKeyDown: () => props.setReverb((prev) => !prev) },
+    KeyZ: { onKeyDown: () => props.setReverb((prev) => ({ ...prev, active: !prev.active })) },
     KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
     ShiftLeft: {
       onKeyDown: () => {
@@ -61,7 +62,7 @@ const ControlPanel = (props: props) => {
 
       <ADSR sustain={props.sustain} onSustainDown={props.onSustainDown} onSustainRelease={props.onSustainRelease} />
       <Metronome />
-      <Reverb isActive={props.reverb} setReverb={props.setReverb} />
+      <Reverb reverb={props.reverb} setReverb={props.setReverb} />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
