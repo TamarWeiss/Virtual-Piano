@@ -11,12 +11,12 @@ interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
 }
 
 const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
-  const [localValue, setLocalValue] = useState(String(value ?? (max - min) / 2));
+  const [localValue, setLocalValue] = useState(value ?? (max - min) / 2);
   const [prevValue, setPrevValue] = useState(value);
 
   if (value !== prevValue) {
     setPrevValue(value);
-    setLocalValue(String(value));
+    setLocalValue(value);
   }
 
   return (
@@ -32,7 +32,7 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
         value={localValue}
         min={min}
         max={max}
-        onChange={(e) => setLocalValue(e.target.value)}
+        onChange={(e) => setLocalValue(Number(e.target.value))}
         onPointerUp={(e) => {
           e.currentTarget.releasePointerCapture(e.pointerId);
           e.currentTarget.blur();
@@ -52,17 +52,16 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
       <span className='label'>{parseFloat(max.toFixed(2))}</span>
       <NumberInput
         className='display'
-        value={Number(localValue)}
+        value={localValue}
         min={min}
         max={max}
         step={props.step}
         onChange={(value) => {
-          setLocalValue(String(value));
+          setLocalValue(value);
           if (value !== undefined) setPrevValue(value);
           onChange(value);
         }}
       />
-      {/* <span className='display'>{parseFloat(Number(localValue).toFixed(2))}</span> */}
     </div>
   );
 };
