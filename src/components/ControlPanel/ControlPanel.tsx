@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../../styles/controlPanel.css';
 import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
 import OctaveButton from '../Buttons/OctaveButton';
 import WaveformButton from '../Buttons/WaveformButton';
 import Metronome from './Metronome';
 import NumberInput from '../Input/NumberInput';
-import { KeybindContext } from '../../hooks/KeybindContext';
+import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
 import type { ADSR, ReverbOptions } from '../../hooks/useSynth';
 import ADSRPanel from './ADSR';
@@ -27,33 +27,25 @@ type props = {
 const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
-  const { addKeybinds } = useContext(KeybindContext);
 
-  useEffect(() => {
-    const cleanup = addKeybinds({
-      KeyZ: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
-      KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
-      ShiftLeft: {
-        onKeyDown: () => {
-          setIsShift(-1);
-          shiftOctave(-1);
-        },
-        onKeyUp: () => setIsShift(0),
+  useKeybinds({
+    KeyZ: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
+    KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
+    ShiftLeft: {
+      onKeyDown: () => {
+        setIsShift(-1);
+        shiftOctave(-1);
       },
-      ShiftRight: {
-        onKeyDown: () => {
-          setIsShift(1);
-          shiftOctave(1);
-        },
-        onKeyUp: () => setIsShift(0),
+      onKeyUp: () => setIsShift(0),
+    },
+    ShiftRight: {
+      onKeyDown: () => {
+        setIsShift(1);
+        shiftOctave(1);
       },
-    });
-
-    return () => {
-      console.log('cleanup');
-      cleanup();
-    };
-  }, [addKeybinds, setReverb, shiftOctave]);
+      onKeyUp: () => setIsShift(0),
+    },
+  });
 
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
