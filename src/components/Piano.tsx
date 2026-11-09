@@ -4,7 +4,8 @@ import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, e } from '../constants/pian
 import { useSynth } from '../hooks/useSynth';
 import PianoKey from './Buttons/PianoKey';
 import ControlPanel from './ControlPanel/ControlPanel';
-import { useKeybinds, type KeyBind } from '../hooks/useKeybinds';
+import KeybindProvider from '../hooks/KeybindProvider';
+import type { KeyBind } from '../hooks/KeybindContext';
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const BLACK_KEY_MASK = 0x54a;
@@ -69,46 +70,47 @@ const Piano = () => {
     ]),
   );
 
-  const addKebinds = useKeybinds({
-    ...noteKeybinds,
-    Space: {
-      onKeyDown: () => synth.setSustain(true),
-      onKeyUp: onSustainRelease,
-    },
-  });
-
   return (
-    <div className='piano' style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}>
-      <ControlPanel
-        baseOctave={baseOctave}
-        shiftOctave={shiftOctave}
-        waveform={synth.waveform}
-        setWaveform={synth.setWaveform}
-        sustain={synth.sustain}
-        onSustainDown={() => synth.setSustain(true)}
-        onSustainRelease={onSustainRelease}
-        reverb={synth.reverb}
-        setReverb={synth.setReverb}
-        adsr={synth.ADSR}
-        setADSR={synth.setADSR}
-        addKeybinds={addKebinds}
-      />
+    <KeybindProvider
+      bindings={{
+        ...noteKeybinds,
+        Space: {
+          onKeyDown: () => synth.setSustain(true),
+          onKeyUp: onSustainRelease,
+        },
+      }}
+    >
+      <div className='piano' style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}>
+        <ControlPanel
+          baseOctave={baseOctave}
+          shiftOctave={shiftOctave}
+          waveform={synth.waveform}
+          setWaveform={synth.setWaveform}
+          sustain={synth.sustain}
+          onSustainDown={() => synth.setSustain(true)}
+          onSustainRelease={onSustainRelease}
+          reverb={synth.reverb}
+          setReverb={synth.setReverb}
+          adsr={synth.ADSR}
+          setADSR={synth.setADSR}
+        />
 
-      <div className='flex'>
-        {keys.map(({ note, name, isBlack, text }) => (
-          <PianoKey
-            key={note}
-            note={note}
-            name={name}
-            keybind={text}
-            isBlack={isBlack}
-            isActive={synth.activeKeys.has(note)}
-            onNoteStart={synth.playNote}
-            onNoteEnd={(note) => synth.stopNote(note)}
-          />
-        ))}
+        <div className='flex'>
+          {keys.map(({ note, name, isBlack, text }) => (
+            <PianoKey
+              key={note}
+              note={note}
+              name={name}
+              keybind={text}
+              isBlack={isBlack}
+              isActive={synth.activeKeys.has(note)}
+              onNoteStart={synth.playNote}
+              onNoteEnd={(note) => synth.stopNote(note)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </KeybindProvider>
   );
 };
 

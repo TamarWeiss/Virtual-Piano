@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { PlayIcon, StopIcon } from '../../constants/icons';
 import NumberInput from '../Input/NumberInput';
-import { type KeyBind } from '../../hooks/useKeybinds';
+import { KeybindContext } from '../../hooks/KeybindContext';
 import { clamp, MIN_INTERVAL } from '../../constants/pianoConfig';
 import { useMetronome, type TimeSignature } from '../../hooks/useMetronome';
 import '../../styles/led.css';
@@ -11,11 +11,12 @@ const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
 
-const Metronome = ({ addKeybinds }: { addKeybinds: (bindings: Record<string, KeyBind>) => void }) => {
+const Metronome = () => {
   const [bpm, setBPM] = useState(120);
   const [timeSignature, setTimeSignature] = useState<TimeSignature>([4, 4]);
   const [isPlaying, setIsPlaying] = useState(false);
   const { flashState, startMetronome, stopMetronome } = useMetronome(bpm, timeSignature);
+  const { addKeybinds } = useContext(KeybindContext);
 
   const onToggle = () => {
     (isPlaying ? stopMetronome : startMetronome)();

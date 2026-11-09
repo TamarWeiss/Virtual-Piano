@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import '../../styles/controlPanel.css';
 import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
 import OctaveButton from '../Buttons/OctaveButton';
 import WaveformButton from '../Buttons/WaveformButton';
 import Metronome from './Metronome';
 import NumberInput from '../Input/NumberInput';
-import type { KeyBind } from '../../hooks/useKeybinds';
+import { KeybindContext } from '../../hooks/KeybindContext';
 import Reverb from './Reverb';
 import type { ADSR, ReverbOptions } from '../../hooks/useSynth';
 import ADSRPanel from './ADSR';
@@ -22,14 +22,14 @@ type props = {
   setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
   adsr: ADSR;
   setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
-  addKeybinds: (bindings: Record<string, KeyBind>) => void;
 };
 
 const ControlPanel = (props: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
+  const { addKeybinds } = useContext(KeybindContext);
 
-  props.addKeybinds({
+  addKeybinds({
     KeyZ: { onKeyDown: () => props.setReverb((prev) => ({ ...prev, active: !prev.active })) },
     KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
     ShiftLeft: {
@@ -70,7 +70,7 @@ const ControlPanel = (props: props) => {
         adsr={props.adsr}
         setADSR={props.setADSR}
       />
-      <Metronome addKeybinds={props.addKeybinds} />
+      <Metronome />
       <Reverb reverb={props.reverb} setReverb={props.setReverb} />
 
       <div className='module waveform-module'>

@@ -1,20 +1,24 @@
 import { useEffect, useRef } from 'react';
+import { KeybindContext, type KeyBind } from './KeybindContext';
 
-export type KeyBind = {
-  onKeyDown: (e: KeyboardEvent) => void;
-  onKeyUp?: (e: KeyboardEvent) => void;
-  allowRepeat?: boolean;
+type props = {
+  bindings: Record<string, KeyBind>;
+  children: React.ReactNode;
 };
 
-export const useKeybinds = (bindings: Record<string, KeyBind>) => {
+const KeybindProvider = ({ bindings, children }: props) => {
   const bindingsRef = useRef(bindings);
 
   useEffect(() => {
     bindingsRef.current = { ...bindingsRef.current, ...bindings };
   }, [bindings]);
 
-  const addBindings = (bindings: Record<string, KeyBind>) => {
+  const addKeybinds = (bindings: Record<string, KeyBind>) => {
     bindingsRef.current = { ...bindingsRef.current, ...bindings };
+  };
+
+  const removeKeybind = (key: string) => {
+    delete bindingsRef.current[key.toLowerCase()];
   };
 
   useEffect(() => {
@@ -51,5 +55,7 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
     };
   }, []);
 
-  return addBindings;
+  return <KeybindContext value={{ addKeybinds, removeKeybind }}>{children}</KeybindContext>;
 };
+
+export default KeybindProvider;
