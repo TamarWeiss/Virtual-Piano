@@ -7,7 +7,7 @@ export type KeyBind = {
 };
 
 interface KeybindContextType {
-  addKeybinds: (bindings: Record<string, KeyBind>) => void;
-  removeKeybind: (key: string) => void;
+  addKeybinds: (bindings: Record<string, KeyBind>) => () => void;
+  removeKeybinds: (keys: string[]) => void;
 }
 export const KeybindContext = createContext<KeybindContextType | null>(null);

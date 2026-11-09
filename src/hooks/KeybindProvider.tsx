@@ -15,10 +15,11 @@ const KeybindProvider = ({ bindings, children }: props) => {
 
   const addKeybinds = (bindings: Record<string, KeyBind>) => {
     bindingsRef.current = { ...bindingsRef.current, ...bindings };
+    return () => removeKeybinds(Object.keys(bindings));
   };
 
-  const removeKeybind = (key: string) => {
-    delete bindingsRef.current[key.toLowerCase()];
+  const removeKeybinds = (keys: string[]) => {
+    keys.forEach((key) => delete bindingsRef.current[key.toLowerCase()]);
   };
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const KeybindProvider = ({ bindings, children }: props) => {
     };
   }, []);
 
-  return <KeybindContext value={{ addKeybinds, removeKeybind }}>{children}</KeybindContext>;
+  return <KeybindContext value={{ addKeybinds, removeKeybinds }}>{children}</KeybindContext>;
 };
 
 export default KeybindProvider;

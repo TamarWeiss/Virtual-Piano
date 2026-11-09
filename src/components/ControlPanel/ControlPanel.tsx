@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../styles/controlPanel.css';
 import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
 import OctaveButton from '../Buttons/OctaveButton';
@@ -24,43 +24,50 @@ type props = {
   setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
 };
 
-const ControlPanel = (props: props) => {
+const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
   const { addKeybinds } = useContext(KeybindContext);
 
-  addKeybinds({
-    KeyZ: { onKeyDown: () => props.setReverb((prev) => ({ ...prev, active: !prev.active })) },
-    KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
-    ShiftLeft: {
-      onKeyDown: () => {
-        setIsShift(-1);
-        props.shiftOctave(-1);
+  useEffect(() => {
+    const cleanup = addKeybinds({
+      KeyZ: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
+      KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
+      ShiftLeft: {
+        onKeyDown: () => {
+          setIsShift(-1);
+          shiftOctave(-1);
+        },
+        onKeyUp: () => setIsShift(0),
       },
-      onKeyUp: () => setIsShift(0),
-    },
-    ShiftRight: {
-      onKeyDown: () => {
-        setIsShift(1);
-        props.shiftOctave(1);
+      ShiftRight: {
+        onKeyDown: () => {
+          setIsShift(1);
+          shiftOctave(1);
+        },
+        onKeyUp: () => setIsShift(0),
       },
-      onKeyUp: () => setIsShift(0),
-    },
-  });
+    });
+
+    return () => {
+      console.log('cleanup');
+      cleanup();
+    };
+  }, [addKeybinds, setReverb, shiftOctave]);
 
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module octave-module'>
-        <OctaveButton text='-' isActive={isShift == -1} onClick={() => props.shiftOctave(-1)} />
+        <OctaveButton text='-' isActive={isShift == -1} onClick={() => shiftOctave(-1)} />
         <NumberInput
           id='octave'
           value={props.baseOctave}
           className='display rounded-none px-3'
           min={MIN_OCTAVE}
           max={MAX_OCTAVE}
-          onChange={(num) => props.shiftOctave(num - props.baseOctave)}
+          onChange={(num) => shiftOctave(num - props.baseOctave)}
         />
-        <OctaveButton text='+' isActive={isShift == 1} onClick={() => props.shiftOctave(1)} />
+        <OctaveButton text='+' isActive={isShift == 1} onClick={() => shiftOctave(1)} />
       </div>
 
       <ADSRPanel
@@ -71,7 +78,7 @@ const ControlPanel = (props: props) => {
         setADSR={props.setADSR}
       />
       <Metronome />
-      <Reverb reverb={props.reverb} setReverb={props.setReverb} />
+      <Reverb reverb={props.reverb} setReverb={setReverb} />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
