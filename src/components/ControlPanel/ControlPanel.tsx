@@ -8,7 +8,7 @@ import NumberInput from '../Input/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
 import ADSR from './ADSR';
-import type { ReverbOptions } from '../../hooks/synth';
+import type { ReverbOptions } from '../../hooks/useSynth';
 
 type props = {
   baseOctave: number;

@@ -11,7 +11,7 @@ type ADSR = {
 
 type AudioNode = { osc: OscillatorNode; gain: GainNode };
 type RampType = 'linear' | 'exponential';
-type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
+export type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
 type PlayParams = { frequency: number; adsr: Omit<ADSR, 'release'>; time?: number };
 
 type Props = {

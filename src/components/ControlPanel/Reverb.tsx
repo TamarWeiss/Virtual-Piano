@@ -1,7 +1,7 @@
 import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
 import Slider from '../Input/Slider';
-import type { ReverbOptions } from '../../hooks/synth';
+import type { ReverbOptions } from '../../hooks/useSynth';
 
 type props = {
   reverb: ReverbOptions;
