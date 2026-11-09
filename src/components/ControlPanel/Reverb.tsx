@@ -35,7 +35,7 @@ const Reverb = ({ reverb, setReverb }: props) => (
         label='duration'
         value={reverb.duration}
         onChange={(duration) => setReverb((prev) => ({ ...prev, duration }))}
-        min={0.1}
+        min={0}
         max={5}
         step={0.1}
       />

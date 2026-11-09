@@ -5,10 +5,10 @@ import OctaveButton from '../Buttons/OctaveButton';
 import WaveformButton from '../Buttons/WaveformButton';
 import Metronome from './Metronome';
 import NumberInput from '../Input/NumberInput';
-import { useKeybinds } from '../../hooks/useKeybinds';
+import type { KeyBind } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
-import ADSR from './ADSR';
-import type { ReverbOptions } from '../../hooks/useSynth';
+import type { ADSR, ReverbOptions } from '../../hooks/useSynth';
+import ADSRPanel from './ADSR';
 
 type props = {
   baseOctave: number;
@@ -20,13 +20,16 @@ type props = {
   onSustainRelease: () => void;
   reverb: ReverbOptions;
   setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
+  adsr: ADSR;
+  setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
+  addKeybinds: (bindings: Record<string, KeyBind>) => void;
 };
 
 const ControlPanel = (props: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
-  useKeybinds({
+  props.addKeybinds({
     KeyZ: { onKeyDown: () => props.setReverb((prev) => ({ ...prev, active: !prev.active })) },
     KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
     ShiftLeft: {
@@ -60,8 +63,14 @@ const ControlPanel = (props: props) => {
         <OctaveButton text='+' isActive={isShift == 1} onClick={() => props.shiftOctave(1)} />
       </div>
 
-      <ADSR sustain={props.sustain} onSustainDown={props.onSustainDown} onSustainRelease={props.onSustainRelease} />
-      <Metronome />
+      <ADSRPanel
+        sustain={props.sustain}
+        onSustainDown={props.onSustainDown}
+        onSustainRelease={props.onSustainRelease}
+        adsr={props.adsr}
+        setADSR={props.setADSR}
+      />
+      <Metronome addKeybinds={props.addKeybinds} />
       <Reverb reverb={props.reverb} setReverb={props.setReverb} />
 
       <div className='module waveform-module'>

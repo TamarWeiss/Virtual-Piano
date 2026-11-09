@@ -7,6 +7,7 @@ export const getAudioContext = () => {
 };
 
 export const createReverbBuffer = (duration: number, decay: number): AudioBuffer => {
+  duration = Math.max(duration, 0.0001);
   const ctx = getAudioContext();
   const sampleRate = ctx.sampleRate;
   const length = sampleRate * duration;

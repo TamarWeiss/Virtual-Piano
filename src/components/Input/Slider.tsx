@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import '../../styles/slider.css';
+import NumberInput from './NumberInput';
 
 interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
   label?: string;
-  value?: number;
+  value: number;
   min: number;
   max: number;
-  onChange?: (value: number) => void;
+  onChange: (value: number) => void;
 }
 
 const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
@@ -49,7 +50,19 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
         {...props}
       />
       <span className='label'>{parseFloat(max.toFixed(2))}</span>
-      <span className='display'>{parseFloat(Number(localValue).toFixed(2))}</span>
+      <NumberInput
+        className='display'
+        value={Number(localValue)}
+        min={min}
+        max={max}
+        step={props.step}
+        onChange={(value) => {
+          setLocalValue(String(value));
+          if (value !== undefined) setPrevValue(value);
+          onChange(value);
+        }}
+      />
+      {/* <span className='display'>{parseFloat(Number(localValue).toFixed(2))}</span> */}
     </div>
   );
 };

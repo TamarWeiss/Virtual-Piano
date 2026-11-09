@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { e, midiToFrequency as midiToFrequency } from '../constants/pianoConfig';
 import { getAudioContext, getConvolver } from './synth';
 
-type ADSR = {
+export type ADSR = {
   attack: number; // Time to reach peak
   decay: number; // Time to drop to sustain level
   sustain: number; // Gain level (0 to 1) while held
@@ -12,7 +12,6 @@ type ADSR = {
 type AudioNode = { osc: OscillatorNode; gain: GainNode };
 type RampType = 'linear' | 'exponential';
 export type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
-type PlayParams = { frequency: number; adsr: Omit<ADSR, 'release'>; time?: number };
 
 type Props = {
   volume: number;
@@ -22,30 +21,20 @@ type Props = {
   reverb?: ReverbOptions;
 };
 
-export const useSynth = (props: Props) => {
-  const { volume, rampType = 'linear' } = props;
-  const adsr: ADSR = useMemo(
-    () => ({
-      attack: props.adsr?.attack ?? 0,
-      decay: props.adsr?.decay ?? 0,
-      sustain: props.adsr?.sustain ?? 0,
-      release: props.adsr?.release ?? 0,
-    }),
-    [props.adsr],
-  );
-
+export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
+  const activeAudioNodes = useRef<Map<number, AudioNode & { isHeld: boolean }>>(new Map());
   const [activeKeys, setActiveKeys] = useState<Set<number>>(new Set());
   const [waveform, setWaveform] = useState<OscillatorType>(props.waveform);
   const [reverb, setReverb] = useState(props.reverb);
+  const [adsr, setADSR] = useState({
+    attack: props.adsr?.attack ?? 0,
+    decay: props.adsr?.decay ?? 0,
+    sustain: props.adsr?.sustain ?? 0,
+    release: props.adsr?.release ?? 0,
+  });
   const [sustain, setSustain] = useState(false);
-  const activeAudioNodes = useRef<Map<number, AudioNode & { isHeld: boolean }>>(new Map());
-  const ref = useRef({ adsr });
 
-  useEffect(() => {
-    ref.current.adsr = adsr;
-  }, [adsr]);
-
-  const play = ({ frequency, time, adsr }: PlayParams): AudioNode => {
+  const play = (frequency: number, time?: number): AudioNode => {
     const ctx = getAudioContext();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -59,8 +48,6 @@ export const useSynth = (props: Props) => {
 
     gain.gain.setValueAtTime(startValue, time);
 
-    // ATTACK: Ramp up to peak volume
-    // DECAY: Ramp down to the sustain level
     if (rampType == 'exponential') {
       gain.gain.exponentialRampToValueAtTime(Math.max(volume, 0.0001), time + adsr.attack);
       gain.gain.exponentialRampToValueAtTime(Math.max(sustainGain, 0.0001), time + adsr.attack + adsr.decay);
@@ -70,7 +57,7 @@ export const useSynth = (props: Props) => {
     }
 
     osc.connect(gain);
-    gain.connect(ctx.destination); // Dry path
+    gain.connect(ctx.destination);
 
     let reverbGain = null;
     if (reverb?.active) {
@@ -97,13 +84,7 @@ export const useSynth = (props: Props) => {
   const playNote = (note: number, time?: number) => {
     if (!activeKeys.has(note)) setActiveKeys((prev) => new Set(prev).add(note));
 
-    const node =
-      activeAudioNodes.current.get(note) ??
-      play({
-        frequency: midiToFrequency(note),
-        adsr: ref.current.adsr,
-        time,
-      });
+    const node = activeAudioNodes.current.get(note) ?? play(midiToFrequency(note), time);
 
     activeAudioNodes.current.set(note, { ...node, isHeld: true }); // Save reference so we can stop it later
   };
@@ -127,7 +108,7 @@ export const useSynth = (props: Props) => {
     else {
       activeAudioNodes.current.delete(note);
       const { osc, gain } = node;
-      const stopTime = time + ref.current.adsr.release;
+      const stopTime = time + adsr.release;
 
       gain.gain.setValueAtTime(gain.gain.value, time);
       gain.gain.linearRampToValueAtTime(0, stopTime);
@@ -169,6 +150,7 @@ export const useSynth = (props: Props) => {
     setReverb,
     sustain,
     setSustain,
-    getAudioContext,
+    ADSR: adsr,
+    setADSR,
   };
 };

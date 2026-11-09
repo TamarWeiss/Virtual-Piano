@@ -10,8 +10,12 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
   const bindingsRef = useRef(bindings);
 
   useEffect(() => {
-    bindingsRef.current = bindings;
+    bindingsRef.current = { ...bindingsRef.current, ...bindings };
   }, [bindings]);
+
+  const addBindings = (bindings: Record<string, KeyBind>) => {
+    bindingsRef.current = { ...bindingsRef.current, ...bindings };
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -46,4 +50,6 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
+
+  return addBindings;
 };

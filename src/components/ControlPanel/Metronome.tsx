@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PlayIcon, StopIcon } from '../../constants/icons';
 import NumberInput from '../Input/NumberInput';
-import { useKeybinds } from '../../hooks/useKeybinds';
+import { type KeyBind } from '../../hooks/useKeybinds';
 import { clamp, MIN_INTERVAL } from '../../constants/pianoConfig';
 import { useMetronome, type TimeSignature } from '../../hooks/useMetronome';
 import '../../styles/led.css';
@@ -11,7 +11,7 @@ const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
 
-const Metronome = () => {
+const Metronome = ({ addKeybinds }: { addKeybinds: (bindings: Record<string, KeyBind>) => void }) => {
   const [bpm, setBPM] = useState(120);
   const [timeSignature, setTimeSignature] = useState<TimeSignature>([4, 4]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,7 +37,7 @@ const Metronome = () => {
     if (timeSignature[1] != clamped) setTimeSignature([timeSignature[0], clamped]);
   };
 
-  useKeybinds({
+  addKeybinds({
     KeyM: { onKeyDown: onToggle },
     ArrowUp: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),

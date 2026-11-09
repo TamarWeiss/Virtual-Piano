@@ -69,7 +69,7 @@ const Piano = () => {
     ]),
   );
 
-  useKeybinds({
+  const addKebinds = useKeybinds({
     ...noteKeybinds,
     Space: {
       onKeyDown: () => synth.setSustain(true),
@@ -89,6 +89,9 @@ const Piano = () => {
         onSustainRelease={onSustainRelease}
         reverb={synth.reverb}
         setReverb={synth.setReverb}
+        adsr={synth.ADSR}
+        setADSR={synth.setADSR}
+        addKeybinds={addKebinds}
       />
 
       <div className='flex'>

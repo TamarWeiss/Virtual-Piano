@@ -37,7 +37,7 @@ const NumberInput = ({ value, min, max, onChange, ...props }: props) => {
       max={max}
       onChange={(e) => setLocalValue(e.target.value)}
       onBlur={(e) => {
-        validate(parseInt(e.target.value, 10));
+        validate(Number(e.target.value));
         props.onBlur?.(e);
       }}
       onKeyDown={(e) => {
