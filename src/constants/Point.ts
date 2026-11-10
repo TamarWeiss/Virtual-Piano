@@ -4,17 +4,36 @@ class Point {
     public y: number,
   ) {}
 
-  // Handy if you want to offset or rotate points easily
-  add(p: Point) {
-    return new Point(this.x + p.x, this.y + p.y);
+  add(m: number): this;
+  add(p: Point): this;
+  add(arg: number | Point) {
+    this.x += typeof arg === 'number' ? arg : arg.x;
+    this.y += typeof arg === 'number' ? arg : arg.y;
+    return this;
   }
 
-  mult(m: number) {
-    return new Point(m * this.x, m * this.y);
+  subtract(m: number): this;
+  subtract(p: Point): this;
+  subtract(arg: number | Point) {
+    if (typeof arg === 'number') this.add(-arg);
+    else this.add(arg.mult(-1));
+    return this;
   }
 
-  multPoint(p: Point) {
-    return new Point(p.x * this.x, p.y * this.y);
+  mult(m: number): this;
+  mult(p: Point): this;
+  mult(arg: number | Point): this {
+    this.x *= typeof arg === 'number' ? arg : arg.x;
+    this.y *= typeof arg === 'number' ? arg : arg.y;
+    return this;
+  }
+
+  divide(m: number): this;
+  divide(p: Point): this;
+  divide(arg: number | Point): this {
+    if (typeof arg === 'number') this.mult(1 / arg);
+    else this.mult(new Point(1 / arg.x, 1 / arg.y));
+    return this;
   }
 }
 

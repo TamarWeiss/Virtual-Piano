@@ -1,7 +1,5 @@
 import Point from './Point';
 
-type point = [x: number, y: number];
-
 const height = 0.6;
 const top = (1 - height) / 2;
 const bottom = 1 - top;
@@ -14,16 +12,12 @@ const bottom2 = 1 - top2;
 const left2 = 0.1;
 const right2 = 1 - left2;
 
+const toRadians = (angle: number) => angle * (Math.PI / 180);
+const modulo = (num: number, divisor: number) => ((num % divisor) + divisor) % divisor;
 const Mix = (start: number, end: number, ratio: number) => (1 - ratio) * start + ratio * end;
-
-const Control = ([sx, sy]: point, [px, py]: point, [ex, ey]: point): point => [
-  2 * px - (sx + ex) / 2,
-  2 * py - (sy + ey) / 2,
-];
-
-const SCurve = ([x1, y1]: point, [x2, y2]: point, strength = 0.75) => {
-  return `C ${Mix(x1, x2, strength)} ${y1}, ${Mix(x1, x2, 1 - strength)} ${y2}, ${x2} ${y2}`;
-};
+const Control = (start: Point, peak: Point, end: Point) => peak.mult(2).subtract(start.add(end).divide(2));
+const SCurve = (p1: Point, p2: Point, strength = 0.75) =>
+  `C ${Mix(p1.x, p2.x, strength)} ${p1.y}, ${Mix(p1.x, p2.x, 1 - strength)} ${p2.y}, ${p2.x} ${p2.y}`;
 
 export const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', strokeWidth = 8, ...props }) => (
   <svg
@@ -68,11 +62,11 @@ export const SquareIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 export const SineQaudIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const l = 0.2;
   const peak = 0.375;
-  const [controlX, controlY] = Control([l, 0.5], [peak, bottom], [0.5, 0.5]);
+  const control = Control(new Point(l, 0.5), new Point(peak, bottom), new Point(0.5, 0.5));
 
   return (
     <SVG {...props}>
-      <path d={` M 0 0.5 H ${l} Q ${controlX} ${controlY}, 0.5 0.5 T ${1 - l} 0.5 H 1 `} />
+      <path d={` M 0 0.5 H ${l} Q ${control.x} ${control.y}, 0.5 0.5 T ${1 - l} 0.5 H 1 `} />
     </SVG>
   );
 };
@@ -85,9 +79,9 @@ export const SineIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <SVG {...props}>
       <path
         d={`M 0 0.5 H ${l}
-            ${SCurve([l, 0.5], [peak, bottom])}
-            ${SCurve([peak, bottom], [1 - peak, top])}
-            ${SCurve([1 - peak, top], [1 - l, 0.5])}
+            ${SCurve(new Point(l, 0.5), new Point(peak, bottom))}
+            ${SCurve(new Point(peak, bottom), new Point(1 - peak, top))}
+            ${SCurve(new Point(1 - peak, top), new Point(1 - l, 0.5))}
             H 1`}
       />
     </SVG>
@@ -120,11 +114,11 @@ export const SineAltIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <SVG {...props}>
       <path
         d={`M 0 0.5 H ${l}
-            ${SCurve([l, 0.5], [0.2, top2])}
-            ${SCurve([0.2, top2], [0.4, bottom])}
-            ${SCurve([0.4, bottom], [0.6, top])}
-            ${SCurve([0.6, top], [0.8, bottom2])}
-            ${SCurve([0.8, bottom2], [1 - l, 0.5])}
+            ${SCurve(new Point(l, 0.5), new Point(0.2, top2))}
+            ${SCurve(new Point(0.2, top2), new Point(0.4, bottom))}
+            ${SCurve(new Point(0.4, bottom), new Point(0.6, top))}
+            ${SCurve(new Point(0.6, top), new Point(0.8, bottom2))}
+            ${SCurve(new Point(0.8, bottom2), new Point(1 - l, 0.5))}
             H 1`}
       />
     </SVG>
@@ -158,39 +152,42 @@ export const PedalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </SVG>
 );
 
-export const ResetIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG viewBox='0 0 16 16' height={16} fill='currentColor' {...props}>
-    <path fillRule='evenodd' d='M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z' />
-    <path d='M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466' />
-  </SVG>
-);
+interface ResetProps extends React.SVGProps<SVGSVGElement> {
+  strokeWidth?: number;
+  start?: number;
+  end?: number;
+  arrowAngle?: number;
+  clockwise?: boolean;
+  arrowLength?: number;
+}
 
-const toRadians = (angle: number) => angle * (Math.PI / 180);
-const modulo = (num: number, divisor: number) => ((num % divisor) + divisor) % divisor;
-
-export const ResetIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const strokeWidth = Number(props.strokeWidth ?? 12);
-  const length = (3 * strokeWidth) / 100;
-  const radius = 0.5 - length / 2;
-  const angle = toRadians(75);
-  const clockWise = true;
-
-  const start = toRadians(90);
-  const end = toRadians(180);
-  const large = Number(modulo(clockWise ? start - end : end - start, 2 * Math.PI) > Math.PI);
+export const ResetIcon: React.FC<ResetProps> = ({
+  strokeWidth = 12,
+  start = 90,
+  end = 180,
+  clockwise = true,
+  arrowAngle = 75,
+  arrowLength = (3 * strokeWidth) / 100,
+  ...props
+}) => {
+  arrowAngle = toRadians(arrowAngle);
+  start = toRadians(start);
+  end = toRadians(end);
+  const radius = 0.5 - arrowLength / 2;
+  const large = Number(modulo(clockwise ? start - end : end - start, 2 * Math.PI) > Math.PI);
   const mid = new Point(0.5, 0.5);
 
   const p1 = new Point(Math.sin(start), Math.cos(start)).mult(radius).add(mid);
   const p2 = new Point(Math.sin(end), Math.cos(end)).mult(radius).add(mid);
-  const p3 = new Point(Math.sin(end), Math.cos(end)).mult(radius + length / 2).add(mid);
-  const p4 = new Point(Math.sin(end), Math.cos(end)).mult(radius - length / 2).add(mid);
+  const p3 = new Point(Math.sin(end), Math.cos(end)).mult(radius + arrowLength / 2).add(mid);
+  const p4 = new Point(Math.sin(end), Math.cos(end)).mult(radius - arrowLength / 2).add(mid);
   const p5 = new Point(Math.cos(end), -Math.sin(end))
-    .mult((length / 2 / Math.tan(angle / 2)) * (clockWise ? -1 : 1))
+    .mult((arrowLength / 2 / Math.tan(arrowAngle / 2)) * (clockwise ? -1 : 1))
     .add(p2);
 
   return (
     <SVG {...props} strokeWidth={strokeWidth} strokeLinecap='square'>
-      <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockWise)} ${p2.x} ${p2.y}`} />
+      <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockwise)} ${p2.x} ${p2.y}`} />
       <path fill='currentColor' d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
     </SVG>
   );
