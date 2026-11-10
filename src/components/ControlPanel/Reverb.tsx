@@ -4,7 +4,7 @@ import Slider from '../Input/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
 import { useKeybinds } from '../../hooks/useKeybinds';
-import { REVERB_DEFAULTS } from '../../constants/pianoConfig';
+import { randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import { useState } from 'react';
 import RandomButton from '../Buttons/RandomButton';
 
@@ -13,25 +13,48 @@ type props = {
   setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
 };
 
-const inputs = [
-  { field: 'volume', max: 1 },
-  { field: 'duration', max: 5 },
-  { field: 'decay', max: 5 },
-];
+const inputs = {
+  volume: { max: 1 },
+  duration: { max: 5 },
+  decay: { max: 5 },
+};
 
 const Reverb = ({ reverb, setReverb }: props) => {
   const [resetPressed, setResetPressed] = useState(false);
+  const [randomPressed, setRandomPressed] = useState(false);
+
   const reset = () => setReverb((prev) => ({ active: prev.active, ...REVERB_DEFAULTS }));
+  const randomize = () => {
+    const randomReverb = {
+      volume: randomRange(0, inputs.volume.max, 0.1),
+      duration: randomRange(0, inputs.duration.max, 0.1),
+      decay: randomRange(0, inputs.decay.max, 0.1),
+    };
+    setReverb((prev) => ({ active: prev.active, ...randomReverb }));
+  };
+
+  const resetKeybind = {
+    onKeyDown: () => {
+      setResetPressed(true);
+      reset();
+    },
+    onKeyUp: () => setResetPressed(false),
+  };
+
+  const randomKeybind = {
+    onKeyDown: () => {
+      setRandomPressed(true);
+      randomize();
+    },
+    onKeyUp: () => setRandomPressed(false),
+  };
 
   useKeybinds({
-    KeyZ: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
-    Escape: {
-      onKeyDown: () => {
-        setResetPressed(true);
-        reset();
-      },
-      onKeyUp: () => setResetPressed(false),
-    },
+    KeyX: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
+    Escape: resetKeybind,
+    KeyD: resetKeybind,
+    KeyC: randomKeybind,
+    IntlBackslash: randomKeybind,
   });
 
   return (
@@ -40,7 +63,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
         <span className='label'>Reverb</span>
         <PillButton
           text='Reverb'
-          keybind='Z'
+          keybind='X'
           isActive={reverb.active}
           onClick={() => setReverb((prev) => ({ ...prev, active: !prev.active }))}
         />
@@ -48,7 +71,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
 
       <div className='flex gap-2'>
         <div className='container'>
-          {inputs.map(({ field, max }) => (
+          {Object.entries(inputs).map(([field, { max }]) => (
             <Slider
               key={field}
               id={'reverb' + field}
@@ -63,7 +86,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
         </div>
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={reset} isActive={resetPressed} />
-          <RandomButton />
+          <RandomButton onClick={randomize} isActive={randomPressed} />
         </div>
       </div>
     </div>

@@ -45,15 +45,18 @@ const Metronome = () => {
     setTimeSignature(METRONOME_DEFAULTS.timeSignature);
   };
 
-  useKeybinds({
-    Escape: {
-      onKeyDown: () => {
-        setResetPressed(true);
-        reset();
-      },
-      onKeyUp: () => setResetPressed(false),
+  const resetKeybind = {
+    onKeyDown: () => {
+      setResetPressed(true);
+      reset();
     },
+    onKeyUp: () => setResetPressed(false),
+  };
+
+  useKeybinds({
     KeyM: { onKeyDown: onToggle },
+    Escape: resetKeybind,
+    KeyS: resetKeybind,
     ArrowUp: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
@@ -62,7 +65,6 @@ const Metronome = () => {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-
     ArrowRight: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),

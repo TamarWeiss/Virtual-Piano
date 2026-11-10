@@ -5,7 +5,7 @@ import PillButton from '../Buttons/PillButton';
 import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Input/Slider';
 import { useKeybinds } from '../../hooks/useKeybinds';
-import { ADSR_DEFAULTS } from '../../constants/pianoConfig';
+import { ADSR_DEFAULTS, randomRange } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 
 type props = {
@@ -16,26 +16,50 @@ type props = {
   setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
 };
 
-const inputs = [
-  { field: 'attack', max: 5 },
-  { field: 'decay', max: 5 },
-  { field: 'sustain', max: 1 },
-  { field: 'release', max: 5 },
-];
+const inputs = {
+  attack: { max: 5 },
+  decay: { max: 5 },
+  sustain: { max: 1 },
+  release: { max: 5 },
+};
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: props) => {
   const [resetPressed, setResetPressed] = useState(false);
+  const [randomPressed, setRandomPressed] = useState(false);
+
   const reset = () => setADSR(ADSR_DEFAULTS);
+  const randomize = () => {
+    const randomADSR: ADSR = {
+      attack: randomRange(0, inputs.attack.max, 0.1),
+      decay: randomRange(0, inputs.decay.max, 0.1),
+      sustain: randomRange(0, inputs.sustain.max, 0.1),
+      release: randomRange(0, inputs.release.max, 0.1),
+    };
+    setADSR(randomADSR);
+  };
+
+  const resetKeybind = {
+    onKeyDown: () => {
+      setResetPressed(true);
+      reset();
+    },
+    onKeyUp: () => setResetPressed(false),
+  };
+
+  const randomKeybind = {
+    onKeyDown: () => {
+      setRandomPressed(true);
+      randomize();
+    },
+    onKeyUp: () => setRandomPressed(false),
+  };
 
   useKeybinds({
     Space: { onKeyDown: onSustainDown, onKeyUp: onSustainRelease },
-    Escape: {
-      onKeyDown: () => {
-        setResetPressed(true);
-        reset();
-      },
-      onKeyUp: () => setResetPressed(false),
-    },
+    Escape: resetKeybind,
+    KeyA: resetKeybind,
+    KeyZ: randomKeybind,
+    IntlBackslash: randomKeybind,
   });
 
   return (
@@ -54,7 +78,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
       <div className='flex gap-2'>
         <div className='container'>
           {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
-          {inputs.map(({ field, max }) => (
+          {Object.entries(inputs).map(([field, { max }]) => (
             <Slider
               key={field}
               id={field}
@@ -69,7 +93,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
         </div>
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={reset} isActive={resetPressed} />
-          <RandomButton />
+          <RandomButton onClick={randomize} isActive={randomPressed} />
         </div>
       </div>
     </div>

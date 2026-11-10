@@ -65,3 +65,8 @@ export const clamp = (num: number, min?: number, max?: number) =>
     : max !== undefined
       ? Math.min(num, max)
       : num;
+
+export const randomRange = (min: number, max: number, step = 0.01) => {
+  const val = Math.random() * (max - min) + min;
+  return Number((Math.round(val / step) * step).toFixed(2));
+};

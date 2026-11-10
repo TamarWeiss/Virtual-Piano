@@ -29,7 +29,7 @@ const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
   useKeybinds({
-    KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
+    CapsLock: { onKeyDown: () => setAlt((alt) => !alt) },
     ShiftLeft: {
       onKeyDown: () => {
         setIsShift(-1);
