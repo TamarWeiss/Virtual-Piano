@@ -22,7 +22,7 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
   return (
     <div className='slider text-xs'>
       {label && (
-        <label className='label flex-1 text-[0.65rem]' htmlFor={props.id}>
+        <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.65rem]'>
           {label}
         </label>
       )}
@@ -51,6 +51,7 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
       />
       <span className='label'>{parseFloat(max.toFixed(2))}</span>
       <NumberInput
+        id={props.id + 'Display'}
         className='display'
         value={localValue}
         min={min}

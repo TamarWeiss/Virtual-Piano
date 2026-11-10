@@ -96,7 +96,9 @@ const Metronome = () => {
               value={bpm}
               onChange={onBPMChange}
             />
-            <span className='label text-shadow-none text-zinc-600'>BPM</span>
+            <label htmlFor='bpm' className='label text-zinc-600 text-shadow-none'>
+              BPM
+            </label>
           </div>
 
           <button onClick={onToggle} className={`w-12 btn${isPlaying ? ' active' : ''}`}>

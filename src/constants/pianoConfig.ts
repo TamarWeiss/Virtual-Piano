@@ -54,8 +54,6 @@ export const MIN_OCTAVE = 1;
 export const MIN_INTERVAL = 0.1;
 export const e = 0.05;
 
-export const midiToFrequency = (note: number) => 440 * Math.pow(2, (note - 69) / 12);
-
 export const clamp = (num: number, min?: number, max?: number) =>
   min !== undefined
     ? max !== undefined

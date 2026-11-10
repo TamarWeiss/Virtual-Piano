@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { e, midiToFrequency as midiToFrequency } from '../constants/pianoConfig';
+import { e } from '../constants/pianoConfig';
 import { getAudioContext, getConvolver } from './synth';
 
 export type ADSR = {
@@ -83,10 +83,8 @@ export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
 
   const playNote = (note: number, time?: number) => {
     if (!activeKeys.has(note)) setActiveKeys((prev) => new Set(prev).add(note));
-
-    const node = activeAudioNodes.current.get(note) ?? play(midiToFrequency(note), time);
-
-    activeAudioNodes.current.set(note, { ...node, isHeld: true }); // Save reference so we can stop it later
+    const node = activeAudioNodes.current.get(note) ?? play(440 * Math.pow(2, (note - 69) / 12), time);
+    activeAudioNodes.current.set(note, { ...node, isHeld: true });
   };
 
   const stopNote = (note: number, isSustain?: boolean, time?: number) => {

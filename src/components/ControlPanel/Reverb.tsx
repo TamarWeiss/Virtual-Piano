@@ -8,6 +8,12 @@ type props = {
   setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
 };
 
+const inputs = [
+  { field: 'volume', max: 1 },
+  { field: 'duration', max: 5 },
+  { field: 'decay', max: 5 },
+];
+
 const Reverb = ({ reverb, setReverb }: props) => (
   <div className='module flex flex-col gap-2 p-2'>
     <div className='flex items-center justify-between gap-2'>
@@ -21,33 +27,17 @@ const Reverb = ({ reverb, setReverb }: props) => (
     </div>
 
     <div className='container'>
-      <Slider
-        id='reverbVolume'
-        label='volume'
-        value={reverb.volume}
-        onChange={(volume) => setReverb((prev) => ({ ...prev, volume }))}
-        min={0}
-        max={1}
-        step={0.1}
-      />
-      <Slider
-        id='reverbDuration'
-        label='duration'
-        value={reverb.duration}
-        onChange={(duration) => setReverb((prev) => ({ ...prev, duration }))}
-        min={0}
-        max={5}
-        step={0.1}
-      />
-      <Slider
-        id='reverbDecay'
-        label='decay'
-        value={reverb.decay}
-        onChange={(decay) => setReverb((prev) => ({ ...prev, decay }))}
-        min={0}
-        max={5}
-        step={0.1}
-      />
+      {inputs.map(({ field, max }) => (
+        <Slider
+          id={'reverb' + field}
+          label={field}
+          value={reverb[field]}
+          onChange={(value) => setReverb((prev) => ({ ...prev, [field]: value }))}
+          min={0}
+          max={max}
+          step={0.1}
+        />
+      ))}
     </div>
   </div>
 );

@@ -11,6 +11,13 @@ type props = {
   setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
 };
 
+const inputs = [
+  { field: 'attack', max: 5 },
+  { field: 'decay', max: 5 },
+  { field: 'sustain', max: 1 },
+  { field: 'release', max: 5 },
+];
+
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: props) => (
   <div className='module flex flex-col gap-2 p-2'>
     <div className='flex items-center justify-between gap-2'>
@@ -25,42 +32,17 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
     </div>
     <div className='container'>
       {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
-      <Slider
-        id='attack'
-        label='attack'
-        value={adsr.attack}
-        onChange={(attack) => setADSR((prev) => ({ ...prev, attack }))}
-        min={0}
-        max={5}
-        step={0.1}
-      />
-      <Slider
-        id='decay'
-        label='decay'
-        value={adsr.decay}
-        onChange={(decay) => setADSR((prev) => ({ ...prev, decay }))}
-        min={0}
-        max={5}
-        step={0.1}
-      />
-      <Slider
-        id='sustain'
-        label='sustain'
-        value={adsr.sustain}
-        onChange={(sustain) => setADSR((prev) => ({ ...prev, sustain }))}
-        min={0}
-        max={1}
-        step={0.1}
-      />
-      <Slider
-        id='release'
-        label='release'
-        value={adsr.release}
-        onChange={(release) => setADSR((prev) => ({ ...prev, release }))}
-        min={0}
-        max={5}
-        step={0.1}
-      />
+      {inputs.map(({ field, max }) => (
+        <Slider
+          id={field}
+          label={field}
+          value={adsr[field]}
+          onChange={(value) => setADSR((prev) => ({ ...prev, [field]: value }))}
+          min={0}
+          max={max}
+          step={0.1}
+        />
+      ))}
     </div>
   </div>
 );
