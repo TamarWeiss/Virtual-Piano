@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import '../styles/piano.css';
-import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, e } from '../constants/pianoConfig';
+import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
 import PianoKey from './Buttons/PianoKey';
 import ControlPanel from './ControlPanel/ControlPanel';
-import { useKeybinds } from '../hooks/useKeybinds';
-import type { KeyBind } from '../hooks/KeybindContext';
+import { useKeybinds, type KeyBind } from '../hooks/useKeybinds';
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const BLACK_KEY_MASK = 0x54a;
@@ -15,8 +14,8 @@ const Piano = () => {
   const synth = useSynth({
     waveform: 'square',
     volume: 0.3,
-    adsr: { attack: e, sustain: 1, release: e },
-    reverb: { active: false, volume: 0.5, duration: 2, decay: 2 },
+    adsr: ADSR_DEFAULTS,
+    reverb: { active: false, ...REVERB_DEFAULTS },
   });
 
   useEffect(() => {
@@ -63,20 +62,11 @@ const Piano = () => {
   const noteKeybinds: Record<string, KeyBind> = Object.fromEntries(
     keys.map(({ note, keybind }) => [
       keybind,
-      {
-        onKeyDown: () => synth.playNote(note),
-        onKeyUp: () => synth.stopNote(note),
-      },
+      { onKeyDown: () => synth.playNote(note), onKeyUp: () => synth.stopNote(note) },
     ]),
   );
 
-  useKeybinds({
-    ...noteKeybinds,
-    Space: {
-      onKeyDown: () => synth.setSustain(true),
-      onKeyUp: onSustainRelease,
-    },
-  });
+  useKeybinds(noteKeybinds);
 
   return (
     <div className='piano' style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}>

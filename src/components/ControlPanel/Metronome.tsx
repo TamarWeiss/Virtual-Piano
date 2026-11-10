@@ -6,15 +6,18 @@ import { clamp, MIN_INTERVAL } from '../../constants/pianoConfig';
 import { useMetronome, type TimeSignature } from '../../hooks/useMetronome';
 import '../../styles/led.css';
 import LED from './LED';
+import ResetButton from '../Buttons/ResetButton';
 
 const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
+const METRONOME_DEFAULTS: { bpm: number; timeSignature: TimeSignature } = { bpm: 120, timeSignature: [4, 4] };
 
 const Metronome = () => {
-  const [bpm, setBPM] = useState(120);
-  const [timeSignature, setTimeSignature] = useState<TimeSignature>([4, 4]);
+  const [bpm, setBPM] = useState(METRONOME_DEFAULTS.bpm);
+  const [timeSignature, setTimeSignature] = useState<TimeSignature>(METRONOME_DEFAULTS.timeSignature);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [resetPressed, setResetPressed] = useState(false);
   const { flashState, startMetronome, stopMetronome } = useMetronome(bpm, timeSignature);
 
   const onToggle = useCallback(() => {
@@ -37,7 +40,19 @@ const Metronome = () => {
     if (timeSignature[1] != clamped) setTimeSignature([timeSignature[0], clamped]);
   };
 
+  const reset = () => {
+    setBPM(METRONOME_DEFAULTS.bpm);
+    setTimeSignature(METRONOME_DEFAULTS.timeSignature);
+  };
+
   useKeybinds({
+    Escape: {
+      onKeyDown: () => {
+        setResetPressed(true);
+        reset();
+      },
+      onKeyUp: () => setResetPressed(false),
+    },
     KeyM: { onKeyDown: onToggle },
     ArrowUp: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
@@ -64,6 +79,7 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module metronome-module'>
         <div className='flex items-center justify-between gap-2'>
+          <ResetButton onClick={reset} isActive={resetPressed} />
           <span className='label mx-auto'>Metronome</span>
           <LED state={flashState} className='mr-3' />
         </div>
@@ -101,7 +117,7 @@ const Metronome = () => {
             </label>
           </div>
 
-          <button onClick={onToggle} className={`w-12 btn${isPlaying ? ' active' : ''}`}>
+          <button onClick={onToggle} className={`w-12 stop btn${isPlaying ? ' active' : ''}`}>
             {isPlaying ? <StopIcon height='1rem' /> : <PlayIcon height='1rem' />}
           </button>
         </div>

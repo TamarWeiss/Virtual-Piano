@@ -29,7 +29,6 @@ const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
   useKeybinds({
-    KeyZ: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
     KeyA: { onKeyDown: () => setAlt((alt) => !alt) },
     ShiftLeft: {
       onKeyDown: () => {
