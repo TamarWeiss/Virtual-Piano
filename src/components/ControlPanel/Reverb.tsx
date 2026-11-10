@@ -6,6 +6,7 @@ import ResetButton from '../Buttons/ResetButton';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import { useState } from 'react';
+import RandomButton from '../Buttons/RandomButton';
 
 type props = {
   reverb: ReverbOptions;
@@ -43,22 +44,27 @@ const Reverb = ({ reverb, setReverb }: props) => {
           isActive={reverb.active}
           onClick={() => setReverb((prev) => ({ ...prev, active: !prev.active }))}
         />
-        <ResetButton isActive={resetPressed} />
       </div>
 
-      <div className='container'>
-        {inputs.map(({ field, max }) => (
-          <Slider
-            key={field}
-            id={'reverb' + field}
-            label={field}
-            value={reverb[field]}
-            onChange={(value) => setReverb((prev) => ({ ...prev, [field]: value }))}
-            min={0}
-            max={max}
-            step={0.1}
-          />
-        ))}
+      <div className='flex gap-2'>
+        <div className='container'>
+          {inputs.map(({ field, max }) => (
+            <Slider
+              key={field}
+              id={'reverb' + field}
+              label={field}
+              value={reverb[field]}
+              onChange={(value) => setReverb((prev) => ({ ...prev, [field]: value }))}
+              min={0}
+              max={max}
+              step={0.1}
+            />
+          ))}
+        </div>
+        <div className='flex flex-col gap-2'>
+          <ResetButton onClick={reset} isActive={resetPressed} />
+          <RandomButton />
+        </div>
       </div>
     </div>
   );

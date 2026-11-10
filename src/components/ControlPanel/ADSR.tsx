@@ -6,6 +6,7 @@ import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Input/Slider';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { ADSR_DEFAULTS } from '../../constants/pianoConfig';
+import RandomButton from '../Buttons/RandomButton';
 
 type props = {
   sustain: boolean;
@@ -48,22 +49,28 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
         />
-        <ResetButton isActive={resetPressed} />
       </div>
-      <div className='container'>
-        {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
-        {inputs.map(({ field, max }) => (
-          <Slider
-            key={field}
-            id={field}
-            label={field}
-            value={adsr[field]}
-            onChange={(value) => setADSR((prev) => ({ ...prev, [field]: value }))}
-            min={0}
-            max={max}
-            step={0.1}
-          />
-        ))}
+
+      <div className='flex gap-2'>
+        <div className='container'>
+          {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
+          {inputs.map(({ field, max }) => (
+            <Slider
+              key={field}
+              id={field}
+              label={field}
+              value={adsr[field]}
+              onChange={(value) => setADSR((prev) => ({ ...prev, [field]: value }))}
+              min={0}
+              max={max}
+              step={0.1}
+            />
+          ))}
+        </div>
+        <div className='flex flex-col gap-2'>
+          <ResetButton onClick={reset} isActive={resetPressed} />
+          <RandomButton />
+        </div>
       </div>
     </div>
   );
