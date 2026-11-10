@@ -148,3 +148,17 @@ export const PedalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <path d={`M ${5 / 12} ${5 / 12} v ${-1 / 6} h ${1 / 6} v ${1 / 6}`} />
   </SVG>
 );
+
+export const ResetIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <SVG viewBox='0 0 16 16' height={16} fill='currentColor' strokeWidth={100} {...props}>
+    <path fillRule='evenodd' d='M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z' />
+    <path d='M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466' />
+  </SVG>
+);
+
+export const DiceIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <SVG viewBox='0 0 16 16' fill='currentColor' {...props}>
+    <path d='M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z' />
+    <path d='M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0' />
+  </SVG>
+);

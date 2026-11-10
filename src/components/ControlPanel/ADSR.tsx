@@ -34,6 +34,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
       {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
       {inputs.map(({ field, max }) => (
         <Slider
+          key={field}
           id={field}
           label={field}
           value={adsr[field]}

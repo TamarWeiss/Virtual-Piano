@@ -29,6 +29,7 @@ const Reverb = ({ reverb, setReverb }: props) => (
     <div className='container'>
       {inputs.map(({ field, max }) => (
         <Slider
+          key={field}
           id={'reverb' + field}
           label={field}
           value={reverb[field]}
