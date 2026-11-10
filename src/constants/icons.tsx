@@ -1,6 +1,7 @@
+import Point from './Point';
+
 type point = [x: number, y: number];
 
-const padding = 0.1;
 const height = 0.6;
 const top = (1 - height) / 2;
 const bottom = 1 - top;
@@ -130,17 +131,25 @@ export const SineAltIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   );
 };
 
-export const StopIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG {...props} fill='currentColor'>
-    <path d={`M ${padding} ${padding} H ${1 - padding} V ${1 - padding} H ${padding} Z`} />
-  </SVG>
-);
+export const StopIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  const strokeWidth = Number(props.strokeWidth ?? 32);
+  const padding = strokeWidth / 200;
+  return (
+    <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
+      <path d={`M ${padding} ${padding} H ${1 - padding} V ${1 - padding} H ${padding} Z`} />
+    </SVG>
+  );
+};
 
-export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG {...props} fill='currentColor'>
-    <path d={`M ${1 - padding} 0.5 L ${padding + (1 - 2 * padding) * Math.cos(30)} ${padding} V ${1 - padding} Z`} />
-  </SVG>
-);
+export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  const strokeWidth = Number(props.strokeWidth ?? 24);
+  const padding = strokeWidth / 200;
+  return (
+    <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
+      <path d={`M ${1 - padding} 0.5 L ${padding + (1 - 2 * padding) * Math.cos(30)} ${padding} V ${1 - padding} Z`} />
+    </SVG>
+  );
+};
 
 export const PedalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <SVG {...props}>
@@ -150,11 +159,42 @@ export const PedalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 export const ResetIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG viewBox='0 0 16 16' height={16} fill='currentColor' strokeWidth={100} {...props}>
+  <SVG viewBox='0 0 16 16' height={16} fill='currentColor' {...props}>
     <path fillRule='evenodd' d='M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z' />
     <path d='M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466' />
   </SVG>
 );
+
+const toRadians = (angle: number) => angle * (Math.PI / 180);
+const modulo = (num: number, divisor: number) => ((num % divisor) + divisor) % divisor;
+
+export const ResetIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  const strokeWidth = Number(props.strokeWidth ?? 12);
+  const length = (3 * strokeWidth) / 100;
+  const radius = 0.5 - length / 2;
+  const angle = toRadians(75);
+  const clockWise = true;
+
+  const start = toRadians(90);
+  const end = toRadians(180);
+  const large = Number(modulo(clockWise ? start - end : end - start, 2 * Math.PI) > Math.PI);
+  const mid = new Point(0.5, 0.5);
+
+  const p1 = new Point(Math.sin(start), Math.cos(start)).mult(radius).add(mid);
+  const p2 = new Point(Math.sin(end), Math.cos(end)).mult(radius).add(mid);
+  const p3 = new Point(Math.sin(end), Math.cos(end)).mult(radius + length / 2).add(mid);
+  const p4 = new Point(Math.sin(end), Math.cos(end)).mult(radius - length / 2).add(mid);
+  const p5 = new Point(Math.cos(end), -Math.sin(end))
+    .mult((length / 2 / Math.tan(angle / 2)) * (clockWise ? -1 : 1))
+    .add(p2);
+
+  return (
+    <SVG {...props} strokeWidth={strokeWidth} strokeLinecap='square'>
+      <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockWise)} ${p2.x} ${p2.y}`} />
+      <path fill='currentColor' d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
+    </SVG>
+  );
+};
 
 export const DiceIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <SVG viewBox='0 0 16 16' fill='currentColor' {...props}>
