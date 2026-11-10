@@ -126,11 +126,12 @@ export const SineAltIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
 };
 
 export const StopIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const strokeWidth = Number(props.strokeWidth ?? 32);
+  const strokeWidth = Number(props.strokeWidth ?? 8);
   const padding = strokeWidth / 200;
+  const radius = 0.15;
   return (
     <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
-      <path d={`M ${padding} ${padding} H ${1 - padding} V ${1 - padding} H ${padding} Z`} />
+      <rect width={1 - 2 * padding} height={1 - 2 * padding} x={padding} y={padding} rx={radius} ry={radius} />
     </SVG>
   );
 };
@@ -138,9 +139,14 @@ export const StopIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
 export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const strokeWidth = Number(props.strokeWidth ?? 24);
   const padding = strokeWidth / 200;
+  const radius = 1 - 2 * padding;
+  const height = radius * Math.sin(toRadians(60));
+  const x1 = (1 + height) / 2;
+  const x2 = x1 + radius * -Math.sin(toRadians(60));
+
   return (
     <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
-      <path d={`M ${1 - padding} 0.5 L ${padding + (1 - 2 * padding) * Math.cos(30)} ${padding} V ${1 - padding} Z`} />
+      <path d={`M ${x1} 0.5 L ${x2} ${padding} V ${1 - padding} Z`} />
     </SVG>
   );
 };
@@ -199,3 +205,28 @@ export const DiceIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <path d='M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0' />
   </SVG>
 );
+
+export const DiceIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  const strokeWidth = Number(props.strokeWidth ?? 8);
+  const padding = strokeWidth / 200;
+  const radius = 0.2;
+  return (
+    <SVG {...props}>
+      <rect width={1 - 2 * padding} height={1 - 2 * padding} x={padding} y={padding} rx={radius} ry={radius} />
+    </SVG>
+  );
+};
+
+export const RandomizeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  const strokeWidth = Number(props.strokeWidth ?? 12);
+
+  return (
+    <SVG viewBox='0 0 16 16' fill='currentColor' {...props} strokeWidth={strokeWidth}>
+      <path
+        fillRule='evenodd'
+        d='M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5'
+      />
+      <path d='M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192' />
+    </SVG>
+  );
+};
