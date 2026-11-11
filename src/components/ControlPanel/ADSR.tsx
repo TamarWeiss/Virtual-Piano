@@ -25,7 +25,6 @@ const inputs = {
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: props) => {
   const [resetPressed, setResetPressed] = useState(false);
-  const [randomPressed, setRandomPressed] = useState(false);
 
   const reset = () => setADSR(ADSR_DEFAULTS);
   const randomize = () => {
@@ -46,20 +45,10 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
     onKeyUp: () => setResetPressed(false),
   };
 
-  const randomKeybind = {
-    onKeyDown: () => {
-      setRandomPressed(true);
-      randomize();
-    },
-    onKeyUp: () => setRandomPressed(false),
-  };
-
   useKeybinds({
     Space: { onKeyDown: onSustainDown, onKeyUp: onSustainRelease },
     Escape: resetKeybind,
     KeyA: resetKeybind,
-    KeyZ: randomKeybind,
-    IntlBackslash: randomKeybind,
   });
 
   return (
@@ -93,7 +82,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
         </div>
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={reset} isActive={resetPressed} />
-          <RandomButton onClick={randomize} isActive={randomPressed} />
+          <RandomButton onClick={randomize} keybind='KeyZ' />
         </div>
       </div>
     </div>

@@ -21,7 +21,6 @@ const inputs = {
 
 const Reverb = ({ reverb, setReverb }: props) => {
   const [resetPressed, setResetPressed] = useState(false);
-  const [randomPressed, setRandomPressed] = useState(false);
 
   const reset = () => setReverb(REVERB_DEFAULTS);
   const randomize = () => {
@@ -41,20 +40,10 @@ const Reverb = ({ reverb, setReverb }: props) => {
     onKeyUp: () => setResetPressed(false),
   };
 
-  const randomKeybind = {
-    onKeyDown: () => {
-      setRandomPressed(true);
-      randomize();
-    },
-    onKeyUp: () => setRandomPressed(false),
-  };
-
   useKeybinds({
     KeyX: { onKeyDown: () => setReverb({ active: !reverb.active }) },
     Escape: resetKeybind,
     KeyD: resetKeybind,
-    KeyC: randomKeybind,
-    IntlBackslash: randomKeybind,
   });
 
   return (
@@ -86,7 +75,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
         </div>
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={reset} isActive={resetPressed} />
-          <RandomButton onClick={randomize} isActive={randomPressed} />
+          <RandomButton onClick={randomize} keybind='KeyC' />
         </div>
       </div>
     </div>
