@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { PlayIcon, StopIcon } from '../../constants/icons';
 import NumberInput from '../Input/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
@@ -7,6 +7,7 @@ import { useMetronome, type TimeSignature } from '../../hooks/useMetronome';
 import '../../styles/led.css';
 import LED from './LED';
 import ResetButton from '../Buttons/ResetButton';
+import Button from '../Buttons/Button';
 
 const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
@@ -17,13 +18,12 @@ const Metronome = () => {
   const [bpm, setBPM] = useState(METRONOME_DEFAULTS.bpm);
   const [timeSignature, setTimeSignature] = useState<TimeSignature>(METRONOME_DEFAULTS.timeSignature);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [resetPressed, setResetPressed] = useState(false);
   const { flashState, startMetronome, stopMetronome } = useMetronome(bpm, timeSignature);
 
-  const onToggle = useCallback(() => {
+  const onToggle = () => {
     (isPlaying ? stopMetronome : startMetronome)();
     setIsPlaying((prev) => !prev);
-  }, [isPlaying, startMetronome, stopMetronome]);
+  };
 
   const onTimeSignatureChange = (value: TimeSignature) => {
     value[0] = clamp(value[0], 1, 100);
@@ -45,18 +45,7 @@ const Metronome = () => {
     setTimeSignature(METRONOME_DEFAULTS.timeSignature);
   };
 
-  const resetKeybind = {
-    onKeyDown: () => {
-      setResetPressed(true);
-      reset();
-    },
-    onKeyUp: () => setResetPressed(false),
-  };
-
   useKeybinds({
-    KeyM: { onKeyDown: onToggle },
-    Escape: resetKeybind,
-    KeyS: resetKeybind,
     ArrowUp: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
@@ -81,7 +70,7 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module metronome-module'>
         <div className='flex items-center justify-between gap-2'>
-          <ResetButton onClick={reset} isActive={resetPressed} />
+          <ResetButton onClick={reset} keybind='KeyS' />
           <span className='label mx-auto'>Metronome</span>
           <LED state={flashState} className='mr-3' />
         </div>
@@ -119,9 +108,9 @@ const Metronome = () => {
             </label>
           </div>
 
-          <button onClick={onToggle} className={`w-12 stop btn${isPlaying ? ' active' : ''}`}>
+          <Button keybinds={['KeyM']} onClick={onToggle} isActive={isPlaying} className='w-12 stop'>
             {isPlaying ? <StopIcon height='1rem' /> : <PlayIcon height='1rem' />}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

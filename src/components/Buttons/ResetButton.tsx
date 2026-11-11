@@ -1,14 +1,13 @@
 import { ResetIcon } from '../../constants/icons';
+import Button, { type ButtonProps } from './Button';
 
-type props = {
-  className?: string;
-  isActive?: boolean;
-  onClick?: () => void;
-};
+interface props extends Omit<ButtonProps, 'keybinds'> {
+  keybind: string;
+}
 
-const ResetButton = ({ isActive, onClick, className }: props) => (
-  <button className={`p-1 btn${isActive ? ' active' : ''} ${className}`} onClick={onClick}>
+const ResetButton = ({ className, keybind, ...props }: props) => (
+  <Button keybinds={[keybind, 'Escape']} className={`p-1 ${className}`} {...props}>
     <ResetIcon height='1.5em' />
-  </button>
+  </Button>
 );
 export default ResetButton;

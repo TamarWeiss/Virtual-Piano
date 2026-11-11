@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { ADSR } from '../../hooks/useSynth';
 import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
@@ -24,9 +23,6 @@ const inputs = {
 };
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: props) => {
-  const [resetPressed, setResetPressed] = useState(false);
-
-  const reset = () => setADSR(ADSR_DEFAULTS);
   const randomize = () => {
     const randomADSR: ADSR = {
       attack: randomRange(0, inputs.attack.max, 0.1),
@@ -37,19 +33,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
     setADSR(randomADSR);
   };
 
-  const resetKeybind = {
-    onKeyDown: () => {
-      setResetPressed(true);
-      reset();
-    },
-    onKeyUp: () => setResetPressed(false),
-  };
-
-  useKeybinds({
-    Space: { onKeyDown: onSustainDown, onKeyUp: onSustainRelease },
-    Escape: resetKeybind,
-    KeyA: resetKeybind,
-  });
+  useKeybinds({ Space: { onKeyDown: onSustainDown, onKeyUp: onSustainRelease } });
 
   return (
     <div className='module flex flex-col gap-2 p-2'>
@@ -80,8 +64,9 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
             />
           ))}
         </div>
+
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={reset} isActive={resetPressed} />
+          <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybind='KeyA' />
           <RandomButton onClick={randomize} keybind='KeyZ' />
         </div>
       </div>

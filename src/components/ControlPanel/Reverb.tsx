@@ -5,7 +5,6 @@ import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
-import { useState } from 'react';
 import RandomButton from '../Buttons/RandomButton';
 
 type props = {
@@ -20,9 +19,6 @@ const inputs = {
 };
 
 const Reverb = ({ reverb, setReverb }: props) => {
-  const [resetPressed, setResetPressed] = useState(false);
-
-  const reset = () => setReverb(REVERB_DEFAULTS);
   const randomize = () => {
     const randomReverb = {
       volume: randomRange(0, inputs.volume.max, 0.1),
@@ -32,19 +28,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
     setReverb(randomReverb);
   };
 
-  const resetKeybind = {
-    onKeyDown: () => {
-      setResetPressed(true);
-      reset();
-    },
-    onKeyUp: () => setResetPressed(false),
-  };
-
-  useKeybinds({
-    KeyX: { onKeyDown: () => setReverb({ active: !reverb.active }) },
-    Escape: resetKeybind,
-    KeyD: resetKeybind,
-  });
+  useKeybinds({ KeyX: { onKeyDown: () => setReverb({ active: !reverb.active }) } });
 
   return (
     <div className='module flex flex-col gap-2 p-2'>
@@ -73,8 +57,9 @@ const Reverb = ({ reverb, setReverb }: props) => {
             />
           ))}
         </div>
+
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={reset} isActive={resetPressed} />
+          <ResetButton onClick={() => setReverb(REVERB_DEFAULTS)} keybind='KeyD' />
           <RandomButton onClick={randomize} keybind='KeyC' />
         </div>
       </div>
