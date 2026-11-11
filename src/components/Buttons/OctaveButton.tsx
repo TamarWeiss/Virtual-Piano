@@ -1,12 +1,8 @@
-type props = {
-  text: string;
-  isActive: boolean;
-  onClick: () => void;
-};
+import Button, { type ButtonProps } from './Button';
 
-const OctaveButton = ({ text, isActive, onClick }: props) => (
-  <button className={`btn${isActive ? ' active' : ''}`} onClick={onClick}>
-    {text}
-  </button>
-);
+interface props extends ButtonProps {
+  text: string;
+}
+
+const OctaveButton = ({ text, ...props }: props) => <Button {...props}>{text}</Button>;
 export default OctaveButton;

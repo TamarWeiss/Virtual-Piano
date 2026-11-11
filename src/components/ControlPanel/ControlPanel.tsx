@@ -20,7 +20,6 @@ type props = {
 
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(false);
-  const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
   const setADSR = useCallback(
     (adsr: ADSR) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } })),
@@ -32,28 +31,12 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
     [setConfig],
   );
 
-  useKeybinds({
-    CapsLock: { onKeyDown: () => setAlt((alt) => !alt) },
-    ShiftLeft: {
-      onKeyDown: () => {
-        setIsShift(-1);
-        shiftOctave(-1);
-      },
-      onKeyUp: () => setIsShift(0),
-    },
-    ShiftRight: {
-      onKeyDown: () => {
-        setIsShift(1);
-        shiftOctave(1);
-      },
-      onKeyUp: () => setIsShift(0),
-    },
-  });
+  useKeybinds({ CapsLock: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module octave-module'>
-        <OctaveButton text='-' isActive={isShift == -1} onClick={() => shiftOctave(-1)} />
+        <OctaveButton text='-' onClick={() => shiftOctave(-1)} keybinds={['ShiftLeft']} />
         <NumberInput
           id='octave'
           value={baseOctave}
@@ -62,7 +45,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
           max={MAX_OCTAVE}
           onChange={(num) => shiftOctave(num - baseOctave)}
         />
-        <OctaveButton text='+' isActive={isShift == 1} onClick={() => shiftOctave(1)} />
+        <OctaveButton text='+' onClick={() => shiftOctave(1)} keybinds={['ShiftRight']} />
       </div>
 
       <ADSRPanel
