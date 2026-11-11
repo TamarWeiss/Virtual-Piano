@@ -30,12 +30,12 @@ const Piano = () => {
 
   const shiftOctave = (delta: number) => {
     setBaseOctave((prev) => clamp(prev + delta, MIN_OCTAVE, MAX_OCTAVE));
-    if (synth.sustain) synth.sustainAll();
+    if (synth.config.sustain) synth.sustainAll();
     else synth.stopAll();
   };
 
   const onSustainRelease = () => {
-    synth.setSustain(false);
+    synth.setConfig((prev) => ({ ...prev, sustain: false }));
     synth.stopSustained();
   };
 
@@ -73,15 +73,9 @@ const Piano = () => {
       <ControlPanel
         baseOctave={baseOctave}
         shiftOctave={shiftOctave}
-        waveform={synth.waveform}
-        setWaveform={synth.setWaveform}
-        sustain={synth.sustain}
-        onSustainDown={() => synth.setSustain(true)}
+        config={synth.config}
+        setConfig={synth.setConfig}
         onSustainRelease={onSustainRelease}
-        reverb={synth.reverb}
-        setReverb={synth.setReverb}
-        adsr={synth.ADSR}
-        setADSR={synth.setADSR}
       />
 
       <div className='flex'>

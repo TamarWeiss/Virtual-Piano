@@ -7,24 +7,18 @@ import Metronome from './Metronome';
 import NumberInput from '../Input/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
-import type { ADSR, ReverbOptions } from '../../hooks/useSynth';
+import type { Config } from '../../hooks/useSynth';
 import ADSRPanel from './ADSR';
 
 type props = {
   baseOctave: number;
   shiftOctave: (delta: number) => void;
-  waveform: OscillatorType;
-  setWaveform: React.Dispatch<React.SetStateAction<OscillatorType>>;
-  sustain: boolean;
-  onSustainDown: () => void;
+  config: Config;
+  setConfig: React.Dispatch<React.SetStateAction<Config>>;
   onSustainRelease: () => void;
-  reverb: ReverbOptions;
-  setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
-  adsr: ADSR;
-  setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
 };
 
-const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
+const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
 
@@ -52,33 +46,36 @@ const ControlPanel = ({ setReverb, shiftOctave, ...props }: props) => {
         <OctaveButton text='-' isActive={isShift == -1} onClick={() => shiftOctave(-1)} />
         <NumberInput
           id='octave'
-          value={props.baseOctave}
+          value={baseOctave}
           className='display rounded-none px-3'
           min={MIN_OCTAVE}
           max={MAX_OCTAVE}
-          onChange={(num) => shiftOctave(num - props.baseOctave)}
+          onChange={(num) => shiftOctave(num - baseOctave)}
         />
         <OctaveButton text='+' isActive={isShift == 1} onClick={() => shiftOctave(1)} />
       </div>
 
       <ADSRPanel
-        sustain={props.sustain}
-        onSustainDown={props.onSustainDown}
-        onSustainRelease={props.onSustainRelease}
-        adsr={props.adsr}
-        setADSR={props.setADSR}
+        sustain={config.sustain}
+        onSustainDown={() => setConfig((prev) => ({ ...prev, sustain: true }))}
+        onSustainRelease={onSustainRelease}
+        adsr={config.adsr}
+        setADSR={(adsr) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } }))}
       />
       <Metronome />
-      <Reverb reverb={props.reverb} setReverb={setReverb} />
+      <Reverb
+        reverb={config.reverb}
+        setReverb={(reverb) => setConfig((prev) => ({ ...prev, reverb: { ...prev.reverb, ...reverb } }))}
+      />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
           <WaveformButton
             key={type}
             waveform={type}
-            isActive={type == props.waveform}
+            isActive={type == config.waveform}
             Icon={alt ? altIcon : icon}
-            onClick={props.setWaveform}
+            onClick={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
           />
         ))}
       </div>

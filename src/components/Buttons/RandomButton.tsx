@@ -4,7 +4,7 @@ type props = {
   className?: string;
   isActive?: boolean;
   onClick?: () => void;
-  alt: boolean;
+  alt?: boolean;
 };
 
 const ResetButton = ({ isActive, onClick, className, alt }: props) => (

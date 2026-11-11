@@ -13,6 +13,13 @@ type AudioNode = { osc: OscillatorNode; gain: GainNode };
 type RampType = 'linear' | 'exponential';
 export type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
 
+export type Config = {
+  waveform: OscillatorType;
+  sustain: boolean;
+  adsr?: ADSR;
+  reverb?: ReverbOptions;
+};
+
 type Props = {
   volume: number;
   waveform: OscillatorType;
@@ -21,20 +28,23 @@ type Props = {
   reverb?: ReverbOptions;
 };
 
-export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
+export const useSynth = ({ volume, rampType = 'linear', waveform, reverb, adsr }: Props) => {
   const activeAudioNodes = useRef<Map<number, AudioNode & { isHeld: boolean }>>(new Map());
   const [activeKeys, setActiveKeys] = useState<Set<number>>(new Set());
-  const [waveform, setWaveform] = useState<OscillatorType>(props.waveform);
-  const [reverb, setReverb] = useState(props.reverb);
-  const [adsr, setADSR] = useState({
-    attack: props.adsr?.attack ?? 0,
-    decay: props.adsr?.decay ?? 0,
-    sustain: props.adsr?.sustain ?? 0,
-    release: props.adsr?.release ?? 0,
+  const [config, setConfig] = useState<Config>({
+    waveform,
+    reverb,
+    sustain: false,
+    adsr: {
+      attack: adsr?.attack ?? 0,
+      decay: adsr?.decay ?? 0,
+      sustain: adsr?.sustain ?? 0,
+      release: adsr?.release ?? 0,
+    },
   });
-  const [sustain, setSustain] = useState(false);
 
   const play = (frequency: number, time?: number): AudioNode => {
+    const { waveform, reverb, adsr } = config;
     const ctx = getAudioContext();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -89,9 +99,9 @@ export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
 
   const stopNote = (note: number, isSustain?: boolean, time?: number) => {
     time = time ?? getAudioContext().currentTime;
-    const sustain2 = isSustain ?? sustain;
+    const sustain = isSustain ?? config.sustain;
 
-    if (!sustain2 && activeKeys.has(note)) {
+    if (!sustain && activeKeys.has(note)) {
       setActiveKeys((prev) => {
         const next = new Set(prev);
         next.delete(note);
@@ -102,11 +112,11 @@ export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
     const node = activeAudioNodes.current.get(note);
     if (!node) return;
 
-    if (sustain2) node.isHeld = false;
+    if (sustain) node.isHeld = false;
     else {
       activeAudioNodes.current.delete(note);
       const { osc, gain } = node;
-      const stopTime = time + adsr.release;
+      const stopTime = time + config.adsr.release;
 
       gain.gain.setValueAtTime(gain.gain.value, time);
       gain.gain.linearRampToValueAtTime(0, stopTime);
@@ -142,13 +152,7 @@ export const useSynth = ({ volume, rampType = 'linear', ...props }: Props) => {
     stopAll,
     stopSustained,
     sustainAll,
-    waveform,
-    setWaveform,
-    reverb,
-    setReverb,
-    sustain,
-    setSustain,
-    ADSR: adsr,
-    setADSR,
+    config,
+    setConfig,
   };
 };

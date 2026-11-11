@@ -10,7 +10,7 @@ import RandomButton from '../Buttons/RandomButton';
 
 type props = {
   reverb: ReverbOptions;
-  setReverb: React.Dispatch<React.SetStateAction<ReverbOptions>>;
+  setReverb: (reverb: Partial<ReverbOptions>) => void;
 };
 
 const inputs = {
@@ -23,14 +23,14 @@ const Reverb = ({ reverb, setReverb }: props) => {
   const [resetPressed, setResetPressed] = useState(false);
   const [randomPressed, setRandomPressed] = useState(false);
 
-  const reset = () => setReverb((prev) => ({ active: prev.active, ...REVERB_DEFAULTS }));
+  const reset = () => setReverb(REVERB_DEFAULTS);
   const randomize = () => {
     const randomReverb = {
       volume: randomRange(0, inputs.volume.max, 0.1),
       duration: randomRange(0, inputs.duration.max, 0.1),
       decay: randomRange(0, inputs.decay.max, 0.1),
     };
-    setReverb((prev) => ({ active: prev.active, ...randomReverb }));
+    setReverb(randomReverb);
   };
 
   const resetKeybind = {
@@ -50,7 +50,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
   };
 
   useKeybinds({
-    KeyX: { onKeyDown: () => setReverb((prev) => ({ ...prev, active: !prev.active })) },
+    KeyX: { onKeyDown: () => setReverb({ active: !reverb.active }) },
     Escape: resetKeybind,
     KeyD: resetKeybind,
     KeyC: randomKeybind,
@@ -65,7 +65,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
           text='Reverb'
           keybind='X'
           isActive={reverb.active}
-          onClick={() => setReverb((prev) => ({ ...prev, active: !prev.active }))}
+          onClick={() => setReverb({ active: !reverb.active })}
         />
       </div>
 
@@ -77,7 +77,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
               id={'reverb' + field}
               label={field}
               value={reverb[field]}
-              onChange={(value) => setReverb((prev) => ({ ...prev, [field]: value }))}
+              onChange={(value) => setReverb({ [field]: value })}
               min={0}
               max={max}
               step={0.1}

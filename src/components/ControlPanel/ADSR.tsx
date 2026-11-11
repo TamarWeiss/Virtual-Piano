@@ -13,7 +13,7 @@ type props = {
   onSustainDown: () => void;
   onSustainRelease: () => void;
   adsr: ADSR;
-  setADSR: React.Dispatch<React.SetStateAction<ADSR>>;
+  setADSR: (adsr: Partial<ADSR>) => void;
 };
 
 const inputs = {
@@ -84,7 +84,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
               id={field}
               label={field}
               value={adsr[field]}
-              onChange={(value) => setADSR((prev) => ({ ...prev, [field]: value }))}
+              onChange={(value) => setADSR({ [field]: value })}
               min={0}
               max={max}
               step={0.1}
