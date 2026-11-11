@@ -19,8 +19,8 @@ const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
     isRollingRef.current = true;
 
     let steps = 0;
-    const maxSteps = 10;
-    const intervalTime = 50;
+    const maxSteps = randomRange(5, 20, 1);
+    const intervalTime = (2 / 24) * 1000;
 
     const roll = setInterval(() => {
       const res = randomRange(1, 6, 1);
