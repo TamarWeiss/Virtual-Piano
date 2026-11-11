@@ -9,7 +9,7 @@ type props = {
   alt?: boolean;
 };
 
-const ResetButton = ({ className, keybind, alt, ...props }: props) => {
+const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
   const [value, setValue] = useState(5);
   const randomize = () => setValue(Math.floor(Math.random() * 5) + 1);
 

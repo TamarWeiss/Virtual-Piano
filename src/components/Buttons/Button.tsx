@@ -11,7 +11,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const Button = ({
   children,
-  className,
+  className = '',
   isActive,
   keybinds = [],
   onPointerDown,
@@ -22,27 +22,29 @@ const Button = ({
 
   useKeybinds(
     Object.fromEntries(
-      keybinds.map((code) => [
-        code,
-        {
-          onKeyDown: () => {
-            setActive(true);
-            props.onKeyDown?.();
+      keybinds
+        .filter((keybind) => keybind)
+        .map((code) => [
+          code,
+          {
+            onKeyDown: () => {
+              setActive(true);
+              props.onKeyDown?.();
+            },
+            onKeyUp: () => {
+              props.onKeyUp?.();
+              props.onClick?.();
+              setActive(false);
+            },
           },
-          onKeyUp: () => {
-            props.onKeyUp?.();
-            props.onClick?.();
-            setActive(false);
-          },
-        },
-      ]),
+        ]),
     ),
   );
 
   return (
     <button
       {...props}
-      className={`btn${(isActive ?? active) ? ' active' : ''} ${className}`}
+      className={`btn${(isActive ?? active) ? ' active' : ''} ${className}`.trim()}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
         onPointerDown?.(e);
