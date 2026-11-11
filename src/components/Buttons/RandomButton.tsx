@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { DiceIcon, RandomizeIcon } from '../../constants/icons';
 import Button from './Button';
-import { randomRange } from '../../constants/pianoConfig';
+import { DEFAULT_DICE_VALUE, randomRange } from '../../constants/pianoConfig';
 
 type props = {
   className?: string;
@@ -11,7 +11,7 @@ type props = {
 };
 
 const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
-  const [value, setValue] = useState(5);
+  const [value, setValue] = useState(DEFAULT_DICE_VALUE);
   const isRollingRef = useRef(false);
 
   const randomize = () => {

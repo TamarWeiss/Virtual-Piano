@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import Point from './Point';
+import { DEFAULT_DICE_VALUE } from './pianoConfig';
 
 const height = 0.6;
 const top = (1 - height) / 2;
@@ -212,7 +213,7 @@ interface DiceProps extends React.SVGProps<SVGSVGElement> {
   value?: number;
 }
 
-export const DiceIcon: React.FC<DiceProps> = ({ value = 5, strokeWidth = 8, ...props }) => {
+export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, strokeWidth = 8, ...props }) => {
   const p = strokeWidth / 200;
   const br = 0.2;
   const radius = 0.1;
@@ -225,14 +226,27 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = 5, strokeWidth = 8, ...p
 
   const points = [
     new Point(left, left),
+    new Point(0.5, left),
     new Point(1 - left, left),
     new Point(left, 0.5),
     new Point(0.5, 0.5),
     new Point(1 - left, 0.5),
     new Point(left, 1 - left),
+    new Point(0.5, 1 - left),
     new Point(1 - left, 1 - left),
   ];
-  const indexes = [[3], [0, 6], [0, 3, 6], [0, 1, 5, 6], [0, 1, 3, 5, 6], [0, 1, 2, 4, 5, 6]];
+
+  const indexes = [
+    [4],
+    [0, 8],
+    [0, 4, 8],
+    [0, 2, 6, 8],
+    [0, 2, 4, 6, 8],
+    [0, 2, 3, 5, 6, 8],
+    [0, 2, 3, 4, 5, 6, 8],
+    [0, 1, 2, 3, 5, 6, 7, 8],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  ];
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
