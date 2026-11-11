@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import Point from './Point';
 
 const height = 0.6;
@@ -125,16 +126,15 @@ export const SineAltIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   );
 };
 
-export const StopIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const strokeWidth = Number(props.strokeWidth ?? 8);
-  const padding = strokeWidth / 200;
-  const radius = 0.15;
-  return (
-    <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
-      <rect width={1 - 2 * padding} height={1 - 2 * padding} x={padding} y={padding} rx={radius} ry={radius} />
-    </SVG>
-  );
-};
+interface StopProps extends React.SVGProps<SVGSVGElement> {
+  borderRadius?: number;
+}
+
+export const StopIcon: React.FC<StopProps> = ({ borderRadius = 20, ...props }) => (
+  <SVG fill='currentColor' {...props}>
+    <rect strokeWidth={0} width={1} height={1} x={0} y={0} rx={borderRadius / 100} ry={borderRadius / 100} />
+  </SVG>
+);
 
 export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const strokeWidth = Number(props.strokeWidth ?? 24);
@@ -145,7 +145,7 @@ export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const x2 = x1 + radius * -Math.sin(toRadians(60));
 
   return (
-    <SVG {...props} fill='currentColor' strokeWidth={strokeWidth}>
+    <SVG fill='currentColor' {...props} strokeWidth={strokeWidth}>
       <path d={`M ${x1} 0.5 L ${x2} ${padding} V ${1 - padding} Z`} />
     </SVG>
   );
@@ -168,6 +168,7 @@ interface ResetProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const ResetIcon: React.FC<ResetProps> = ({
+  stroke = 'currentColor',
   strokeWidth = 12,
   start = 90,
   end = 180,
@@ -192,27 +193,56 @@ export const ResetIcon: React.FC<ResetProps> = ({
     .add(p2);
 
   return (
-    <SVG {...props} strokeWidth={strokeWidth} strokeLinecap='square'>
+    <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
       <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockwise)} ${p2.x} ${p2.y}`} />
-      <path fill='currentColor' d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
+      <path fill={stroke} d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
     </SVG>
   );
 };
 
-export const DiceIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG viewBox='0 0 16 16' fill='currentColor' {...props}>
-    <path d='M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3z' />
-    <path d='M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0' />
-  </SVG>
-);
+interface DiceProps extends React.SVGProps<SVGSVGElement> {
+  strokeWidth?: number;
+  value?: number;
+}
 
-export const DiceIcon2: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
-  const strokeWidth = Number(props.strokeWidth ?? 8);
-  const padding = strokeWidth / 200;
-  const radius = 0.2;
+export const DiceIcon: React.FC<DiceProps> = ({ value = 5, ...props }) => {
+  const p = (props.strokeWidth ?? 8) / 200;
+  const br = 0.2;
+  const radius = 0.1;
+  const left = (0.5 + p) / 2;
+  const size = 1 - 2 * p;
+  const stroke = props.stroke ?? props.fill ?? 'currentColor';
+  const hasFill = props.fill && props.fill !== 'none';
+  const maskId = useId();
+  value--;
+
+  const points = [
+    new Point(left, left),
+    new Point(1 - left, left),
+    new Point(0.5, 0.5),
+    new Point(left, 1 - left),
+    new Point(1 - left, 1 - left),
+  ];
+  const indexes = [[2], [0, 4], [0, 2, 4], [0, 1, 3, 4], [0, 1, 2, 3, 4]];
+
   return (
-    <SVG {...props}>
-      <rect width={1 - 2 * padding} height={1 - 2 * padding} x={padding} y={padding} rx={radius} ry={radius} />
+    <SVG {...props} stroke={stroke}>
+      <defs>
+        <mask id={maskId}>
+          <rect x='0' y='0' width='1' height='1' fill='white' />
+          {indexes[value]?.map((i) => (
+            <circle key={i} cx={points[i].x} cy={points[i].y} r={radius} fill='black' strokeWidth={0} />
+          ))}
+        </mask>
+      </defs>
+
+      {hasFill && <rect width={size} height={size} x={p} y={p} rx={br} ry={br} mask={`url(#${maskId})`} />}
+      <rect width={size} height={size} x={p} y={p} rx={br} ry={br} fill='none' />
+
+      {!hasFill &&
+        indexes[value]?.map((i) => (
+          <circle key={i} cx={points[i].x} cy={points[i].y} r={radius} fill={stroke} strokeOpacity={0} />
+        ))}
     </SVG>
   );
 };
