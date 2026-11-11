@@ -185,25 +185,58 @@ export const ResetIcon: React.FC<ResetProps> = ({
   arrowLength = (3 * strokeWidth) / 100,
   ...props
 }) => {
-  arrowAngle = toRadians(arrowAngle);
   start = toRadians(start);
   end = toRadians(end);
   const radius = 0.5 - arrowLength / 2;
   const large = Number(modulo(clockwise ? start - end : end - start, 2 * Math.PI) > Math.PI);
   const mid = new Point(0.5, 0.5);
+  const height = arrowLength / 2 / Math.tan(toRadians(arrowAngle) / 2);
 
   const p1 = new Point(Math.sin(start), Math.cos(start)).mult(radius).add(mid);
   const p2 = new Point(Math.sin(end), Math.cos(end)).mult(radius).add(mid);
   const p3 = new Point(Math.sin(end), Math.cos(end)).mult(radius + arrowLength / 2).add(mid);
   const p4 = new Point(Math.sin(end), Math.cos(end)).mult(radius - arrowLength / 2).add(mid);
-  const p5 = new Point(Math.cos(end), -Math.sin(end))
-    .mult((arrowLength / 2 / Math.tan(arrowAngle / 2)) * (clockwise ? -1 : 1))
-    .add(p2);
+  const p5 = new Point(Math.cos(end), -Math.sin(end)).mult(height * (clockwise ? -1 : 1)).add(p2);
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
       <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockwise)} ${p2.x} ${p2.y}`} />
       <path fill={stroke} d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
+    </SVG>
+  );
+};
+
+interface ShuffleProps extends React.SVGProps<SVGSVGElement> {
+  strokeWidth?: number;
+  arrowAngle?: number;
+  arrowLength?: number;
+}
+export const ShuffleIcon: React.FC<ShuffleProps> = ({
+  stroke = 'currentColor',
+  strokeWidth = 12,
+  arrowAngle = 75,
+  arrowLength = (3 * strokeWidth) / 100,
+  ...props
+}) => {
+  const padding = strokeWidth / 200;
+  const height = arrowLength / 2 / Math.tan(toRadians(arrowAngle) / 2);
+  const p1 = new Point(padding, arrowLength / 2);
+  const p2 = new Point(1 - height, 1 - arrowLength / 2);
+  const p3 = new Point(padding, 1 - arrowLength / 2);
+  const p4 = new Point(1 - height, arrowLength / 2);
+
+  return (
+    <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
+      <path
+        d={`M ${p1.x} ${p1.y} ${SCurve(p1, p2, 0.5)}
+            M ${p3.x} ${p3.y} ${SCurve(p3, p4, 0.5)}`}
+      />
+      <path
+        strokeWidth={0}
+        fill={stroke}
+        d={`M 1 ${p2.y} L ${p2.x} 1 v ${-arrowLength} z
+            M 1 ${p4.y} L ${p4.x} 0 v ${arrowLength} z`}
+      />
     </SVG>
   );
 };
@@ -269,13 +302,3 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, stro
     </SVG>
   );
 };
-
-export const RandomizeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG viewBox='0 0 16 16' fill='currentColor' {...props}>
-    <path
-      fillRule='evenodd'
-      d='M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.6 9.6 0 0 0 7.556 8a9.6 9.6 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.6 10.6 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.6 9.6 0 0 0 6.444 8a9.6 9.6 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5'
-    />
-    <path d='M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192m0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192' />
-  </SVG>
-);
