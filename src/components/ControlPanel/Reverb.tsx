@@ -9,6 +9,7 @@ import RandomButton from '../Buttons/RandomButton';
 type props = {
   reverb: ReverbOptions;
   setReverb: (reverb: Partial<ReverbOptions>) => void;
+  alt: boolean;
 };
 
 const inputs = {
@@ -17,7 +18,7 @@ const inputs = {
   decay: { max: 5 },
 };
 
-const Reverb = ({ reverb, setReverb }: props) => {
+const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
     const randomReverb = {
       volume: randomRange(0, inputs.volume.max, 0.1),
@@ -58,7 +59,7 @@ const Reverb = ({ reverb, setReverb }: props) => {
 
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={() => setReverb(REVERB_DEFAULTS)} keybind='KeyD' />
-          <RandomButton onClick={randomize} keybind='KeyC' />
+          <RandomButton onClick={randomize} keybind='KeyC' alt={alt} />
         </div>
       </div>
     </div>

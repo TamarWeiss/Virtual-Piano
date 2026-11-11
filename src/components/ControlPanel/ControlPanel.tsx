@@ -54,9 +54,10 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         onSustainRelease={onSustainRelease}
         adsr={config.adsr}
         setADSR={setADSR}
+        alt={alt}
       />
       <Metronome />
-      <Reverb reverb={config.reverb} setReverb={setReverb} />
+      <Reverb reverb={config.reverb} setReverb={setReverb} alt={alt} />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (

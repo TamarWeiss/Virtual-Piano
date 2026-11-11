@@ -12,6 +12,7 @@ type props = {
   onSustainRelease: () => void;
   adsr: ADSR;
   setADSR: (adsr: Partial<ADSR>) => void;
+  alt: boolean;
 };
 
 const inputs = {
@@ -21,7 +22,7 @@ const inputs = {
   release: { max: 5 },
 };
 
-const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: props) => {
+const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
     const randomADSR: ADSR = {
       attack: randomRange(0, inputs.attack.max, 0.1),
@@ -64,7 +65,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
 
         <div className='flex flex-col gap-2'>
           <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybind='KeyA' />
-          <RandomButton onClick={randomize} keybind='KeyZ' />
+          <RandomButton onClick={randomize} keybind='KeyZ' alt={alt} />
         </div>
       </div>
     </div>

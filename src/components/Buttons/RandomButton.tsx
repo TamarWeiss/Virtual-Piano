@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { DiceIcon, RandomizeIcon } from '../../constants/icons';
 import Button from './Button';
 
@@ -11,7 +11,26 @@ type props = {
 
 const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
   const [value, setValue] = useState(5);
-  const randomize = () => setValue(Math.floor(Math.random() * 5) + 1);
+  const isRollingRef = useRef(false);
+
+  const randomize = () => {
+    if (isRollingRef.current) return;
+    isRollingRef.current = true;
+
+    let steps = 0;
+    const maxSteps = 10;
+    const intervalTime = 50;
+
+    const roll = setInterval(() => {
+      setValue(Math.floor(Math.random() * 5) + 1);
+      steps++;
+
+      if (steps >= maxSteps) {
+        clearInterval(roll);
+        isRollingRef.current = false;
+      }
+    }, intervalTime);
+  };
 
   const onClick = () => {
     randomize();
