@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import '../../styles/controlPanel.css';
 import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
 import OctaveButton from '../Buttons/OctaveButton';
@@ -7,7 +7,7 @@ import Metronome from './Metronome';
 import NumberInput from '../Input/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
-import type { Config } from '../../hooks/useSynth';
+import type { ADSR, Config, ReverbOptions } from '../../hooks/useSynth';
 import ADSRPanel from './ADSR';
 
 type props = {
@@ -21,6 +21,16 @@ type props = {
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(false);
   const [isShift, setIsShift] = useState<-1 | 0 | 1>();
+
+  const setADSR = useCallback(
+    (adsr: ADSR) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } })),
+    [setConfig],
+  );
+
+  const setReverb = useCallback(
+    (reverb: ReverbOptions) => setConfig((prev) => ({ ...prev, reverb: { ...prev.reverb, ...reverb } })),
+    [setConfig],
+  );
 
   useKeybinds({
     CapsLock: { onKeyDown: () => setAlt((alt) => !alt) },
@@ -60,13 +70,10 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         onSustainDown={() => setConfig((prev) => ({ ...prev, sustain: true }))}
         onSustainRelease={onSustainRelease}
         adsr={config.adsr}
-        setADSR={(adsr) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } }))}
+        setADSR={setADSR}
       />
       <Metronome />
-      <Reverb
-        reverb={config.reverb}
-        setReverb={(reverb) => setConfig((prev) => ({ ...prev, reverb: { ...prev.reverb, ...reverb } }))}
-      />
+      <Reverb reverb={config.reverb} setReverb={setReverb} />
 
       <div className='module waveform-module'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
