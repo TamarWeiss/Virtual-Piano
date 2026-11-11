@@ -35,7 +35,7 @@ const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
   };
 
   const onClick = () => {
-    randomize();
+    if (!alt) randomize();
     props.onClick?.();
   };
 
