@@ -12,13 +12,7 @@ export type ADSR = {
 type AudioNode = { osc: OscillatorNode; gain: GainNode };
 type RampType = 'linear' | 'exponential';
 export type ReverbOptions = { active: boolean; volume: number; duration: number; decay: number };
-
-export type Config = {
-  waveform: OscillatorType;
-  sustain: boolean;
-  adsr?: ADSR;
-  reverb?: ReverbOptions;
-};
+export type Config = { waveform: OscillatorType; sustain: boolean; adsr: ADSR; reverb: ReverbOptions };
 
 type Props = {
   volume: number;
@@ -33,13 +27,18 @@ export const useSynth = ({ volume, rampType = 'linear', waveform, reverb, adsr }
   const [activeKeys, setActiveKeys] = useState<Set<number>>(new Set());
   const [config, setConfig] = useState<Config>({
     waveform,
-    reverb,
     sustain: false,
     adsr: {
       attack: adsr?.attack ?? 0,
       decay: adsr?.decay ?? 0,
       sustain: adsr?.sustain ?? 0,
       release: adsr?.release ?? 0,
+    },
+    reverb: {
+      active: reverb?.active ?? false,
+      volume: reverb?.volume ?? 0,
+      duration: reverb?.duration ?? 0,
+      decay: reverb?.decay ?? 0,
     },
   });
 
@@ -85,7 +84,7 @@ export const useSynth = ({ volume, rampType = 'linear', waveform, reverb, adsr }
     osc.onended = () => {
       osc.disconnect();
       gain.disconnect();
-      if (reverbGain) setTimeout(() => reverbGain.disconnect(), (reverb.duration + e) * 1000);
+      if (reverb && reverbGain) setTimeout(() => reverbGain.disconnect(), (reverb.duration + e) * 1000);
     };
 
     return { osc, gain };

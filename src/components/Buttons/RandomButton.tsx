@@ -5,12 +5,12 @@ import { DEFAULT_DICE_VALUE, randomRange } from '../../constants/pianoConfig';
 
 type props = {
   className?: string;
-  keybind: string;
+  keybind?: string;
   onClick?: () => void;
   alt?: boolean;
 };
 
-const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
+const ResetButton = ({ className = '', keybind = '', alt, ...props }: props) => {
   const [value, setValue] = useState(DEFAULT_DICE_VALUE);
   const isRollingRef = useRef(false);
 

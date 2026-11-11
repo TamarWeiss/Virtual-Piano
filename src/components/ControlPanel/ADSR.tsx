@@ -54,8 +54,8 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
               key={field}
               id={field}
               label={field}
-              value={adsr[field]}
-              onChange={(value) => setADSR({ [field]: value })}
+              value={adsr[field as keyof ADSR]}
+              onChange={(value) => setADSR({ [field as keyof ADSR]: value })}
               min={0}
               max={max}
               step={0.1}

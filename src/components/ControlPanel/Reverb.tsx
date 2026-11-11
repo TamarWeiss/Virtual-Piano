@@ -48,8 +48,8 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
               key={field}
               id={'reverb' + field}
               label={field}
-              value={reverb[field]}
-              onChange={(value) => setReverb({ [field]: value })}
+              value={reverb[field as keyof Omit<ReverbOptions, 'active'>]}
+              onChange={(value) => setReverb({ [field as keyof ReverbOptions]: value })}
               min={0}
               max={max}
               step={0.1}

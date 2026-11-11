@@ -22,12 +22,12 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
   const [alt, setAlt] = useState<boolean>(true);
 
   const setADSR = useCallback(
-    (adsr: ADSR) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } })),
+    (adsr: Partial<ADSR>) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } })),
     [setConfig],
   );
 
   const setReverb = useCallback(
-    (reverb: ReverbOptions) => setConfig((prev) => ({ ...prev, reverb: { ...prev.reverb, ...reverb } })),
+    (reverb: Partial<ReverbOptions>) => setConfig((prev) => ({ ...prev, reverb: { ...prev.reverb, ...reverb } })),
     [setConfig],
   );
 
