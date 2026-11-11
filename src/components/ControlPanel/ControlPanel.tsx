@@ -19,7 +19,7 @@ type props = {
 };
 
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
-  const [alt, setAlt] = useState<boolean>(false);
+  const [alt, setAlt] = useState<boolean>(true);
 
   const setADSR = useCallback(
     (adsr: ADSR) => setConfig((prev) => ({ ...prev, adsr: { ...prev.adsr, ...adsr } })),

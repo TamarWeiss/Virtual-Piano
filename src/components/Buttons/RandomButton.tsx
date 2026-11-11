@@ -35,13 +35,13 @@ const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
   };
 
   const onClick = () => {
-    if (!alt) randomize();
+    if (alt) randomize();
     props.onClick?.();
   };
 
   return (
     <Button keybinds={[keybind, 'IntlBackslash']} className={`p-1.5 ${className}`} onClick={onClick}>
-      {alt ? <RandomizeIcon height='1.25em' /> : <DiceIcon height='1.25em' value={value} />}
+      {alt ? <DiceIcon height='1.25em' value={value} /> : <RandomizeIcon height='1.25em' />}
     </Button>
   );
 };
