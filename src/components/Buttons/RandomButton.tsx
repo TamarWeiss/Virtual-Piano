@@ -23,7 +23,7 @@ const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
     const intervalTime = 50;
 
     const roll = setInterval(() => {
-      const res = randomRange(1, 5, 1);
+      const res = randomRange(1, 6, 1);
       setValue(res);
       steps++;
 

@@ -219,11 +219,13 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = 5, ...props }) => {
   const points = [
     new Point(left, left),
     new Point(1 - left, left),
+    new Point(left, 0.5),
     new Point(0.5, 0.5),
+    new Point(1 - left, 0.5),
     new Point(left, 1 - left),
     new Point(1 - left, 1 - left),
   ];
-  const indexes = [[2], [0, 4], [0, 2, 4], [0, 1, 3, 4], [0, 1, 2, 3, 4]];
+  const indexes = [[3], [0, 6], [0, 3, 6], [0, 1, 5, 6], [0, 1, 3, 5, 6], [0, 1, 2, 4, 5, 6]];
 
   return (
     <SVG {...props} stroke={stroke}>
