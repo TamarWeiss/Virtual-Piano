@@ -3,7 +3,6 @@ import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
 import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Input/Slider';
-import { useKeybinds } from '../../hooks/useKeybinds';
 import { ADSR_DEFAULTS, randomRange } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 
@@ -32,8 +31,6 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR }: 
     };
     setADSR(randomADSR);
   };
-
-  useKeybinds({ Space: { onKeyDown: onSustainDown, onKeyUp: onSustainRelease } });
 
   return (
     <div className='module flex flex-col gap-2 p-2'>

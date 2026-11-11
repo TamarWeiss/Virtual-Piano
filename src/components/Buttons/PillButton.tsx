@@ -1,31 +1,16 @@
-type props = {
-  text: string;
-  isActive?: boolean;
-  keybind?: string;
-  onPointerUp?: React.PointerEventHandler<HTMLButtonElement>;
-  onPointerDown?: React.PointerEventHandler<HTMLButtonElement>;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  className?: string;
-};
+import Button, { type ButtonProps } from './Button';
 
-const PillButton = ({ isActive, onPointerDown, onPointerUp, text, keybind, onClick, className = '' }: props) => (
-  <button
-    className={`gap-1.5 rounded-full text-xs py-1 px-2 btn${isActive ? ' active' : ''} ${className}`}
-    onClick={onClick}
-    onPointerDown={(e) => {
-      e.currentTarget.setPointerCapture(e.pointerId);
-      onPointerDown?.(e);
-    }}
-    onPointerUp={(e) => {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-      e.currentTarget.blur();
-      onPointerUp?.(e);
-    }}
-    onPointerCancel={onPointerUp}
-  >
+interface props extends ButtonProps {
+  text: string;
+  keybind?: string;
+  keybindText?: string;
+}
+
+const PillButton = ({ text, keybind, keybindText, className = '', ...props }: props) => (
+  <Button className={`gap-1.5 rounded-full text-xs py-1 px-2 ${className}`} keybinds={[keybind]} {...props}>
     <span className='indicator' />
     <span className='label text-inherit font-normal'>{text}</span>
-    {keybind && <span className='keybind'>{keybind}</span>}
-  </button>
+    {keybind && <span className='keybind'>{keybindText ?? keybind}</span>}
+  </Button>
 );
 export default PillButton;

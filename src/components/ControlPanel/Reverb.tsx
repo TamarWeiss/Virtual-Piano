@@ -3,7 +3,6 @@ import PillButton from '../Buttons/PillButton';
 import Slider from '../Input/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
-import { useKeybinds } from '../../hooks/useKeybinds';
 import { randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 
@@ -28,15 +27,14 @@ const Reverb = ({ reverb, setReverb }: props) => {
     setReverb(randomReverb);
   };
 
-  useKeybinds({ KeyX: { onKeyDown: () => setReverb({ active: !reverb.active }) } });
-
   return (
     <div className='module flex flex-col gap-2 p-2'>
       <div className='flex items-center justify-between gap-4'>
         <span className='label'>Reverb</span>
         <PillButton
           text='Reverb'
-          keybind='X'
+          keybind='KeyX'
+          keybindText='X'
           isActive={reverb.active}
           onClick={() => setReverb({ active: !reverb.active })}
         />
