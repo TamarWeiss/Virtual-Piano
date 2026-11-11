@@ -1,3 +1,5 @@
+import { randomRange } from '../constants/pianoConfig';
+
 let audioContext: AudioContext | null = null;
 let convolver: { duration: number; decay: number; node: ConvolverNode } | null = null;
 
@@ -17,8 +19,8 @@ export const createReverbBuffer = (duration: number, decay: number): AudioBuffer
 
   for (let i = 0; i < length; i++) {
     // Generate white noise decaying exponentially
-    left[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
-    right[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+    left[i] = randomRange(-1, 1) * Math.pow(1 - i / length, decay);
+    right[i] = randomRange(-1, 1) * Math.pow(1 - i / length, decay);
   }
 
   return impulse;

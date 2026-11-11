@@ -66,7 +66,9 @@ export const clamp = (num: number, min?: number, max?: number) =>
       ? Math.min(num, max)
       : num;
 
-export const randomRange = (min: number, max: number, step = 0.01) => {
-  const val = Math.random() * (max - min) + min;
-  return Number((Math.round(val / step) * step).toFixed(2));
+export const randomRange = (min: number, max: number, step?: number) => {
+  if (!step) return Math.random() * (max - min) + min;
+  const value = Math.floor(Math.random() * (Math.round((max - min) / step) + 1)) * step + min;
+  const decimals = (step.toString().split('.')[1] || '').length;
+  return Number(value.toFixed(decimals));
 };

@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { DiceIcon, RandomizeIcon } from '../../constants/icons';
 import Button from './Button';
+import { randomRange } from '../../constants/pianoConfig';
 
 type props = {
   className?: string;
@@ -22,7 +23,8 @@ const ResetButton = ({ className = '', keybind, alt, ...props }: props) => {
     const intervalTime = 50;
 
     const roll = setInterval(() => {
-      setValue(Math.floor(Math.random() * 5) + 1);
+      const res = randomRange(1, 5, 1);
+      setValue(res);
       steps++;
 
       if (steps >= maxSteps) {
