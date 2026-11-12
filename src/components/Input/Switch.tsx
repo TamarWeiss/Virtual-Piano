@@ -23,6 +23,7 @@ const Switch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
       <div className={`track${value ? ' active' : ''}`}>
         <input
           id={id}
+          className='absolute size-full z-1 appearance-none cursor-pointer'
           type='checkbox'
           role='switch'
           checked={value}

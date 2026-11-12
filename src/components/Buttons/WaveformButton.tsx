@@ -1,15 +1,33 @@
-type props = {
-  waveform: OscillatorType;
-  isActive: boolean;
+interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
+  value: OscillatorType;
+  currentValue: OscillatorType;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  onClick: (waveform: OscillatorType) => void;
-};
+  onChange: (waveform: OscillatorType) => void;
+}
 
-const WaveformButton = ({ Icon, isActive, waveform, onClick }: props) => (
-  <button className={`flex-col gap-1 p-1 btn${isActive ? ' active' : ''}`} onClick={() => onClick(waveform)}>
+const WaveformButton = ({ id, Icon, value, currentValue, onChange, ...props }: props) => (
+  <label htmlFor={id} className={`relative flex-col gap-1 p-1 btn${value == currentValue ? ' active' : ''}`}>
+    <input
+      id={id}
+      type='radio'
+      value={value}
+      checked={value == currentValue}
+      onChange={(e) => onChange(e.target.value as OscillatorType)}
+      className='absolute size-full z-1 appearance-none cursor-pointer'
+      onPointerDown={(e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        props.onPointerDown?.(e);
+      }}
+      onPointerUp={(e) => {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+        e.currentTarget.blur();
+        props.onPointerUp?.(e);
+      }}
+      {...props}
+    />
     <Icon height='2rem' />
-    <span className='label text-inherit text-[0.65rem]'>{waveform} wave</span>
-  </button>
+    <span className='label text-inherit text-[0.65rem]'>{value} wave</span>
+  </label>
 );
 
 export default WaveformButton;

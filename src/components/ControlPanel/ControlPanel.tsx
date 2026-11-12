@@ -63,10 +63,11 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         {waveforms.map(({ type, icon, alt: altIcon }) => (
           <WaveformButton
             key={type}
-            waveform={type}
-            isActive={type == config.waveform}
+            id={type}
+            value={type}
+            currentValue={config.waveform}
             Icon={alt ? altIcon : icon}
-            onClick={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
+            onChange={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
           />
         ))}
       </div>
