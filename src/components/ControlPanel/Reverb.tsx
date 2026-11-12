@@ -1,6 +1,6 @@
 import '../../styles/controlPanel.css';
-import Switch from '../Input/Switch';
-import Slider from '../Input/Slider';
+import Switch from '../Inputs/Switch';
+import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
 import { randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';

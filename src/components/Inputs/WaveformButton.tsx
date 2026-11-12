@@ -26,7 +26,7 @@ const WaveformButton = ({ id, Icon, value, currentValue, onChange, ...props }: p
       {...props}
     />
     <Icon height='2rem' />
-    <span className='label text-inherit text-[0.65rem]'>{value} wave</span>
+    <span className='label text-inherit text-center text-[0.65rem]'>{value} wave</span>
   </label>
 );
 

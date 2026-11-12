@@ -2,7 +2,7 @@ import type { ADSR } from '../../hooks/useSynth';
 import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
 import ResetButton from '../Buttons/ResetButton';
-import Slider from '../Input/Slider';
+import Slider from '../Inputs/Slider';
 import { ADSR_DEFAULTS, randomRange } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 

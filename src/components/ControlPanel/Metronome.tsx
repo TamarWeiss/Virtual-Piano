@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PlayIcon, StopIcon } from '../../constants/icons';
-import NumberInput from '../Input/NumberInput';
+import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { clamp, MIN_INTERVAL } from '../../constants/pianoConfig';
 import { useMetronome, type TimeSignature } from '../../hooks/useMetronome';
