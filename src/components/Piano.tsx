@@ -11,12 +11,7 @@ const BLACK_KEY_MASK = 0x54a;
 
 const Piano = () => {
   const [baseOctave, setBaseOctave] = useState<number>(4);
-  const synth = useSynth({
-    waveform: 'square',
-    volume: 0.3,
-    adsr: ADSR_DEFAULTS,
-    reverb: { active: false, ...REVERB_DEFAULTS },
-  });
+  const synth = useSynth({ waveform: 'square', adsr: ADSR_DEFAULTS, reverb: { active: false, ...REVERB_DEFAULTS } });
 
   useEffect(() => {
     // Check if the click target is a button (or inside a button)

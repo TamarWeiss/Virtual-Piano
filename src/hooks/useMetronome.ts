@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { e, MIN_INTERVAL } from '../constants/pianoConfig';
 import { useSynth } from './useSynth';
-import { getAudioContext } from './synth';
+import { getAudioContext } from '../constants/synth';
 
 const UPBEAT = 86; //note 86 (D6) //1200
 const DOWNBEAT = 79; //note 79 (G5) //800
@@ -14,7 +14,7 @@ export enum FlashState {
 }
 
 export const useMetronome = (bpm: number, timeSignature: TimeSignature) => {
-  const { playNote, stopNote } = useSynth({ waveform: 'sine', volume: 1, rampType: 'exponential', adsr: { decay: e } });
+  const { playNote, stopNote } = useSynth({ waveform: 'sine', rampType: 'exponential', adsr: { volume: 1, decay: e } });
   const config = useRef({ bpm, timeSignature, beatCount: 0, timers: new Set<number>() });
   const [flashState, setFlashState] = useState<FlashState>(FlashState.OFF);
 

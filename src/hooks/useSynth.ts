@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { e } from '../constants/pianoConfig';
-import { getAudioContext, getConvolver } from './synth';
+import { getAudioContext, getConvolver } from '../constants/synth';
 
 export type ADSR = {
+  volume: number;
   attack: number; // Time to reach peak
   decay: number; // Time to drop to sustain level
   sustain: number; // Gain level (0 to 1) while held
@@ -15,20 +16,20 @@ export type ReverbOptions = { active: boolean; volume: number; duration: number;
 export type Config = { waveform: OscillatorType; sustain: boolean; adsr: ADSR; reverb: ReverbOptions };
 
 type Props = {
-  volume: number;
   waveform: OscillatorType;
   adsr?: Partial<ADSR>;
   rampType?: RampType;
   reverb?: ReverbOptions;
 };
 
-export const useSynth = ({ volume, rampType = 'linear', waveform, reverb, adsr }: Props) => {
+export const useSynth = ({ rampType = 'linear', waveform, adsr, reverb }: Props) => {
   const activeAudioNodes = useRef<Map<number, AudioNode & { isHeld: boolean }>>(new Map());
   const [activeKeys, setActiveKeys] = useState<Set<number>>(new Set());
   const [config, setConfig] = useState<Config>({
     waveform,
     sustain: false,
     adsr: {
+      volume: adsr?.volume ?? 0,
       attack: adsr?.attack ?? 0,
       decay: adsr?.decay ?? 0,
       sustain: adsr?.sustain ?? 0,
@@ -52,16 +53,16 @@ export const useSynth = ({ volume, rampType = 'linear', waveform, reverb, adsr }
     osc.type = waveform;
     osc.frequency.setValueAtTime(frequency, time);
 
-    const sustainGain = volume * adsr.sustain;
+    const sustainGain = adsr.volume * adsr.sustain;
     const startValue = rampType === 'exponential' ? 0.0001 : 0;
 
     gain.gain.setValueAtTime(startValue, time);
 
     if (rampType == 'exponential') {
-      gain.gain.exponentialRampToValueAtTime(Math.max(volume, 0.0001), time + adsr.attack);
+      gain.gain.exponentialRampToValueAtTime(Math.max(adsr.volume, 0.0001), time + adsr.attack);
       gain.gain.exponentialRampToValueAtTime(Math.max(sustainGain, 0.0001), time + adsr.attack + adsr.decay);
     } else {
-      gain.gain.linearRampToValueAtTime(volume, time + adsr.attack);
+      gain.gain.linearRampToValueAtTime(adsr.volume, time + adsr.attack);
       gain.gain.linearRampToValueAtTime(sustainGain, time + adsr.attack + adsr.decay);
     }
 

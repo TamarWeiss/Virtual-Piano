@@ -16,6 +16,7 @@ type props = {
 };
 
 const inputs = {
+  volume: { max: 1 },
   attack: { max: 5 },
   decay: { max: 5 },
   sustain: { max: 1 },
@@ -25,6 +26,7 @@ const inputs = {
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
     const randomADSR: ADSR = {
+      volume: randomRange(0, inputs.volume.max, 0.1),
       attack: randomRange(0, inputs.attack.max, 0.1),
       decay: randomRange(0, inputs.decay.max, 0.1),
       sustain: randomRange(0, inputs.sustain.max, 0.1),
@@ -48,7 +50,6 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
 
       <div className='flex gap-2'>
         <div className='container'>
-          {/* <Slider id='volume' label='volume' min={0} max={1} step={0.1} /> */}
           {Object.entries(inputs).map(([field, { max }]) => (
             <Slider
               key={field}

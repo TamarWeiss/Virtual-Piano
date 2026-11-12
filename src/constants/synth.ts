@@ -1,4 +1,4 @@
-import { randomRange } from '../constants/pianoConfig';
+import { randomRange } from './pianoConfig';
 
 let audioContext: AudioContext | null = null;
 let convolver: { duration: number; decay: number; node: ConvolverNode } | null = null;

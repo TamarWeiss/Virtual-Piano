@@ -1,3 +1,4 @@
+import type { ADSR, ReverbOptions } from '../hooks/useSynth';
 import {
   SawtoothAltIcon,
   SawtoothIcon,
@@ -55,8 +56,8 @@ export const MIN_INTERVAL = 0.1;
 export const e = 0.05;
 export const DEFAULT_DICE_VALUE = 4;
 
-export const ADSR_DEFAULTS = { attack: e, decay: 0, sustain: 1, release: e };
-export const REVERB_DEFAULTS = { volume: 0.5, duration: 2, decay: 2 };
+export const ADSR_DEFAULTS: ADSR = { volume: 0.3, attack: e, decay: 0, sustain: 1, release: e };
+export const REVERB_DEFAULTS: Omit<ReverbOptions, 'active'> = { volume: 0.5, duration: 2, decay: 2 };
 
 export const clamp = (num: number, min?: number, max?: number) =>
   min !== undefined
