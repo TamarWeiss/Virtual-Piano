@@ -1,27 +1,50 @@
 import React from 'react';
 import '../../styles/switch.css';
+import LED from '../ControlPanel/LED';
+import { FlashState } from '../../hooks/useMetronome';
+import { useKeybinds } from '../../hooks/useKeybinds';
 
-interface ToggleSwitchProps {
-  isActive: boolean;
-  onChange: (checked: boolean) => void;
+interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
+  value?: boolean;
+  onChange?: (value: boolean) => void;
+  keybinds?: string[];
 }
 
-const Switch: React.FC<ToggleSwitchProps> = ({ isActive, onChange }) => (
-  <div className='synth-slide-unit'>
-    <span className={`led-light${isActive ? ' active' : ''}`} />
-    <button
-      type='button'
-      role='switch'
-      aria-checked={isActive}
-      onClick={() => onChange(!isActive)}
-      className={`track${isActive ? ' active' : ''}`}
-    >
-      <div className='thumb'>
-        <span className='grip' />
-        <span className='grip' />
-        <span className='grip' />
+const Switch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
+  useKeybinds(
+    Object.fromEntries(
+      keybinds.filter((keybind) => keybind).map((code) => [code, { onKeyUp: () => onChange?.(!value) }]),
+    ),
+  );
+
+  return (
+    <div className='switch'>
+      <LED state={value ? FlashState.ON : FlashState.OFF} />
+      <div className={`track${value ? ' active' : ''}`}>
+        <input
+          id={id}
+          type='checkbox'
+          role='switch'
+          checked={value}
+          onChange={(e) => onChange?.(e.target.checked)}
+          onPointerDown={(e) => {
+            e.currentTarget.setPointerCapture(e.pointerId);
+            props.onPointerDown?.(e);
+          }}
+          onPointerUp={(e) => {
+            e.currentTarget.releasePointerCapture(e.pointerId);
+            e.currentTarget.blur();
+            props.onPointerUp?.(e);
+          }}
+          {...props}
+        />
+        <label htmlFor={id} className='thumb'>
+          <span className='grip' />
+          <span className='grip' />
+          <span className='grip' />
+        </label>
       </div>
-    </button>
-  </div>
-);
+    </div>
+  );
+};
 export default Switch;

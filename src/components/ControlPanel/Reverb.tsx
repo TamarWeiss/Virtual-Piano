@@ -1,5 +1,5 @@
 import '../../styles/controlPanel.css';
-import PillButton from '../Buttons/PillButton';
+import Switch from '../Input/Switch';
 import Slider from '../Input/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
@@ -30,15 +30,9 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
 
   return (
     <div className='module flex flex-col gap-2 p-2'>
-      <div className='flex items-center justify-between gap-4'>
+      <div className='flex items-center justify-between gap-2 py-1'>
         <span className='label'>Reverb</span>
-        <PillButton
-          text='Reverb'
-          keybind='KeyX'
-          keybindText='X'
-          isActive={reverb.active}
-          onClick={() => setReverb({ active: !reverb.active })}
-        />
+        <Switch id='reverb' value={reverb.active} onChange={(active) => setReverb({ active })} keybinds={['KeyX']} />
       </div>
 
       <div className='flex gap-2'>

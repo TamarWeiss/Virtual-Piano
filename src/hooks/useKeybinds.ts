@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 export type KeyBind = {
-  onKeyDown: (e: KeyboardEvent) => void;
+  onKeyDown?: (e: KeyboardEvent) => void;
   onKeyUp?: (e: KeyboardEvent) => void;
   allowRepeat?: boolean;
 };
@@ -26,7 +26,7 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
         return;
 
       e.preventDefault();
-      binding.onKeyDown(e);
+      binding.onKeyDown?.(e);
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
