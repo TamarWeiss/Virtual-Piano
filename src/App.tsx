@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import HelpButton from './components/Buttons/HelpButton';
+import Button from './components/Buttons/Button';
 import Piano from './components/Piano';
 import { PauseContext } from './contexts/PauseContext';
 import Modal from './components/Modal';
@@ -21,7 +21,9 @@ const App = () => {
 
   return (
     <>
-      <HelpButton className='ml-auto text-xl' keybinds={['KeyH']} onClick={toggleGuide} />
+      <Button className='help ml-auto text-xl' keybinds={['KeyH']} onClick={toggleGuide}>
+        ?
+      </Button>
       <Modal open={openGuide} onClose={() => setOpenGuide(false)}>
         This is a modal
       </Modal>

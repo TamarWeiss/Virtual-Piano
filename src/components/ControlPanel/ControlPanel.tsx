@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import '../../styles/controlPanel.css';
 import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
-import OctaveButton from '../Buttons/OctaveButton';
+import Button from '../Buttons/Button';
 import WaveformButton from '../Inputs/WaveformButton';
 import Metronome from './Metronome';
 import NumberInput from '../Inputs/NumberInput';
@@ -36,7 +36,9 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module octave-module'>
-        <OctaveButton text='-' onClick={() => shiftOctave(-1)} keybinds={['ShiftLeft']} />
+        <Button onClick={() => shiftOctave(-1)} keybinds={['ShiftLeft']}>
+          -
+        </Button>
         <NumberInput
           id='octave'
           value={baseOctave}
@@ -45,7 +47,9 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
           max={MAX_OCTAVE}
           onChange={(num) => shiftOctave(num - baseOctave)}
         />
-        <OctaveButton text='+' onClick={() => shiftOctave(1)} keybinds={['ShiftRight']} />
+        <Button onClick={() => shiftOctave(1)} keybinds={['ShiftRight']}>
+          +
+        </Button>
       </div>
 
       <ADSRPanel
