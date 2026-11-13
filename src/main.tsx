@@ -1,10 +1,10 @@
 import './styles/index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import Piano from './components/Piano.tsx';
+import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Piano />
+    <App />
   </StrictMode>,
 );

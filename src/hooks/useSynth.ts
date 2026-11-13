@@ -137,7 +137,7 @@ export const useSynth = ({ rampType = 'linear', waveform, adsr, reverb }: Props)
   };
 
   const stopAll = () => {
-    [...activeAudioNodes.current.keys()].forEach((note) => stopNote(note));
+    [...activeAudioNodes.current.keys()].forEach((note) => stopNote(note, false));
   };
 
   useEffect(() => {

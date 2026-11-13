@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { PauseContext } from '../contexts/PauseContext';
 
 export type KeyBind = {
   onKeyDown?: (e: KeyboardEvent) => void;
@@ -8,6 +9,7 @@ export type KeyBind = {
 
 export const useKeybinds = (bindings: Record<string, KeyBind>) => {
   const bindingsRef = useRef(bindings);
+  const disabled = useContext(PauseContext);
 
   useEffect(() => {
     bindingsRef.current = bindings;
@@ -17,6 +19,7 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const binding = bindingsRef.current[e.code];
       if (
+        disabled ||
         !binding ||
         (e.repeat && !binding.allowRepeat) ||
         e.target instanceof HTMLInputElement ||
@@ -31,7 +34,7 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
 
     const handleKeyUp = (e: KeyboardEvent) => {
       const binding = bindingsRef.current[e.code];
-      if (!binding || e.target instanceof HTMLInputElement || e.ctrlKey || e.metaKey) return;
+      if (disabled || !binding || e.target instanceof HTMLInputElement || e.ctrlKey || e.metaKey) return;
       e.preventDefault();
       binding.onKeyUp?.(e);
     };
@@ -45,5 +48,5 @@ export const useKeybinds = (bindings: Record<string, KeyBind>) => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [disabled]);
 };

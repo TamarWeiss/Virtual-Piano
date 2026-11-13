@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import '../styles/piano.css';
 import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
 import PianoKey from './Buttons/PianoKey';
 import ControlPanel from './ControlPanel/ControlPanel';
 import { useKeybinds, type KeyBind } from '../hooks/useKeybinds';
+import { PauseContext } from '../contexts/PauseContext';
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const BLACK_KEY_MASK = 0x54a;
@@ -12,16 +13,11 @@ const BLACK_KEY_MASK = 0x54a;
 const Piano = () => {
   const [baseOctave, setBaseOctave] = useState<number>(4);
   const synth = useSynth({ waveform: 'square', adsr: ADSR_DEFAULTS, reverb: { active: false, ...REVERB_DEFAULTS } });
+  const disabled = useContext(PauseContext);
 
   useEffect(() => {
-    // Check if the click target is a button (or inside a button)
-    // prevent releasing space from retrigerring a focused button
-    const handlePointerDown = (e: PointerEvent) => {
-      if ((e.target as HTMLElement).closest('button')) e.preventDefault();
-    };
-    window.addEventListener('pointerdown', handlePointerDown);
-    return () => window.removeEventListener('pointerdown', handlePointerDown);
-  }, []);
+    if (disabled) synth.stopAll();
+  }, [disabled, synth]);
 
   const shiftOctave = (delta: number) => {
     setBaseOctave((prev) => clamp(prev + delta, MIN_OCTAVE, MAX_OCTAVE));
