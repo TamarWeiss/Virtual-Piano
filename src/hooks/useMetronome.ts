@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
-import { e, MIN_INTERVAL } from '../constants/pianoConfig';
+import { e } from '../constants/pianoConfig';
 import { useSynth } from './useSynth';
 import { getAudioContext } from '../constants/synth';
 
+export const MIN_INTERVAL = 0.1;
 const UPBEAT = 86; //note 86 (D6) //1200
 const DOWNBEAT = 79; //note 79 (G5) //800
 

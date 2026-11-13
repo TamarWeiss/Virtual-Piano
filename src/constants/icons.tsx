@@ -21,7 +21,7 @@ const Control = (start: Point, peak: Point, end: Point) => peak.mult(2).subtract
 const SCurve = (p1: Point, p2: Point, strength = 0.75) =>
   `C ${Mix(p1.x, p2.x, strength)} ${p1.y}, ${Mix(p1.x, p2.x, 1 - strength)} ${p2.y}, ${p2.x} ${p2.y}`;
 
-export const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', strokeWidth = 8, ...props }) => (
+const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', strokeWidth = 8, ...props }) => (
   <svg
     viewBox='0 0 1 1'
     fill='none'
@@ -204,6 +204,7 @@ interface ShuffleProps extends React.SVGProps<SVGSVGElement> {
   arrowAngle?: number;
   arrowLength?: number;
 }
+
 export const ShuffleIcon: React.FC<ShuffleProps> = ({
   stroke = 'currentColor',
   strokeWidth = 12,

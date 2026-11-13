@@ -3,6 +3,7 @@ import Button from './components/Buttons/Button';
 import Piano from './components/Piano';
 import { PauseContext } from './contexts/PauseContext';
 import Modal from './components/Modal';
+import './styles/help.css';
 
 const App = () => {
   const [openGuide, setOpenGuide] = useState(false);

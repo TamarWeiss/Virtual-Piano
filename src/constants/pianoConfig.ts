@@ -52,7 +52,6 @@ export const waveforms: WaveformData[] = [
 
 export const MAX_OCTAVE = 6;
 export const MIN_OCTAVE = 1;
-export const MIN_INTERVAL = 0.1;
 export const e = 0.05;
 export const DEFAULT_DICE_VALUE = 4;
 
