@@ -37,6 +37,28 @@ export const KEY_MAPPING: Record<string, string> = {
   Backslash: '\\',
 };
 
+export const KEYBINDS = {
+  BPM_UP: { code: 'ArrowUp', text: '↑' },
+  BPM_DOWN: { code: 'ArrowDown', text: '↓' },
+  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→' },
+  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←' },
+  OCTAVE_UP: { code: 'ShiftLeft', text: 'Left Shift' },
+  OCTAVE_DOWN: { code: 'ShiftRight', text: 'Right Shift' },
+  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock' },
+  TOGGLE_METRONOME: { code: 'KeyM', text: 'M' },
+  TOGGLE_REVERB: { code: 'KeyX', text: 'X' },
+  SUSTAIN: { code: 'Space', text: 'Space' },
+  RESET_ALL: { code: 'Escape', text: 'Esc' },
+  RESET_ADSR: { code: 'KeyA', text: 'A' },
+  RESET_METRONOME: { code: 'KeyS', text: 'S' },
+  RESET_REVERB: { code: 'KeyD', text: 'D' },
+  RANDOM_ALL: { code: 'IntlBackslash', text: '|' },
+  RANDOM_ADSR: { code: 'KeyZ', text: 'Z' },
+  RANDOM_REVERB: { code: 'KeyC', text: 'C' },
+  HELP: { code: 'KeyH', text: 'H' },
+  ALT: { code: 'AltLeft', text: 'Alt' },
+};
+
 type WaveformData = {
   type: OscillatorType;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;

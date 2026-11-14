@@ -3,7 +3,7 @@ import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
 import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Inputs/Slider';
-import { ADSR_DEFAULTS, randomRange } from '../../constants/pianoConfig';
+import { ADSR_DEFAULTS, KEYBINDS, randomRange } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 
 type props = {
@@ -15,13 +15,8 @@ type props = {
   alt: boolean;
 };
 
-const inputs = {
-  volume: { max: 1 },
-  attack: { max: 5 },
-  decay: { max: 5 },
-  sustain: { max: 1 },
-  release: { max: 5 },
-};
+const inputs = { volume: { max: 1 }, attack: { max: 5 }, decay: { max: 5 }, sustain: { max: 1 }, release: { max: 5 } };
+const { SUSTAIN, RESET_ADSR, RANDOM_ADSR } = KEYBINDS;
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
@@ -41,7 +36,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         <span className='label'>ADSR</span>
         <PillButton
           text='Sustain'
-          keybind='Space'
+          keybind={SUSTAIN.code}
           isActive={sustain}
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
@@ -65,8 +60,8 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         </div>
 
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybind='KeyA' />
-          <RandomButton onClick={randomize} keybind='KeyZ' alt={alt} />
+          <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybind={RESET_ADSR.code} />
+          <RandomButton onClick={randomize} keybind={RANDOM_ADSR.code} alt={alt} />
         </div>
       </div>
     </div>

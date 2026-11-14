@@ -3,7 +3,7 @@ import Switch from '../Inputs/Switch';
 import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import ResetButton from '../Buttons/ResetButton';
-import { randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
+import { KEYBINDS, randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 
 type props = {
@@ -17,6 +17,8 @@ const inputs = {
   duration: { max: 5 },
   decay: { max: 5 },
 };
+
+const { TOGGLE_REVERB, RESET_REVERB, RANDOM_REVERB } = KEYBINDS;
 
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
@@ -32,7 +34,12 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
     <div className='module flex flex-col gap-2 p-2'>
       <div className='flex items-center justify-between gap-2 py-1'>
         <span className='label'>Reverb</span>
-        <Switch id='reverb' value={reverb.active} onChange={(active) => setReverb({ active })} keybinds={['KeyX']} />
+        <Switch
+          id='reverb'
+          value={reverb.active}
+          onChange={(active) => setReverb({ active })}
+          keybinds={[TOGGLE_REVERB.code]}
+        />
       </div>
 
       <div className='flex gap-2'>
@@ -52,8 +59,8 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
         </div>
 
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={() => setReverb(REVERB_DEFAULTS)} keybind='KeyD' />
-          <RandomButton onClick={randomize} keybind='KeyC' alt={alt} />
+          <ResetButton onClick={() => setReverb(REVERB_DEFAULTS)} keybind={RESET_REVERB.code} />
+          <RandomButton onClick={randomize} keybind={RANDOM_REVERB.code} alt={alt} />
         </div>
       </div>
     </div>

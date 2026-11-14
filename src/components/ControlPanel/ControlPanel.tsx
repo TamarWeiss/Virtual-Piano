@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import '../../styles/controlPanel.css';
-import { MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
+import { KEYBINDS, MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
 import Button from '../Buttons/Button';
 import WaveformButton from '../Inputs/WaveformButton';
 import Metronome from './Metronome';
@@ -18,6 +18,8 @@ type props = {
   onSustainRelease: () => void;
 };
 
+const { TOGGLE_ICON, OCTAVE_DOWN, OCTAVE_UP } = KEYBINDS;
+
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(true);
 
@@ -31,12 +33,12 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
     [setConfig],
   );
 
-  useKeybinds({ CapsLock: { onKeyDown: () => setAlt((alt) => !alt) } });
+  useKeybinds({ [TOGGLE_ICON.code]: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module octave-module'>
-        <Button onClick={() => shiftOctave(-1)} keybinds={['ShiftLeft']}>
+        <Button onClick={() => shiftOctave(-1)} keybinds={[OCTAVE_DOWN.code]}>
           -
         </Button>
         <NumberInput
@@ -47,7 +49,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
           max={MAX_OCTAVE}
           onChange={(num) => shiftOctave(num - baseOctave)}
         />
-        <Button onClick={() => shiftOctave(1)} keybinds={['ShiftRight']}>
+        <Button onClick={() => shiftOctave(1)} keybinds={[OCTAVE_UP.code]}>
           +
         </Button>
       </div>

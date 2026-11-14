@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { DiceIcon, ShuffleIcon } from '../../constants/icons';
 import Button from './Button';
-import { DEFAULT_DICE_VALUE, randomRange } from '../../constants/pianoConfig';
+import { DEFAULT_DICE_VALUE, KEYBINDS, randomRange } from '../../constants/pianoConfig';
 
 type props = {
   className?: string;
@@ -40,7 +40,7 @@ const ResetButton = ({ className = '', keybind = '', alt, ...props }: props) => 
   };
 
   return (
-    <Button keybinds={[keybind, 'IntlBackslash']} className={`p-1.5 ${className}`} onClick={onClick}>
+    <Button keybinds={[keybind, KEYBINDS.RANDOM_ALL.code]} className={`p-1.5 ${className}`} onClick={onClick}>
       {alt ? <DiceIcon height='1.25em' value={value} /> : <ShuffleIcon height='1.25em' />}
     </Button>
   );

@@ -296,10 +296,3 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, stro
     </SVG>
   );
 };
-
-export const PedalIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <SVG {...props}>
-    <path d={`M ${1 / 6} 0.75 h ${2 / 3} l ${-1 / 12} ${-1 / 3} H 0.25 l ${-1 / 12} ${1 / 3} z`} />
-    <path d={`M ${5 / 12} ${5 / 12} v ${-1 / 6} h ${1 / 6} v ${1 / 6}`} />
-  </SVG>
-);

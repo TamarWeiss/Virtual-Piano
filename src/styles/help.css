@@ -1,20 +1,22 @@
 .help {
   width: 1.5em;
   height: 1.5em;
-  color: --opacity(var(--color-zinc-300), 0.75);
+  color: var(--color-zinc-300);
   background: transparent;
-  border: max(1px, 0.1875em) solid --opacity(var(--color-zinc-300), 0.75);
+  border: max(1px, 0.1875em) solid var(--color-zinc-300);
   border-radius: 50%;
   box-shadow: none;
+  transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--color-zinc-300);
-    color: var(--color-zinc-300);
+    border-color: var(--color-zinc-400);
+    color: var(--color-zinc-400);
   }
 
   &:active,
   &.active {
-    background-color: var(--color-zinc-300);
+    border-color: var(--color-zinc-400);
+    background-color: var(--color-zinc-400);
     color: var(--color-white);
     mask: none;
     mask-composite: none;
