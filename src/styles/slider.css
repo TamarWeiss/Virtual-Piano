@@ -1,6 +1,7 @@
 @layer components {
   .slider {
     grid-template-columns: repeat(5, auto);
+    color: var(--color-zinc-600);
 
     .label {
       color: inherit;

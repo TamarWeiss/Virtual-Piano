@@ -55,6 +55,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
               min={0}
               max={max}
               step={0.1}
+              alt={alt}
             />
           ))}
         </div>

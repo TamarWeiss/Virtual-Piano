@@ -2,15 +2,16 @@ import { useState } from 'react';
 import '../../styles/slider.css';
 import NumberInput from './NumberInput';
 
-interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type'> {
+interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type' | 'alt'> {
   label?: string;
   value: number;
   min: number;
   max: number;
   onChange: (value: number) => void;
+  alt?: boolean;
 }
 
-const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
+const Slider = ({ label, value, min, max, onChange, alt, ...props }: props) => {
   const [localValue, setLocalValue] = useState(value ?? (max - min) / 2);
   const [prevValue, setPrevValue] = useState(value);
 
@@ -20,7 +21,7 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
   }
 
   return (
-    <div className='slider grid items-center gap-1.5 text-xs text-zinc-600'>
+    <div className={`grid items-center gap-1.5 text-xs slider${alt ? ' alt' : ''}`}>
       {label && (
         <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.85em]'>
           {label}
