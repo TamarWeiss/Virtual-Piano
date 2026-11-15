@@ -28,7 +28,7 @@ button {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(black 65%, #0000) 0 0 / 100% 0.5%,
+    radial-gradient(black 70%, #0000) 0 0 / 100% 0.75%,
     linear-gradient(135deg in hsl longer hue, var(--color-red-600), var(--color-rose-600)) 0 0 / contain;
   opacity: 0;
   transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
