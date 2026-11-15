@@ -37,26 +37,36 @@ export const KEY_MAPPING: Record<string, string> = {
   Backslash: '\\',
 };
 
-export const KEYBINDS = {
-  BPM_UP: { code: 'ArrowUp', text: '↑' },
-  BPM_DOWN: { code: 'ArrowDown', text: '↓' },
-  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→' },
-  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←' },
+type KeybindConfig = {
+  code: string;
+  text: string;
+  alt?: boolean;
+};
+
+export const KEYBINDS: Record<string, KeybindConfig> = {
   OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift' },
   OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift' },
-  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock' },
-  TOGGLE_METRONOME: { code: 'KeyM', text: 'M' },
-  TOGGLE_REVERB: { code: 'KeyX', text: 'X' },
+  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true },
+  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true },
+  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→', alt: true },
+  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←', alt: true },
+
+  TOGGLE_METRONOME: { code: 'KeyC', text: 'C' },
+  TOGGLE_REVERB: { code: 'KeyG', text: 'G' },
   SUSTAIN: { code: 'Space', text: 'Space' },
-  RESET_ALL: { code: 'Escape', text: 'Esc' },
-  RESET_ADSR: { code: 'KeyA', text: 'A' },
-  RESET_METRONOME: { code: 'KeyS', text: 'S' },
-  RESET_REVERB: { code: 'KeyD', text: 'D' },
-  RANDOM_ALL: { code: 'IntlBackslash', text: '|' },
-  RANDOM_ADSR: { code: 'KeyZ', text: 'Z' },
-  RANDOM_REVERB: { code: 'KeyC', text: 'C' },
-  HELP: { code: 'KeyH', text: 'H' },
+
+  RESET_ALL: { code: 'KeyA', text: 'A' },
+  RESET_ADSR: { code: 'KeyS', text: 'S' },
+  RESET_METRONOME: { code: 'KeyD', text: 'D' },
+  RESET_REVERB: { code: 'KeyF', text: 'F' },
+
+  RANDOM_ALL: { code: 'KeyZ', text: 'Z' },
+  RANDOM_ADSR: { code: 'KeyX', text: 'X' },
+  RANDOM_REVERB: { code: 'KeyV', text: 'V' },
+
+  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock' },
   TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter' },
+  HELP: { code: 'KeyH', text: 'H' },
 };
 
 type WaveformData = {

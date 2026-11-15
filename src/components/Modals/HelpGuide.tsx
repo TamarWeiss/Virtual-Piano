@@ -23,11 +23,13 @@ const Shortcut = ({ desc, keybind, alt }: props) => (
 
 const HelpGuide = (props: ModalProps) => (
   <Modal keybinds={[KEYBINDS.HELP.code]} {...props}>
-    <h2 className='header flex justify-center mb-4 label text-base pb-3 border-b border-current'>Keyboard Shortcuts</h2>
+    <h2 className='label text-inherit flex justify-center mb-4 text-base pb-3 border-b border-current'>
+      Keyboard Shortcuts
+    </h2>
 
     <ul className='hotkeys-list flex flex-col gap-3'>
-      {Object.values(KEYBINDS).map(({ text }) => (
-        <Shortcut desc='Sample Text' keybind={text} />
+      {Object.entries(KEYBINDS).map(([key, { text, alt = false }], i) => (
+        <Shortcut key={i} desc={key} keybind={text} alt={alt} />
       ))}
     </ul>
   </Modal>

@@ -35,7 +35,7 @@ const App = () => {
   return (
     <div className={`flex flex-col h-screen gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
       <Button
-        className='help text-xl min-h-min aspect-square opacity-50 text-zinc-500 rounded-full shadow-none ml-auto transition-colors'
+        className='help text-xl min-h-min aspect-square rounded-full shadow-none ml-auto transition-colors'
         keybinds={[KEYBINDS.HELP.code]}
         onClick={() => setPaused((prev) => !prev)}
         command='show-modal'

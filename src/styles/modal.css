@@ -41,10 +41,6 @@
       0 1.25rem 2.5rem --opacity(var(--color-black), 0.8),
       inset 0 1px 0 --opacity(var(--color-white), 0.1);
 
-    & .header {
-      color: inherit;
-    }
-
     & kbd {
       background-color: var(--color-zinc-800);
       border-color: var(--color-zinc-700);
