@@ -15,10 +15,11 @@ button {
 }
 
 .app::before {
-  background: linear-gradient(to bottom, var(--color-white), var(--color-neutral-200));
+  content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
+  background: linear-gradient(to bottom right in hsl longer hue, var(--color-red-200), var(--color-rose-200));
 }
 
 .app::after {
@@ -26,7 +27,9 @@ button {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(to top left, var(--color-neutral-900), var(--color-neutral-950));
+  background:
+    radial-gradient(black 65%, #0000) 0 0 / 100% 0.5%,
+    linear-gradient(135deg in hsl longer hue, var(--color-red-600), var(--color-rose-600)) 0 0 / contain;
   opacity: 0;
   transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
