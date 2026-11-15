@@ -27,6 +27,7 @@
 }
 
 .dark .particle {
+  height: calc(var(--size) / 1.5);
   border: none;
   background-repeat: no-repeat;
   box-shadow: none;
