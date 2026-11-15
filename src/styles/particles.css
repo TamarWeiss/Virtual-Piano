@@ -1,0 +1,71 @@
+.particle-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10%;
+  left: var(--x);
+  height: var(--size);
+  aspect-ratio: 1;
+  border: 1px solid --opacity(var(--color-white), 0.8);
+  border-radius: calc(infinity * 1px);
+  background:
+    radial-gradient(circle at 70% 30%, var(--color-white), transparent 25%),
+    radial-gradient(circle at 60% 55%, transparent 60%, rgba(255, 0, 255, 0.8) 100%),
+    radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 255, 255, 0.2) 60%, transparent 68%),
+    radial-gradient(circle at 50% 55%, transparent 35%, rgba(255, 255, 0, 0.2) 45%, transparent 55%);
+  box-shadow:
+    inset 0 0 0.5rem --opacity(var(--color-white), 0.3),
+    0 0.2rem 0.5rem --opacity(var(--color-black), 0.1);
+  animation: float var(--duration) ease-in-out infinite var(--delay);
+  will-change: transform, opacity;
+}
+
+.dark .particle {
+  border: none;
+  background-repeat: no-repeat;
+  box-shadow: none;
+  background:
+    radial-gradient(ellipse 90% 25% at 50% 50%, var(--color-white), rgba(147, 197, 253, 0.4) 50%, transparent 75%),
+    radial-gradient(ellipse 25% 90% at 50% 50%, var(--color-white), rgba(147, 197, 253, 0.4) 50%, transparent 75%),
+    radial-gradient(circle, var(--color-white), rgba(96, 165, 250, 0.5) 0, transparent 70%);
+  animation: none;
+  animation:
+    float var(--duration) linear infinite var(--delay),
+    twinkle 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.75);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(var(--wobble), -55vh, 0) scale(1);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(calc(-1 * var(--wobble)), -110vh, 0) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    filter: brightness(0.75);
+  }
+  100% {
+    filter: brightness(1.5);
+  }
+}

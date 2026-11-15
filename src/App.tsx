@@ -6,6 +6,7 @@ import HelpGuide from './components/Modals/HelpGuide';
 import './styles/help.css';
 import { KEYBINDS } from './constants/pianoConfig';
 import { useKeybinds } from './hooks/useKeybinds';
+import { ParticleField } from './Particles';
 
 const App = () => {
   const [pause, setPaused] = useState(false);
@@ -34,6 +35,8 @@ const App = () => {
 
   return (
     <div className={`flex flex-col h-screen gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
+      <ParticleField />
+
       <Button
         className='help text-xl min-h-min aspect-square rounded-full shadow-none ml-auto transition-colors'
         keybinds={[KEYBINDS.HELP.code]}
