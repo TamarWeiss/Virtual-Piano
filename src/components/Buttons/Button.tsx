@@ -7,6 +7,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   onClick?: () => void;
   onPointerDown?: () => void;
   onPointerUp?: () => void;
+  commandfor?: string;
+  command?: string;
 }
 
 const Button = ({
