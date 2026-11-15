@@ -33,7 +33,7 @@ export const KEY_MAPPING: Record<string, string> = {
   BracketLeft: '[',
   Equal: '=',
   BracketRight: ']',
-  Backspace: '←',
+  Backspace: '⌫',
   Backslash: '\\',
 };
 
