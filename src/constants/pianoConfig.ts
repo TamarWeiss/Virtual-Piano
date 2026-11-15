@@ -42,8 +42,8 @@ export const KEYBINDS = {
   BPM_DOWN: { code: 'ArrowDown', text: '↓' },
   TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→' },
   TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←' },
-  OCTAVE_UP: { code: 'ShiftLeft', text: 'Left Shift' },
-  OCTAVE_DOWN: { code: 'ShiftRight', text: 'Right Shift' },
+  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift' },
+  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift' },
   TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock' },
   TOGGLE_METRONOME: { code: 'KeyM', text: 'M' },
   TOGGLE_REVERB: { code: 'KeyX', text: 'X' },
@@ -56,7 +56,7 @@ export const KEYBINDS = {
   RANDOM_ADSR: { code: 'KeyZ', text: 'Z' },
   RANDOM_REVERB: { code: 'KeyC', text: 'C' },
   HELP: { code: 'KeyH', text: 'H' },
-  ALT: { code: 'AltLeft', text: 'Alt' },
+  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter' },
 };
 
 type WaveformData = {

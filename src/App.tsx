@@ -5,10 +5,11 @@ import { PauseContext } from './contexts/PauseContext';
 import HelpGuide from './components/Modals/HelpGuide';
 import './styles/help.css';
 import { KEYBINDS } from './constants/pianoConfig';
+import { useKeybinds } from './hooks/useKeybinds';
 
 const App = () => {
   const [pause, setPaused] = useState(false);
-  const togglePause = () => setPaused((prev) => !prev);
+  const [darkMode, setDarkMode] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   useEffect(() => {
     // Check if the click target is a button (or inside a button)
@@ -21,12 +22,22 @@ const App = () => {
     return () => window.removeEventListener('pointerdown', handlePointerDown);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => setDarkMode(e.matches);
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [darkMode]);
+
+  useKeybinds({ [KEYBINDS.TOGGLE_DARK_MODE.code]: { onKeyDown: () => setDarkMode((prev) => !prev) } });
+
   return (
-    <>
+    <div className={`flex flex-col h-screen gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
       <Button
-        className='help ml-auto text-xl'
+        className='help text-xl min-h-min aspect-square opacity-50 text-zinc-500 rounded-full shadow-none ml-auto transition-colors'
         keybinds={[KEYBINDS.HELP.code]}
-        onClick={togglePause}
+        onClick={() => setPaused((prev) => !prev)}
         command='show-modal'
         commandfor='help-guide'
       >
@@ -37,7 +48,7 @@ const App = () => {
       <PauseContext.Provider value={pause}>
         <Piano />
       </PauseContext.Provider>
-    </>
+    </div>
   );
 };
 

@@ -20,15 +20,16 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
   }
 
   return (
-    <div className='slider text-xs'>
+    <div className='slider grid items-center gap-1.5 text-xs text-zinc-600'>
       {label && (
-        <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.65rem]'>
+        <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.85em]'>
           {label}
         </label>
       )}
       <span className='label'>{min}</span>
       <input
         type='range'
+        className='cursor-pointer appearance-none'
         value={localValue}
         min={min}
         max={max}
@@ -50,9 +51,10 @@ const Slider = ({ label, value, min, max, onChange, ...props }: props) => {
         {...props}
       />
       <span className='label'>{parseFloat(max.toFixed(2))}</span>
+
       <NumberInput
         id={props.id + 'Display'}
-        className='display'
+        className='display flex items-center justify-center min-w-min py-0.5 px-1'
         value={localValue}
         min={min}
         max={max}

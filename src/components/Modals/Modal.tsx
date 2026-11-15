@@ -62,7 +62,7 @@ const Modal = ({ keybinds = [], className = '', ...props }: ModalProps) => {
         onClose();
       }}
       onAnimationEnd={handleAnimationEnd}
-      className={`modal ${className}`.trim()}
+      className={`modal rounded-lg p-6 self-center justify-self-center transition-colors ${className}`.trim()}
       {...props}
     />
   );

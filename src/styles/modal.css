@@ -2,28 +2,53 @@
   --duration: 0.5s;
   --offset: -300px;
 
-  align-self: center;
-  justify-self: center;
   background: var(--color-zinc-100);
+  color: var(--color-zinc-400);
   border: 1px solid var(--color-zinc-400);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
   width: min(400px, 90vw);
   box-shadow: 0 1.25rem 2.5rem --opacity(var(--color-black), 0.8);
   animation: modalSlideInFromTop var(--duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
   &.is-closing {
     animation: modalSlideOutToTop var(--duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    &::backdrop {
+      animation: fadeOut var(--duration) ease forwards;
+    }
   }
 
   &::backdrop {
     background: --opacity(var(--color-neutral-950), 0.75);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(0.25rem);
     animation: fadeIn var(--duration) ease forwards;
   }
 
-  &.is-closing::backdrop {
-    animation: fadeOut var(--duration) ease forwards;
+  kbd {
+    background: var(--color-zinc-200);
+    border: 1px solid var(--color-zinc-300);
+    border-bottom-width: 2px;
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    box-shadow: 0 1px 2px --opacity(var(--color-black), 0.4);
+    font-weight: bold;
+  }
+
+  .dark & {
+    background-color: var(--color-zinc-900);
+    color: var(--color-zinc-500);
+    border-color: var(--color-zinc-800);
+    box-shadow:
+      0 1.25rem 2.5rem --opacity(var(--color-black), 0.8),
+      inset 0 1px 0 --opacity(var(--color-white), 0.1);
+
+    & .header {
+      color: inherit;
+    }
+
+    & kbd {
+      background-color: var(--color-zinc-800);
+      border-color: var(--color-zinc-700);
+    }
   }
 }
 

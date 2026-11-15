@@ -18,9 +18,9 @@ const Switch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
   );
 
   return (
-    <div className='switch'>
+    <div className='switch flex items-center gap-2'>
       <LED state={value ? FlashState.ON : FlashState.OFF} />
-      <div className={`track${value ? ' active' : ''}`}>
+      <div className={`relative flex items-center bg-zinc-900 border border-zinc-800 track${value ? ' active' : ''}`}>
         <input
           id={id}
           className='absolute size-full z-1 appearance-none cursor-pointer'
@@ -39,7 +39,7 @@ const Switch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
           }}
           {...props}
         />
-        <label htmlFor={id} className='thumb'>
+        <label htmlFor={id} className='thumb cursor-pointer flex justify-center border border-zinc-600'>
           <span className='grip' />
           <span className='grip' />
           <span className='grip' />

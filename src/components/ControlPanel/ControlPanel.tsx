@@ -37,7 +37,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
 
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
-      <div className='module octave-module'>
+      <div className='module grid octave-module text-2xl min-h-min'>
         <Button onClick={() => shiftOctave(-1)} keybinds={[OCTAVE_DOWN.code]}>
           -
         </Button>
@@ -65,7 +65,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
       <Metronome />
       <Reverb reverb={config.reverb} setReverb={setReverb} alt={alt} />
 
-      <div className='module waveform-module'>
+      <div className='module waveform-module grid gap-2 min-h-min'>
         {waveforms.map(({ type, icon, alt: altIcon }) => (
           <WaveformButton
             key={type}

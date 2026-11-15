@@ -60,7 +60,10 @@ const Piano = () => {
   useKeybinds(noteKeybinds);
 
   return (
-    <div className='piano' style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}>
+    <div
+      className='piano grid min-h-min min-w-min rounded-2xl gap-1 px-12'
+      style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}
+    >
       <ControlPanel
         baseOctave={baseOctave}
         shiftOctave={shiftOctave}

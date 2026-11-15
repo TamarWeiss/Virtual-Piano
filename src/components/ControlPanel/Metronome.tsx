@@ -69,7 +69,7 @@ const Metronome = () => {
 
   return (
     <div className='flex items-center gap-2'>
-      <div className='module metronome-module'>
+      <div className='module flex flex-col gap-2 p-2 min-h-min'>
         <div className='flex items-center justify-between gap-2'>
           <ResetButton onClick={reset} keybind={RESET_METRONOME.code} />
           <span className='label mx-auto'>Metronome</span>
@@ -77,7 +77,7 @@ const Metronome = () => {
         </div>
 
         <div className='flex flex-1 items-stretch gap-2'>
-          <div className='display flex-col text-xs'>
+          <div className='display flex items-center py-0.5 px-1.5 flex-col text-xs'>
             <NumberInput
               id='time-sig-top'
               min={1}
@@ -95,7 +95,7 @@ const Metronome = () => {
             />
           </div>
 
-          <div className='display'>
+          <div className='display flex items-center py-0.5 px-1.5'>
             <NumberInput
               id='bpm'
               className='text-base text-shadow-inherit'

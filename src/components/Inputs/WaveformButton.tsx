@@ -6,7 +6,10 @@ interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
 }
 
 const WaveformButton = ({ id, Icon, value, currentValue, onChange, ...props }: props) => (
-  <label htmlFor={id} className={`relative flex-col gap-1 p-1 btn${value == currentValue ? ' active' : ''}`}>
+  <label
+    htmlFor={id}
+    className={`transition-colors min-w-min relative flex-col gap-1 p-1 btn${value == currentValue ? ' active' : ''}`}
+  >
     <input
       id={id}
       type='radio'
@@ -26,7 +29,7 @@ const WaveformButton = ({ id, Icon, value, currentValue, onChange, ...props }: p
       {...props}
     />
     <Icon height='2rem' />
-    <span className='label text-inherit text-center text-[0.65rem]'>{value} wave</span>
+    <span className='label mx-0.5 text-inherit text-center text-[0.65rem]'>{value} wave</span>
   </label>
 );
 

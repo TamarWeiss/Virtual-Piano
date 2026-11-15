@@ -10,7 +10,7 @@ type props = {
 
 const PianoKey = ({ note, name, keybind, isBlack, isActive, onNoteStart, onNoteEnd }: props) => (
   <button
-    className={`key ${isBlack ? 'black' : 'white'}${isActive ? ' active' : ''}`}
+    className={`flex flex-col justify-end font-bold pb-4 ${isBlack ? 'black' : 'white'}${isActive ? ' active' : ''}`}
     onPointerDown={(e) => {
       e.currentTarget.setPointerCapture(e.pointerId);
       onNoteStart(note);
