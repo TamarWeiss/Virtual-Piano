@@ -14,14 +14,14 @@
 .white {
   flex: 1;
   border: 1px solid var(--color-neutral-300);
-  background: linear-gradient(to bottom, var(--color-neutral-200) 0%, var(--color-white) 100%);
+  background: linear-gradient(to bottom, var(--color-neutral-200), var(--color-white));
   box-shadow:
-    -1px 0 0 --opacity(var(--color-white), 0.8) inset,
+    -1px 0 0 --opacity(var(--color-white), 0.75) inset,
     0 0 5px var(--color-neutral-300) inset,
     0 0 3px --opacity(var(--color-black), 0.2);
 
   &.active {
-    background: linear-gradient(to bottom, var(--color-white) 0%, var(--color-neutral-200) 100%);
+    background: linear-gradient(to bottom, var(--color-white), var(--color-neutral-200));
     box-shadow:
       2px 0 3px --opacity(var(--color-black), 0.1) inset,
       -5px 5px 20px --opacity(var(--color-black), 0.2) inset,
@@ -43,7 +43,7 @@
   margin: 0 calc(-50% * var(--black-width) / var(--white-key-count));
   z-index: 1;
   border-radius: 0 0 0.5rem 0.5rem;
-  background: linear-gradient(45deg, var(--color-neutral-800) 0%, var(--color-neutral-600) 100%);
+  background: linear-gradient(45deg, var(--color-neutral-800), var(--color-neutral-600));
   color: var(--color-neutral-400);
   box-shadow:
     -1px -1px 2px --opacity(var(--color-white), 0.2) inset,
@@ -51,7 +51,7 @@
     0 2px 4px --opacity(var(--color-black), 0.5);
 
   &.active {
-    background: linear-gradient(to right, var(--color-neutral-700) 0%, var(--color-neutral-800) 100%);
+    background: linear-gradient(to right, var(--color-neutral-700), var(--color-neutral-800));
     box-shadow:
       -1px -1px 2px --opacity(var(--color-white), 0.2) inset,
       0 -2px 2px 3px --opacity(var(--color-black), 0.6) inset,

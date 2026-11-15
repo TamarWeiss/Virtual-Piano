@@ -15,6 +15,13 @@ button {
 }
 
 .app::before {
+  background: linear-gradient(to bottom, var(--color-white), var(--color-neutral-200));
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+.app::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -24,7 +31,7 @@ button {
   transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.app.dark::before {
+.app.dark::after {
   opacity: 1;
 }
 
