@@ -1,32 +1,16 @@
-import { Circle, Star } from '../../constants/icons';
+import { Star } from '../../constants/icons';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import '../../styles/darkmode.css';
 import type { SwitchProps } from './Switch';
 
-const circles: {
-  className: string;
-  color: string;
-  width: string;
-  top: string;
-  left?: string;
-  animationDelay?: string;
-}[] = [
-  { className: 'cloud', color: '#ccc', width: '2.5em', top: '1em', left: '1.875em', animationDelay: '1s' },
-  { className: 'cloud', color: '#ccc', width: '1.25em', top: '0.625em', left: '2.75em', animationDelay: '1s' },
-  { className: 'cloud', color: '#ccc', width: '2em', top: '1.5em', left: '1.125em', animationDelay: '1s' },
-  { className: 'cloud', color: '#eee', width: '2.5em', top: '1.125em', left: '2.25em' },
-  { className: 'cloud', color: '#eee', width: '1em', top: '0.875em', left: '3em' },
-  { className: 'cloud', color: '#eee', width: '2em', top: '1.625em', left: '1.5em' },
-];
-
 const stars: { width: string; top?: string; left?: string; animationDelay?: string }[] = [
+  { width: '1em', left: '1.125em', animationDelay: '1.3s' },
   { width: '1.25em', top: '0.125em', left: '0.25em', animationDelay: '0.3s' },
   { width: '0.75em', top: '0.85em' },
   { width: '1em', top: '1.125em', left: '0.625em', animationDelay: '0.6s' },
-  { width: '1em', left: '1.125em', animationDelay: '1.3s' },
 ];
 
-const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: SwitchProps) => {
+const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className, ...props }: SwitchProps) => {
   useKeybinds(
     Object.fromEntries(
       keybinds.filter((keybind) => keybind).map((code) => [code, { onKeyUp: () => onChange?.(!value) }]),
@@ -34,7 +18,7 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: Switch
   );
 
   return (
-    <label htmlFor={id} className='darkmode-switch relative cursor-pointer'>
+    <label htmlFor={id} className={`darkmode-switch relative cursor-pointer ${className}`.trim()}>
       <input
         id={id}
         type='checkbox'
@@ -56,9 +40,7 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: Switch
 
       <div className='slider rounded-full overflow-hidden inset-0'>
         <div className='sun-moon rounded-full aspect-square'>
-          {circles.map(({ className, color, width, top, left = top }, i) => (
-            <Circle key={i} className={className} color={color} width={width} style={{ top, left }} />
-          ))}
+          <div className='clouds' />
         </div>
 
         <div className='stars'>

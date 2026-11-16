@@ -9,9 +9,7 @@
   .slider,
   .sun-moon,
   .sun-moon::after,
-  .stars,
-  .star,
-  .cloud {
+  .stars {
     transition: 0.4s;
     position: absolute;
   }
@@ -36,6 +34,7 @@
       left: 0.625em;
       border-radius: calc(infinity * 1px);
       color: gray;
+      opacity: 0;
       background-color: currentColor;
       box-shadow:
         -0.375em 0.5625em 0 0.125em currentColor,
@@ -43,20 +42,43 @@
     }
   }
 
-  .cloud {
+  .clouds::before,
+  .clouds::after {
+    content: '';
+    position: absolute;
+    width: 2.5em;
+    aspect-ratio: 1;
+    border-radius: calc(infinity * 1px);
+    background-color: currentColor;
     animation: cloud-move 6s ease infinite;
   }
 
-  .sun-moon::after,
-  .stars {
-    opacity: 0;
+  .clouds::before {
+    top: 1em;
+    left: 1.875em;
+    color: #ccc;
+    animation-delay: 1s;
+    box-shadow:
+      0.25em -1em 0 -0.625em currentColor,
+      -1em 0.25em 0 -0.25em currentColor;
+  }
+
+  .clouds::after {
+    top: 1.125em;
+    left: 2.25em;
+    color: #eee;
+    box-shadow:
+      0em -1em 0 -0.75em currentColor,
+      -1em 0.25em 0 -0.25em currentColor;
   }
 
   .stars {
+    opacity: 0;
     transform: translateY(calc(-1 * var(--height)));
   }
 
   .star {
+    position: absolute;
     animation: star-twinkle 2s ease infinite;
   }
 
