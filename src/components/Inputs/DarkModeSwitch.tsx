@@ -18,12 +18,12 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className, ...prop
   );
 
   return (
-    <label htmlFor={id} className={`darkmode-switch relative cursor-pointer ${className}`.trim()}>
+    <label htmlFor={id} className={`darkmode-switch cursor-pointer ${className}`.trim()}>
       <input
         id={id}
         type='checkbox'
         role='switch'
-        className='appearance-none'
+        className='hidden'
         checked={value}
         onChange={(e) => onChange?.(e.target.checked)}
         onPointerDown={(e) => {
@@ -38,7 +38,7 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className, ...prop
         {...props}
       />
 
-      <div className='slider rounded-full overflow-hidden inset-0'>
+      <div className='slider relative h-full w-full rounded-full overflow-hidden'>
         <div className='sun-moon rounded-full aspect-square'>
           <div className='clouds' />
         </div>

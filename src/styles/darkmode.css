@@ -11,7 +11,6 @@
   .sun-moon::after,
   .stars {
     transition: 0.4s;
-    position: absolute;
   }
 
   .slider {
@@ -19,6 +18,7 @@
   }
 
   .sun-moon {
+    position: absolute;
     height: calc(var(--height) - 2 * var(--padding));
     inset: var(--padding);
     background-color: yellow;
@@ -28,6 +28,7 @@
 
     &::after {
       content: '';
+      position: absolute;
       width: 0.375em;
       aspect-ratio: 1;
       top: 0.1875em;
