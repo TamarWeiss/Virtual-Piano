@@ -1,69 +1,71 @@
 .darkmode-switch {
-  position: relative;
-  display: inline-block;
+  --height: 2.125em;
+  --padding: 0.25em;
+
   width: 3.75em;
-  height: 2.125em;
-}
+  height: var(--height);
 
-.darkmode-switch input[type='checkbox'] {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.darkmode-switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #2196f3;
-  transition: 0.4s;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.sun-moon {
-  position: absolute;
-  content: '';
-  height: 1.625em;
-  aspect-ratio: 1;
-  left: 0.25em;
-  bottom: 0.25em;
-  background-color: yellow;
-  transition: 0.4s;
-}
-
-input[type='checkbox']:checked + .slider {
-  background-color: black;
-
-  & .sun-moon .moon-dot {
-    opacity: 1;
+  .slider,
+  .sun-moon,
+  .moon-dot,
+  .stars,
+  .star,
+  .cloud-dark,
+  .cloud-light {
+    transition: 0.4s;
+    position: absolute;
   }
 
-  & .sun-moon {
-    transform: translateX(1.625em);
-    background-color: var(--color-white);
-    animation: rotate-center 0.6s ease-in-out both;
+  .slider {
+    background-color: #2196f3;
   }
 
-  & .stars {
-    transform: translateY(0);
-    opacity: 1;
+  .sun-moon {
+    height: calc(var(--height) - 2 * var(--padding));
+    inset: var(--padding);
+    background-color: yellow;
   }
-}
 
-.moon-dot {
-  position: absolute;
-  opacity: 0;
-  transition: 0.4s;
-  fill: gray;
-}
+  .cloud-light,
+  .cloud-dark {
+    animation: cloud-move 6s ease infinite;
+  }
 
-.slider.round,
-.slider.round .sun-moon {
-  border-radius: calc(infinity * 1px);
+  .cloud-dark {
+    animation-delay: 1s;
+  }
+
+  .moon-dot,
+  .stars {
+    opacity: 0;
+  }
+
+  .stars {
+    transform: translateY(calc(-1 * var(--height)));
+  }
+
+  .star {
+    animation: star-twinkle 2s ease infinite;
+  }
+
+  input[type='checkbox']:checked + .slider {
+    background-color: var(--color-black);
+
+    .sun-moon .moon-dot,
+    .stars {
+      opacity: 1;
+    }
+
+    .sun-moon {
+      transform: translateX(1.625em);
+      background-color: var(--color-white);
+      animation: rotate-center 0.6s ease-in-out both;
+    }
+
+    .stars {
+      transform: translateY(0);
+    }
+  }
 }
 
 #moon-dot-1 {
@@ -79,16 +81,8 @@ input[type='checkbox']:checked + .slider {
 }
 
 #moon-dot-3 {
-  left: 1em;
-  top: 1em;
+  inset: 1em;
   width: 0.25em;
-}
-
-.light-ray {
-  position: absolute;
-  fill: var(--color-white);
-  opacity: 10%;
-  z-index: -1;
 }
 
 #light-ray-1 {
@@ -107,23 +101,6 @@ input[type='checkbox']:checked + .slider {
   left: -1.125em;
   top: -1.125em;
   width: 3.75em;
-}
-
-.cloud-light,
-.cloud-dark {
-  position: absolute;
-  animation-name: cloud-move;
-  animation-duration: 6s;
-  animation-iteration-count: infinite;
-}
-
-.cloud-light {
-  fill: #eee;
-}
-
-.cloud-dark {
-  fill: #ccc;
-  animation-delay: 1s;
 }
 
 #cloud-1 {
@@ -162,21 +139,6 @@ input[type='checkbox']:checked + .slider {
   width: 2em;
 }
 
-.stars {
-  transform: translateY(-2em);
-  opacity: 0;
-  transition: 0.4s;
-}
-
-.star {
-  fill: var(--color-white);
-  position: absolute;
-  transition: 0.4s;
-  animation-name: star-twinkle;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-}
-
 #star-1 {
   width: 1.25em;
   top: 0.125em;
@@ -204,19 +166,19 @@ input[type='checkbox']:checked + .slider {
 
 @keyframes cloud-move {
   0% {
-    transform: translateX(0);
+    transform: translateX(0.125em);
   }
 
   40% {
-    transform: translateX(0.25em);
+    transform: translateX(0.375em);
   }
 
   80% {
-    transform: translateX(-0.25em);
+    transform: translateX(-0.125em);
   }
 
   100% {
-    transform: translateX(0);
+    transform: translateX(0.125em);
   }
 }
 

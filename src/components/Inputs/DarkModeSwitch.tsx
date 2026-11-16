@@ -17,11 +17,12 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: props)
   );
 
   return (
-    <label className='darkmode-switch'>
+    <label htmlFor={id} className='darkmode-switch relative cursor-pointer'>
       <input
         id={id}
         type='checkbox'
         role='switch'
+        className='appearance-none'
         checked={value}
         onChange={(e) => onChange?.(e.target.checked)}
         onPointerDown={(e) => {
@@ -35,22 +36,28 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: props)
         }}
         {...props}
       />
-      <div className='slider round'>
-        <div className='sun-moon'>
+
+      <div className='slider rounded-full overflow-hidden z-0 inset-0'>
+        <div className='sun-moon rounded-full aspect-square'>
           {range(3).map((i) => (
-            <Circle key={i} id={`moon-dot-${i + 1}`} className='moon-dot' />
+            <Circle key={i} id={`moon-dot-${i + 1}`} className='moon-dot' fill='grey' />
           ))}
           {range(3).map((i) => (
-            <Circle key={i} id={`light-ray-${i + 1}`} className='light-ray' />
+            <Circle key={i} id={`light-ray-${i + 1}`} className='absolute opacity-10 -z-1' fill='white' />
           ))}
           {range(6).map((i) => (
-            <Circle key={i} id={`cloud-${i + 1}`} className={i < 3 ? 'cloud-dark' : 'cloud-light'} />
+            <Circle
+              key={i}
+              id={`cloud-${i + 1}`}
+              className={i < 3 ? 'cloud-dark' : 'cloud-light'}
+              fill={i < 3 ? '#ccc' : '#eee'}
+            />
           ))}
         </div>
 
         <div className='stars'>
           {range(4).map((i) => (
-            <Star key={i} id={`star-${i + 1}`} className='star' />
+            <Star key={i} id={`star-${i + 1}`} className='star' fill='white' />
           ))}
         </div>
       </div>
