@@ -17,7 +17,7 @@
 
       &.active .thumb,
       input[type='checkbox']:checked + .thumb {
-        transform: translateX(calc(var(--track-width) - var(--thumb-width)));
+        transform: translateX(calc(var(--track-width) - 100%));
       }
     }
 

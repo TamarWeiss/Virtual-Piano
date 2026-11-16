@@ -1,15 +1,38 @@
 import { Circle, Star } from '../../constants/icons';
-import { range } from '../../constants/pianoConfig';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import '../../styles/darkmode.css';
+import type { SwitchProps } from './Switch';
 
-interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
-  value?: boolean;
-  onChange?: (value: boolean) => void;
-  keybinds?: string[];
-}
+const circles: {
+  className: string;
+  color: string;
+  width: string;
+  top: string;
+  left?: string;
+  animationDelay?: string;
+}[] = [
+  { className: 'moon-dot', color: 'grey', width: '0.375em', top: '0.1875em', left: '0.625em' },
+  { className: 'moon-dot', color: 'grey', width: '0.625em', top: '0.625em', left: '0.125em' },
+  { className: 'moon-dot', color: 'grey', width: '0.25em', top: '1em' },
+  { className: 'light-ray', color: 'white', width: '2.75em', top: '-0.5em' },
+  { className: 'light-ray', color: 'white', width: '3.5em', top: '-50%' },
+  { className: 'light-ray', color: 'white', width: '3.75em', top: '-1.125em' },
+  { className: 'cloud', color: '#ccc', width: '2.5em', top: '1em', left: '1.875em', animationDelay: '1s' },
+  { className: 'cloud', color: '#ccc', width: '1.25em', top: '0.625em', left: '2.75em', animationDelay: '1s' },
+  { className: 'cloud', color: '#ccc', width: '2em', top: '1.5em', left: '1.125em', animationDelay: '1s' },
+  { className: 'cloud', color: '#eee', width: '2.5em', top: '1.125em', left: '2.25em' },
+  { className: 'cloud', color: '#eee', width: '1em', top: '0.875em', left: '3em' },
+  { className: 'cloud', color: '#eee', width: '2em', top: '1.625em', left: '1.5em' },
+];
 
-const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
+const stars: { width: string; top?: string; left?: string; animationDelay?: string }[] = [
+  { width: '1.25em', top: '0.125em', left: '0.25em', animationDelay: '0.3s' },
+  { width: '0.75em', top: '0.85em' },
+  { width: '1em', top: '1.125em', left: '0.625em', animationDelay: '0.6s' },
+  { width: '1em', left: '1.125em', animationDelay: '1.3s' },
+];
+
+const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: SwitchProps) => {
   useKeybinds(
     Object.fromEntries(
       keybinds.filter((keybind) => keybind).map((code) => [code, { onKeyUp: () => onChange?.(!value) }]),
@@ -37,27 +60,16 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], ...props }: props)
         {...props}
       />
 
-      <div className='slider rounded-full overflow-hidden z-0 inset-0'>
+      <div className='slider rounded-full overflow-hidden inset-0'>
         <div className='sun-moon rounded-full aspect-square'>
-          {range(3).map((i) => (
-            <Circle key={i} id={`moon-dot-${i + 1}`} className='moon-dot' fill='grey' />
-          ))}
-          {range(3).map((i) => (
-            <Circle key={i} id={`light-ray-${i + 1}`} className='absolute opacity-10 -z-1' fill='white' />
-          ))}
-          {range(6).map((i) => (
-            <Circle
-              key={i}
-              id={`cloud-${i + 1}`}
-              className={i < 3 ? 'cloud-dark' : 'cloud-light'}
-              fill={i < 3 ? '#ccc' : '#eee'}
-            />
+          {circles.map(({ className, color, width, top, left = top }, i) => (
+            <Circle key={i} className={className} color={color} width={width} style={{ top, left }} />
           ))}
         </div>
 
         <div className='stars'>
-          {range(4).map((i) => (
-            <Star key={i} id={`star-${i + 1}`} className='star' fill='white' />
+          {stars.map(({ width, top, left, animationDelay }, i) => (
+            <Star key={i} className='star' color='white' width={width} style={{ animationDelay, top, left }} />
           ))}
         </div>
       </div>

@@ -4,13 +4,13 @@ import LED from '../ControlPanel/LED';
 import { FlashState } from '../../hooks/useMetronome';
 import { useKeybinds } from '../../hooks/useKeybinds';
 
-interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
+export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
   value?: boolean;
   onChange?: (value: boolean) => void;
   keybinds?: string[];
 }
 
-const Switch = ({ id, onChange, value, keybinds = [], ...props }: props) => {
+const Switch = ({ id, onChange, value, keybinds = [], ...props }: SwitchProps) => {
   useKeybinds(
     Object.fromEntries(
       keybinds.filter((keybind) => keybind).map((code) => [code, { onKeyUp: () => onChange?.(!value) }]),
