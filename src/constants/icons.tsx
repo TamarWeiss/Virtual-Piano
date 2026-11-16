@@ -296,3 +296,21 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, stro
     </SVG>
   );
 };
+
+interface CircleProps extends React.SVGProps<SVGSVGElement> {
+  r?: number | string;
+  cx?: number | string;
+  cy?: number | string;
+}
+
+export const Circle: React.FC<CircleProps> = ({ r = 0.5, cx = 0.5, cy = 0.5, ...props }) => (
+  <SVG strokeWidth={0} {...props}>
+    <circle cx={cx} cy={cy} r={r} />
+  </SVG>
+);
+
+export const Star: React.FC<CircleProps> = (props) => (
+  <svg strokeWidth={0} viewBox='0 0 20 20' {...props}>
+    <path d='M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z' />
+  </svg>
+);

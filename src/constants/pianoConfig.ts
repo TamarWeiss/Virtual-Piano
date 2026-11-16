@@ -106,3 +106,13 @@ export const randomRange = (min: number, max: number, step?: number) => {
   const decimals = (step.toString().split('.')[1] || '').length;
   return Number(value.toFixed(decimals));
 };
+
+export function range(start: number, stop?: number, step = 1): number[] {
+  if (stop === undefined) {
+    stop = start;
+    start = 0;
+  }
+
+  const length = Math.max(Math.ceil((stop - start) / step), 0);
+  return Array.from({ length }, (_, i) => start + i * step);
+}
