@@ -11,8 +11,6 @@ const circles: {
   left?: string;
   animationDelay?: string;
 }[] = [
-  { className: 'light-ray', color: 'white', width: '2.75em', top: '-0.5em' },
-  { className: 'light-ray', color: 'white', width: '3.5em', top: '-50%' },
   { className: 'cloud', color: '#ccc', width: '2.5em', top: '1em', left: '1.875em', animationDelay: '1s' },
   { className: 'cloud', color: '#ccc', width: '1.25em', top: '0.625em', left: '2.75em', animationDelay: '1s' },
   { className: 'cloud', color: '#ccc', width: '2em', top: '1.5em', left: '1.125em', animationDelay: '1s' },
