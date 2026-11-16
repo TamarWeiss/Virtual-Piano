@@ -8,7 +8,7 @@ type props = {
 };
 
 const Shortcut = ({ desc, keybind, alt }: props) => (
-  <li className='label flex justify-between items-center text-[0.9rem] text-inherit'>
+  <li className='label flex justify-between items-center gap-4 text-inherit'>
     {desc}
     <span>
       <kbd>{keybind}</kbd>{' '}
@@ -27,9 +27,9 @@ const HelpGuide = (props: ModalProps) => (
       Keyboard Shortcuts
     </h2>
 
-    <ul className='hotkeys-list flex flex-col gap-3'>
-      {Object.entries(KEYBINDS).map(([key, { text, alt = false }], i) => (
-        <Shortcut key={i} desc={key} keybind={text} alt={alt} />
+    <ul className='hotkeys-list flex flex-col gap-4'>
+      {Object.values(KEYBINDS).map(({ text, desc, alt = false }, i) => (
+        <Shortcut key={i} desc={desc} keybind={text} alt={alt} />
       ))}
     </ul>
   </Modal>

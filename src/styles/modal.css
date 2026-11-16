@@ -5,7 +5,7 @@
   background: var(--color-zinc-100);
   color: var(--color-zinc-400);
   border: 1px solid var(--color-zinc-400);
-  width: min(400px, 90vw);
+  width: 33vw;
   box-shadow: 0 1.25rem 2.5rem --opacity(var(--color-black), 0.8);
   animation: modalSlideInFromTop var(--duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
 
@@ -23,14 +23,14 @@
   }
 
   kbd {
+    font-family: monospace;
+    font-weight: bold;
     background: var(--color-zinc-200);
     border: 1px solid var(--color-zinc-300);
     border-bottom-width: 2px;
-    border-radius: 0.25rem;
+    border-radius: 0.25em;
     padding: 0.2rem 0.5rem;
-    font-size: 0.75rem;
     box-shadow: 0 1px 2px --opacity(var(--color-black), 0.4);
-    font-weight: bold;
   }
 
   .dark & {

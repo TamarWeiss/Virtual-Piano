@@ -27,7 +27,7 @@
       height: var(--thumb-height);
       padding: 0.125em;
       background: linear-gradient(180deg, var(--color-zinc-700) 0%, var(--color-zinc-800) 100%);
-      border-radius: 0.125em;
+      border-radius: 0.25em;
       box-shadow: 0 0.125em 0.25em --opacity(var(--color-black), 0.6);
       transform: translateX(0);
       transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);

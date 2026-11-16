@@ -40,33 +40,34 @@ export const KEY_MAPPING: Record<string, string> = {
 type KeybindConfig = {
   code: string;
   text: string;
+  desc: string;
   alt?: boolean;
 };
 
 export const KEYBINDS: Record<string, KeybindConfig> = {
-  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift' },
-  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift' },
-  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true },
-  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true },
-  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→', alt: true },
-  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←', alt: true },
+  HELP: { code: 'KeyH', text: 'H', desc: 'Open / close help guide' },
+  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter', desc: 'Switch between light / dark modes' },
+  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock', desc: 'Switch between icon sets' },
 
-  TOGGLE_METRONOME: { code: 'KeyC', text: 'C' },
-  TOGGLE_REVERB: { code: 'KeyG', text: 'G' },
-  SUSTAIN: { code: 'Space', text: 'Space' },
+  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift', desc: 'Shift one octave up' },
+  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift', desc: 'Shift one octave down' },
+  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true, desc: 'Increase BPM by 1 / 10' },
+  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true, desc: 'Decrease BPM by 1 / 10' },
+  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→', alt: true, desc: 'Increase beats per measures / note type' },
+  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←', alt: true, desc: 'Decrease beats per measure / note type' },
 
-  RESET_ALL: { code: 'KeyA', text: 'A' },
-  RESET_ADSR: { code: 'KeyS', text: 'S' },
-  RESET_METRONOME: { code: 'KeyD', text: 'D' },
-  RESET_REVERB: { code: 'KeyF', text: 'F' },
+  SUSTAIN: { code: 'Space', text: 'Space', desc: 'Sustain pedal' },
+  TOGGLE_METRONOME: { code: 'KeyC', text: 'C', desc: 'Metronome on / off' },
+  TOGGLE_REVERB: { code: 'KeyG', text: 'G', desc: 'Reverb on / off' },
 
-  RANDOM_ALL: { code: 'KeyZ', text: 'Z' },
-  RANDOM_ADSR: { code: 'KeyX', text: 'X' },
-  RANDOM_REVERB: { code: 'KeyV', text: 'V' },
+  RESET_ALL: { code: 'KeyA', text: 'A', desc: 'Reset all' },
+  RESET_ADSR: { code: 'KeyS', text: 'S', desc: 'Reset ADSR values' },
+  RESET_METRONOME: { code: 'KeyD', text: 'D', desc: 'Reset Metronome values' },
+  RESET_REVERB: { code: 'KeyF', text: 'F', desc: 'Reset Reverb values' },
 
-  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock' },
-  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter' },
-  HELP: { code: 'KeyH', text: 'H' },
+  RANDOM_ALL: { code: 'KeyZ', text: 'Z', desc: 'Randomize all' },
+  RANDOM_ADSR: { code: 'KeyX', text: 'X', desc: 'Randomize ADSR values' },
+  RANDOM_REVERB: { code: 'KeyV', text: 'V', desc: 'Randomize Reverb values' },
 };
 
 type WaveformData = {
