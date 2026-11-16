@@ -11,12 +11,8 @@ const circles: {
   left?: string;
   animationDelay?: string;
 }[] = [
-  { className: 'moon-dot', color: 'grey', width: '0.375em', top: '0.1875em', left: '0.625em' },
-  { className: 'moon-dot', color: 'grey', width: '0.625em', top: '0.625em', left: '0.125em' },
-  { className: 'moon-dot', color: 'grey', width: '0.25em', top: '1em' },
   { className: 'light-ray', color: 'white', width: '2.75em', top: '-0.5em' },
   { className: 'light-ray', color: 'white', width: '3.5em', top: '-50%' },
-  { className: 'light-ray', color: 'white', width: '3.75em', top: '-1.125em' },
   { className: 'cloud', color: '#ccc', width: '2.5em', top: '1em', left: '1.875em', animationDelay: '1s' },
   { className: 'cloud', color: '#ccc', width: '1.25em', top: '0.625em', left: '2.75em', animationDelay: '1s' },
   { className: 'cloud', color: '#ccc', width: '2em', top: '1.5em', left: '1.125em', animationDelay: '1s' },
