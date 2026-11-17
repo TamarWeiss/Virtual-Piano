@@ -8,10 +8,9 @@ interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
   min: number;
   max: number;
   onChange: (value: number) => void;
-  alt?: boolean;
 }
 
-const Slider = ({ label, value, min, max, onChange, alt, ...props }: props) => {
+const Slider = ({ label, value, min, max, onChange, className = '', ...props }: props) => {
   const [localValue, setLocalValue] = useState(value ?? (max - min) / 2);
   const [prevValue, setPrevValue] = useState(value);
 
@@ -21,7 +20,7 @@ const Slider = ({ label, value, min, max, onChange, alt, ...props }: props) => {
   }
 
   return (
-    <div className={`grid items-center gap-1.5 text-xs slider${alt ? ' alt' : ''}`}>
+    <div className={`grid items-center gap-1.5 text-xs slider ${className}`.trim()}>
       {label && (
         <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.85em]'>
           {label}

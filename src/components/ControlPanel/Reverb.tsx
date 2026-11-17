@@ -54,7 +54,6 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
               min={0}
               max={max}
               step={0.1}
-              alt={alt}
             />
           ))}
         </div>
