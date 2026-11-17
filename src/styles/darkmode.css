@@ -21,7 +21,6 @@
     transition:
       translate 0.4s,
       background-color 0.4s;
-    will-change: transform;
 
     &::after {
       content: '';
@@ -93,7 +92,6 @@
     .sun-moon {
       translate: calc(var(--width) - 2 * var(--padding) - 100%) 0;
       background-color: var(--color-white);
-      animation: rotate-center 0.6s ease-in-out both;
 
       &::after {
         opacity: 1;

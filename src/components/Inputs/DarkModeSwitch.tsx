@@ -10,7 +10,7 @@ const stars: { width: string; top?: string; left?: string; animationDelay?: stri
   { width: '1em', top: '1.125em', left: '0.625em', animationDelay: '0.6s' },
 ];
 
-const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className, ...props }: SwitchProps) => {
+const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className = '', ...props }: SwitchProps) => {
   useKeybinds(
     Object.fromEntries(
       keybinds.filter((keybind) => keybind).map((code) => [code, { onKeyUp: () => onChange?.(!value) }]),
