@@ -14,13 +14,15 @@
   .sun-moon {
     height: calc(var(--height) - 2 * var(--padding));
     inset: var(--padding);
-    background-color: yellow;
+    color: yellow;
+    background-color: currentColor;
     box-shadow:
-      0 0 0 0.5625em rgb(255 255 255 / 0.1),
-      0 0 0 0.9375em rgb(255 255 255 / 0.1);
+      0 0 0.5em currentColor,
+      0 0 0 0.5625em --opacity(var(--color-white), 0.1),
+      0 0 0 1em --opacity(var(--color-white), 0.1);
     transition:
       translate 0.4s,
-      background-color 0.4s;
+      color 0.4s;
 
     &::after {
       content: '';
@@ -91,7 +93,7 @@
 
     .sun-moon {
       translate: calc(var(--width) - 2 * var(--padding) - 100%) 0;
-      background-color: var(--color-white);
+      color: var(--color-white);
 
       &::after {
         opacity: 1;
