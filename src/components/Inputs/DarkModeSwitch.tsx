@@ -18,7 +18,20 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className = '', ..
   );
 
   return (
-    <label htmlFor={id} className={`darkmode-switch cursor-pointer ${className}`.trim()}>
+    <label
+      htmlFor={id}
+      className={`darkmode-switch relative rounded-full overflow-hidden cursor-pointer ${className}`.trim()}
+    >
+      <div className='sun-moon absolute bg-current rounded-[inherit] aspect-square'>
+        <div className='clouds absolute bg-inherit rounded-[inherit] aspect-[inherit]' />
+      </div>
+
+      <div className='stars'>
+        {stars.map(({ width, ...style }, i) => (
+          <Star key={i} className='absolute' color='white' width={width} style={style} />
+        ))}
+      </div>
+
       <input
         id={id}
         type='checkbox'
@@ -37,18 +50,6 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className = '', ..
         }}
         {...props}
       />
-
-      <div className='slider relative h-full w-full rounded-full overflow-hidden'>
-        <div className='sun-moon absolute bg-current rounded-full aspect-square'>
-          <div className='clouds absolute bg-current rounded-full aspect-square' />
-        </div>
-
-        <div className='stars'>
-          {stars.map(({ width, top, left, animationDelay }, i) => (
-            <Star key={i} className='star absolute' color='white' width={width} style={{ animationDelay, top, left }} />
-          ))}
-        </div>
-      </div>
     </label>
   );
 };

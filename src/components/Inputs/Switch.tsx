@@ -39,6 +39,7 @@ const Switch = ({ id, onChange, value, keybinds = [], ...props }: SwitchProps) =
           }}
           {...props}
         />
+
         <label htmlFor={id} className='thumb cursor-pointer flex justify-center border border-zinc-600'>
           <span className='grip' />
           <span className='grip' />

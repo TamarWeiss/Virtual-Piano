@@ -5,11 +5,8 @@
 
   width: var(--width);
   height: var(--height);
-
-  .slider {
-    background-color: var(--color-sky-500);
-    transition: background-color 0.4s;
-  }
+  background-color: var(--color-sky-500);
+  transition: background-color 0.4s;
 
   .sun-moon {
     height: calc(var(--height) - 2 * var(--padding));
@@ -78,13 +75,14 @@
     transition:
       translate 0.4s,
       opacity 0.4s;
+
+    svg {
+      animation: twinkle 2s ease infinite paused;
+    }
   }
 
-  .star {
-    animation: twinkle 2s ease infinite paused;
-  }
-
-  input[type='checkbox']:checked + .slider {
+  &.active,
+  &:has(input[type='checkbox']:checked) {
     background-color: var(--color-black);
 
     .sun-moon {
@@ -99,10 +97,10 @@
     .stars {
       opacity: 1;
       translate: 0 0;
-    }
 
-    .star {
-      animation-play-state: running;
+      svg {
+        animation-play-state: running;
+      }
     }
 
     .clouds::before,
