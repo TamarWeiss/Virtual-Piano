@@ -1,4 +1,3 @@
-import '../../styles/controlPanel.css';
 import Switch from '../Inputs/Switch';
 import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';

@@ -1,5 +1,4 @@
 import type { ADSR } from '../../hooks/useSynth';
-import '../../styles/controlPanel.css';
 import PillButton from '../Buttons/PillButton';
 import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Inputs/Slider';
