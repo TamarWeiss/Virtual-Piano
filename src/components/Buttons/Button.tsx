@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useKeybinds } from '../../hooks/useKeybinds';
+import { PauseContext } from '../../contexts/PauseContext';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
@@ -21,6 +22,11 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const [active, setActive] = useState(false);
+  const disabled = useContext(PauseContext);
+
+  useEffect(() => {
+    if (disabled) queueMicrotask(() => setActive(false));
+  }, [disabled]);
 
   useKeybinds(
     Object.fromEntries(
@@ -34,6 +40,7 @@ const Button = ({
               onPointerDown?.();
             },
             onKeyUp: () => {
+              if (!active) return;
               onPointerUp?.();
               props.onClick?.();
               setActive(false);

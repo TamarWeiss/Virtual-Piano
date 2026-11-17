@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/piano.css';
 import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
@@ -14,9 +14,14 @@ const Piano = () => {
   const [baseOctave, setBaseOctave] = useState<number>(4);
   const synth = useSynth({ waveform: 'square', adsr: ADSR_DEFAULTS, reverb: { active: false, ...REVERB_DEFAULTS } });
   const disabled = useContext(PauseContext);
+  const prevDisabledRef = useRef(false);
 
   useEffect(() => {
-    if (disabled) synth.stopAll();
+    if (disabled && !prevDisabledRef.current) {
+      synth.stopAll();
+      synth.setConfig((prev) => ({ ...prev, sustain: false }));
+    }
+    if (disabled != prevDisabledRef.current) prevDisabledRef.current = disabled;
   }, [disabled, synth]);
 
   const shiftOctave = (delta: number) => {
