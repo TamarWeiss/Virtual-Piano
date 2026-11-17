@@ -18,7 +18,9 @@
     box-shadow:
       0 0 0 0.5625em rgb(255 255 255 / 0.1),
       0 0 0 0.9375em rgb(255 255 255 / 0.1);
-    transition: 0.4s;
+    transition:
+      translate 0.4s,
+      background-color 0.4s;
     will-change: transform;
 
     &::after {
@@ -48,6 +50,10 @@
     border-radius: inherit;
     background-color: currentColor;
     animation: cloud-move 6s ease infinite;
+    opacity: 1;
+    transition:
+      translate 0.4s,
+      opacity 0.4s;
   }
 
   .clouds::before {
@@ -65,55 +71,62 @@
     left: 2.25em;
     color: #eee;
     box-shadow:
-      0em -1em 0 -0.75em currentColor,
+      0 -1em 0 -0.75em currentColor,
       -1em 0.25em 0 -0.25em currentColor;
   }
 
   .stars {
     opacity: 0;
-    transform: translateY(calc(-1 * var(--height)));
-    transition: 0.4s;
+    translate: 0 calc(-1 * var(--height));
+    transition:
+      translate 0.4s,
+      opacity 0.4s;
   }
 
   .star {
-    animation: twinkle 2s ease infinite;
+    animation: twinkle 2s ease infinite paused;
   }
 
   input[type='checkbox']:checked + .slider {
     background-color: var(--color-black);
 
-    .stars,
-    .sun-moon::after {
-      opacity: 1;
-    }
-
     .sun-moon {
-      transform: translateX(calc(var(--width) - 2 * var(--padding) - 100%));
+      translate: calc(var(--width) - 2 * var(--padding) - 100%) 0;
       background-color: var(--color-white);
       animation: rotate-center 0.6s ease-in-out both;
+
+      &::after {
+        opacity: 1;
+      }
     }
 
     .stars {
-      transform: translateY(0);
+      opacity: 1;
+      translate: 0 0;
+    }
+
+    .star {
+      animation-play-state: running;
+    }
+
+    .clouds::before,
+    .clouds::after {
+      animation-play-state: paused;
+      opacity: 0;
     }
   }
 }
 
 @keyframes cloud-move {
-  0% {
-    transform: translateX(0.125em);
-  }
-
-  40% {
-    transform: translateX(0.375em);
-  }
-
-  80% {
-    transform: translateX(-0.125em);
-  }
-
+  0%,
   100% {
-    transform: translateX(0.125em);
+    translate: 0 0;
+  }
+  40% {
+    translate: 0.25em 0;
+  }
+  80% {
+    translate: -0.25em 0;
   }
 }
 
@@ -125,7 +138,6 @@
   40% {
     scale: 1.2;
   }
-
   80% {
     scale: 0.8;
   }

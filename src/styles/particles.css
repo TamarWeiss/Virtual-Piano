@@ -13,7 +13,6 @@
   aspect-ratio: 1;
   border-radius: calc(infinity * 1px);
   animation: float var(--duration) linear infinite var(--delay);
-  will-change: transform, translate, scale, opacity;
 
   &::before,
   &::after {
@@ -42,7 +41,7 @@
     opacity: 0;
     background-color: var(--color-white);
     mask: var(--mask) center / contain no-repeat;
-    animation: twinkle 2s ease infinite;
+    animation: twinkle 2s ease infinite var(--delay) paused;
   }
 }
 
@@ -53,6 +52,7 @@
 
   &::after {
     opacity: 1;
+    animation-play-state: running;
   }
 }
 
