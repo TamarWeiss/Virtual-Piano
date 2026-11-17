@@ -75,7 +75,7 @@
   }
 
   .star {
-    animation: star-twinkle 2s ease infinite;
+    animation: twinkle 2s ease infinite;
   }
 
   input[type='checkbox']:checked + .slider {
@@ -116,20 +116,16 @@
   }
 }
 
-@keyframes star-twinkle {
-  0% {
-    transform: scale(1);
+@keyframes twinkle {
+  0%,
+  100% {
+    scale: 1;
   }
-
   40% {
-    transform: scale(1.2);
+    scale: 1.2;
   }
 
   80% {
-    transform: scale(0.8);
-  }
-
-  100% {
-    transform: scale(1);
+    scale: 0.8;
   }
 }

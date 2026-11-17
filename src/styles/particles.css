@@ -28,41 +28,30 @@
 .dark .particle {
   border: none;
   box-shadow: none;
-  background:
-    radial-gradient(ellipse 90% 25% at 50% 50%, var(--color-white), rgba(147, 197, 253, 0.4) 50%, transparent 75%),
-    radial-gradient(ellipse 25% 90% at 50% 50%, var(--color-white), rgba(147, 197, 253, 0.4) 50%, transparent 75%),
-    radial-gradient(circle, var(--color-white), rgba(96, 165, 250, 0.5) 0, transparent 70%);
+  background: none;
+  color: var(--color-white);
   animation:
     float var(--duration) linear infinite var(--delay),
-    twinkle 1.5s ease-in-out infinite alternate;
+    twinkle 2s ease infinite;
 }
 
 @keyframes float {
   0% {
-    transform: translate3d(0, 0, 0) scale(0.75);
+    translate: 0 0 0;
     opacity: 0;
   }
   10% {
     opacity: 1;
   }
   50% {
-    transform: translate3d(var(--wobble), -50vh, 0) scale(1);
+    translate: var(--wobble) -50vh 0;
     opacity: 1;
   }
   90% {
     opacity: 1;
   }
   100% {
-    transform: translate3d(calc(-1 * var(--wobble)), -100vh, 0) scale(1.1);
+    translate: calc(-1 * var(--wobble)) -100vh 0;
     opacity: 0;
-  }
-}
-
-@keyframes twinkle {
-  0% {
-    filter: brightness(0.75);
-  }
-  100% {
-    filter: brightness(1.5);
   }
 }

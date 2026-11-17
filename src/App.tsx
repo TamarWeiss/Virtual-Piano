@@ -6,7 +6,7 @@ import HelpGuide from './components/Modals/HelpGuide';
 import './styles/help.css';
 import { KEYBINDS } from './constants/pianoConfig';
 import { useKeybinds } from './hooks/useKeybinds';
-import { ParticleField } from './Particles';
+import ParticleField from './Particles';
 import DarkModeSwitch from './components/Inputs/DarkModeSwitch';
 
 const App = () => {
@@ -60,7 +60,7 @@ const App = () => {
         <Piano />
       </PauseContext.Provider>
 
-      <ParticleField />
+      <ParticleField dark={darkMode} />
     </div>
   );
 };
