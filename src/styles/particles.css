@@ -42,14 +42,11 @@
     opacity: 0;
     background-color: var(--color-white);
     mask: var(--mask) center / contain no-repeat;
+    animation: twinkle 2s ease infinite;
   }
 }
 
 .dark .particle {
-  animation:
-    float var(--duration) linear infinite var(--delay),
-    twinkle 2s ease infinite;
-
   &::before {
     opacity: 0;
   }
