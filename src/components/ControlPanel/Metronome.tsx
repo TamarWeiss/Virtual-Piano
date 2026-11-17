@@ -80,6 +80,7 @@ const Metronome = () => {
           <div className='display flex items-center py-0.5 px-1.5 flex-col text-xs'>
             <NumberInput
               id='time-sig-top'
+              className='text-shadow-[inherit]'
               min={1}
               max={100}
               value={timeSignature[0]}
@@ -88,6 +89,7 @@ const Metronome = () => {
             <hr className='h-[1px] w-full' />
             <NumberInput
               id='time-sig-bottom'
+              className='text-shadow-[inherit]'
               min={1}
               max={MAX}
               value={timeSignature[1]}
@@ -98,7 +100,7 @@ const Metronome = () => {
           <div className='display flex items-center py-0.5 px-1.5'>
             <NumberInput
               id='bpm'
-              className='text-base text-shadow-inherit'
+              className='text-base text-shadow-[inherit]'
               min={1}
               max={MAX}
               value={bpm}
