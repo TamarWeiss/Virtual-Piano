@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import '../../styles/slider.css';
 import NumberInput from './NumberInput';
 
 interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'type' | 'alt'> {
@@ -22,12 +21,12 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
   return (
     <div className={`slider grid items-center gap-1.5 text-xs text-zinc-600 ${className}`.trim()}>
       {label && (
-        <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.85em]'>
+        <label htmlFor={props.id + 'Display'} className='label flex-1 text-inherit text-[0.85em]'>
           {label}
         </label>
       )}
 
-      <span className='label'>{min}</span>
+      <span className='label text-inherit'>{min}</span>
       <input
         type='range'
         className='bg-zinc-900 border border-zinc-800 cursor-pointer appearance-none rounded-full'
@@ -51,7 +50,7 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
         }}
         {...props}
       />
-      <span className='label'>{parseFloat(max.toFixed(2))}</span>
+      <span className='label text-inherit'>{parseFloat(max.toFixed(2))}</span>
 
       <NumberInput
         id={props.id + 'Display'}

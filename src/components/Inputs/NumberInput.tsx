@@ -8,7 +8,7 @@ interface props extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCha
   onChange: (value: number) => void;
 }
 
-const NumberInput = ({ value, min, max, onChange, ...props }: props) => {
+const NumberInput = ({ value, min, max, onChange, className = '', ...props }: props) => {
   const [localValue, setLocalValue] = useState(String(value));
   const [prevValue, setPrevValue] = useState(value);
 
@@ -32,6 +32,7 @@ const NumberInput = ({ value, min, max, onChange, ...props }: props) => {
   return (
     <input
       type='number'
+      className={`text-center ${className}`.trim()}
       value={localValue}
       min={min}
       max={max}

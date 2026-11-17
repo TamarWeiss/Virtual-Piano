@@ -11,35 +11,37 @@
 
 button {
   cursor: pointer;
-  user-select: none;
 }
 
-.app::before,
-.app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-}
+.app {
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    transition: opacity 0.4s ease;
+  }
 
-.app::before {
-  background: linear-gradient(to bottom right in hsl longer hue, var(--color-red-200), var(--color-rose-200));
-}
+  &::before {
+    background: linear-gradient(to bottom right in hsl longer hue, var(--color-red-200), var(--color-rose-200));
+  }
 
-.app.dark::before {
-  opacity: 0;
-}
+  &::after {
+    background:
+      radial-gradient(var(--color-black) 55%, transparent) 0 0 / 100% 0.5%,
+      linear-gradient(135deg in hsl longer hue, var(--color-red-500), var(--color-rose-500)) 0 0 / contain;
+    opacity: 0;
+  }
 
-.app::after {
-  background:
-    radial-gradient(var(--color-black) 55%, transparent) 0 0 / 100% 0.5%,
-    linear-gradient(135deg in hsl longer hue, var(--color-red-500), var(--color-rose-500)) 0 0 / contain;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.app.dark::after {
-  opacity: 1;
+  &.dark {
+    &::before {
+      opacity: 0;
+    }
+    &::after {
+      opacity: 1;
+    }
+  }
 }
 
 @layer components {
@@ -103,11 +105,10 @@ button {
   }
 
   input {
-    text-align: center;
-
     &[type='number'] {
       appearance: textfield;
     }
+
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       appearance: none;
@@ -115,18 +116,14 @@ button {
   }
 
   .indicator {
-    border-radius: calc(infinity * 1px);
-    background-color: currentColor;
-    width: 0.5rem;
-    aspect-ratio: 1;
-    opacity: 0.4;
-  }
+    opacity: 0.5;
 
-  .btn.active .indicator,
-  .btn:active .indicator,
-  .indicator.active {
-    opacity: 1;
-    animation: var(--animate-pulse);
+    .btn.active &,
+    .btn:active &,
+    &.active {
+      opacity: 1;
+      animation: var(--animate-pulse);
+    }
   }
 
   .keybind {
@@ -138,13 +135,40 @@ button {
   }
 
   .container {
-    display: grid;
     grid-template-columns: repeat(5, auto);
-    gap: 0.25rem;
 
     .slider {
       grid-template-columns: subgrid;
       grid-column: 1 / -1;
+    }
+  }
+
+  .slider {
+    grid-template-columns: repeat(5, auto);
+
+    input[type='range'] {
+      font-size: calc(4em / 3);
+      height: 0.5em;
+      box-shadow: inset 0 0.125em 0.25em --opacity(var(--color-black), 0.8);
+
+      &::-webkit-slider-thumb {
+        appearance: none;
+        height: 1em;
+        width: 1.5em;
+        border: 1px solid transparent;
+        border-radius: calc(infinity * 1px);
+        background:
+          linear-gradient(to right, var(--color-zinc-700), var(--color-zinc-800)) 0 center / 40% 100% padding-box,
+          linear-gradient(to left, var(--color-zinc-700), var(--color-zinc-800)) 100% center / 40% 100% padding-box,
+          linear-gradient(var(--color-zinc-600), var(--color-zinc-800)) border-box;
+        background-repeat: no-repeat;
+        box-shadow: -0.125em 0 0.25em --opacity(var(--color-black), 0.2) inset;
+        cursor: grab;
+      }
+
+      &:active::-webkit-slider-thumb {
+        cursor: grabbing;
+      }
     }
   }
 }

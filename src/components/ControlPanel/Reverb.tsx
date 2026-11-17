@@ -43,7 +43,7 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
       </div>
 
       <div className='flex gap-2'>
-        <div className='container'>
+        <div className='container grid gap-1'>
           {Object.entries(inputs).map(([field, { max }]) => (
             <Slider
               key={field}
