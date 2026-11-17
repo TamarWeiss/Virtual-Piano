@@ -39,8 +39,8 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className = '', ..
       />
 
       <div className='slider relative h-full w-full rounded-full overflow-hidden'>
-        <div className='sun-moon absolute rounded-full aspect-square'>
-          <div className='clouds rounded-full' />
+        <div className='sun-moon absolute bg-current rounded-full aspect-square'>
+          <div className='clouds absolute bg-current rounded-full aspect-square' />
         </div>
 
         <div className='stars'>

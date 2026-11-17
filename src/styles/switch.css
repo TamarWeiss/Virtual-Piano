@@ -17,7 +17,7 @@
 
       &.active .thumb,
       input[type='checkbox']:checked + .thumb {
-        transform: translateX(calc(var(--track-width) - 100%));
+        translate: calc(var(--track-width) - 100%) 0;
       }
     }
 
@@ -29,8 +29,7 @@
       background: linear-gradient(180deg, var(--color-zinc-700) 0%, var(--color-zinc-800) 100%);
       border-radius: 0.25em;
       box-shadow: 0 0.125em 0.25em --opacity(var(--color-black), 0.6);
-      transform: translateX(0);
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: translate 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .grip {

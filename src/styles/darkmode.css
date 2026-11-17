@@ -15,7 +15,6 @@
     height: calc(var(--height) - 2 * var(--padding));
     inset: var(--padding);
     color: yellow;
-    background-color: currentColor;
     box-shadow:
       0 0 0.5em currentColor,
       0 0 0 0.5625em --opacity(var(--color-white), 0.1),
@@ -26,16 +25,16 @@
 
     &::after {
       content: '';
-      position: absolute;
       width: 0.375em;
-      aspect-ratio: 1;
       top: 0.1875em;
       left: 0.625em;
+      position: inherit;
+      aspect-ratio: inherit;
       border-radius: inherit;
+      background-color: inherit;
       color: var(--color-neutral-400);
       opacity: 0;
       transition: opacity 0.4s;
-      background-color: currentColor;
       box-shadow:
         -0.375em 0.5625em 0 0.125em currentColor,
         0.3125em 0.75em 0 -0.0625em currentColor;
@@ -45,13 +44,16 @@
   .clouds::before,
   .clouds::after {
     content: '';
-    position: absolute;
-    width: 2.5em;
-    aspect-ratio: 1;
+    position: inherit;
+    aspect-ratio: inherit;
     border-radius: inherit;
-    background-color: currentColor;
-    animation: cloud-move 6s ease infinite;
+    background-color: inherit;
+    width: 2.5em;
     opacity: 1;
+    box-shadow:
+      0.25em -1em 0 -0.625em currentColor,
+      -1em 0.25em 0 -0.25em currentColor;
+    animation: cloud-move 6s ease infinite;
     transition:
       translate 0.4s,
       opacity 0.4s;
@@ -62,18 +64,12 @@
     left: 1.875em;
     color: var(--color-neutral-300);
     animation-delay: 1s;
-    box-shadow:
-      0.25em -1em 0 -0.625em currentColor,
-      -1em 0.25em 0 -0.25em currentColor;
   }
 
   .clouds::after {
     top: 1.125em;
     left: 2.25em;
     color: var(--color-neutral-100);
-    box-shadow:
-      0 -1em 0 -0.75em currentColor,
-      -1em 0.25em 0 -0.25em currentColor;
   }
 
   .stars {
