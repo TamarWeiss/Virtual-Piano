@@ -1,8 +1,3 @@
-:root {
-  --black-width: 0.75;
-  --black-height: 0.6;
-}
-
 .piano {
   grid-template-rows: 1fr 3fr;
   height: 75dvh;
@@ -38,6 +33,9 @@
 }
 
 .black {
+  --black-width: 0.75;
+  --black-height: 0.6;
+
   height: calc(100% * var(--black-height));
   flex: var(--black-width);
   margin: 0 calc(-50% * var(--black-width) / var(--white-key-count));

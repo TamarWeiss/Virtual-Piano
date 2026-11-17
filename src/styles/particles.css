@@ -1,17 +1,7 @@
-.particle-field {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-}
-
 .particle {
-  position: absolute;
-  bottom: 0%;
   left: var(--x);
   font-size: var(--size);
   height: 1em;
-  aspect-ratio: 1;
-  border-radius: calc(infinity * 1px);
   animation: float var(--duration) linear infinite var(--delay);
 
   &::before,

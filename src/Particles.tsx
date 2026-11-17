@@ -35,11 +35,11 @@ const PARTICLES: ParticleConfig[] = [
 ];
 
 const ParticleField = () => (
-  <div className='particle-field'>
+  <div className='fixed inset-0 -z-1'>
     {PARTICLES.map((particle, i) => (
       <div
         key={i}
-        className='particle'
+        className='particle absolute rounded-full aspect-square bottom-0'
         style={
           {
             '--x': particle.x,

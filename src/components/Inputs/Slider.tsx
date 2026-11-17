@@ -20,16 +20,17 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
   }
 
   return (
-    <div className={`grid items-center gap-1.5 text-xs slider ${className}`.trim()}>
+    <div className={`slider grid items-center gap-1.5 text-xs text-zinc-600 ${className}`.trim()}>
       {label && (
         <label htmlFor={props.id + 'Display'} className='label flex-1 text-[0.85em]'>
           {label}
         </label>
       )}
+
       <span className='label'>{min}</span>
       <input
         type='range'
-        className='cursor-pointer appearance-none'
+        className='bg-zinc-900 border border-zinc-800 cursor-pointer appearance-none rounded-full'
         value={localValue}
         min={min}
         max={max}

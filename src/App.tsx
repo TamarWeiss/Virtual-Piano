@@ -3,7 +3,6 @@ import Button from './components/Buttons/Button';
 import Piano from './components/Piano';
 import { PauseContext } from './contexts/PauseContext';
 import HelpGuide from './components/Modals/HelpGuide';
-import './styles/help.css';
 import { KEYBINDS } from './constants/pianoConfig';
 import { useKeybinds } from './hooks/useKeybinds';
 import ParticleField from './Particles';

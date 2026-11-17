@@ -38,7 +38,11 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
   return (
     <div className='flex items-center justify-between py-2 gap-4'>
       <div className='module grid octave-module text-2xl min-h-min'>
-        <Button onClick={() => shiftOctave(-1)} keybinds={[OCTAVE_DOWN.code]}>
+        <Button
+          className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
+          onClick={() => shiftOctave(-1)}
+          keybinds={[OCTAVE_DOWN.code]}
+        >
           -
         </Button>
         <NumberInput
@@ -49,7 +53,11 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
           max={MAX_OCTAVE}
           onChange={(num) => shiftOctave(num - baseOctave)}
         />
-        <Button onClick={() => shiftOctave(1)} keybinds={[OCTAVE_UP.code]}>
+        <Button
+          className='aspect-square border-l-0 rounded-r-lg rounded-l-none'
+          onClick={() => shiftOctave(1)}
+          keybinds={[OCTAVE_UP.code]}
+        >
           +
         </Button>
       </div>

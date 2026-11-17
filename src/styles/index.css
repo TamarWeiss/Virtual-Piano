@@ -14,19 +14,23 @@ button {
   user-select: none;
 }
 
-.app::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(to bottom right in hsl longer hue, var(--color-red-200), var(--color-rose-200));
-}
-
+.app::before,
 .app::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
+}
+
+.app::before {
+  background: linear-gradient(to bottom right in hsl longer hue, var(--color-red-200), var(--color-rose-200));
+}
+
+.app.dark::before {
+  opacity: 0;
+}
+
+.app::after {
   background:
     radial-gradient(var(--color-black) 55%, transparent) 0 0 / 100% 0.5%,
     linear-gradient(135deg in hsl longer hue, var(--color-red-500), var(--color-rose-500)) 0 0 / contain;
@@ -142,5 +146,28 @@ button {
       grid-template-columns: subgrid;
       grid-column: 1 / -1;
     }
+  }
+}
+
+.help {
+  width: 1.5em;
+  background: transparent;
+  border: max(1px, 0.1875em) solid currentColor;
+  color: var(--color-zinc-400);
+  opacity: 50%;
+
+  &:hover {
+    opacity: 75%;
+  }
+
+  &:active,
+  &.active {
+    background-color: currentColor;
+    mask: none;
+    mask-composite: none;
+    -webkit-mask:
+      linear-gradient(#000 0 0) border-box,
+      linear-gradient(#000 0 0) text;
+    -webkit-mask-composite: xor;
   }
 }
