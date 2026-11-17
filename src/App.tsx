@@ -35,7 +35,7 @@ const App = () => {
   useKeybinds({ [KEYBINDS.TOGGLE_DARK_MODE.code]: { onKeyDown: () => setDarkMode((prev) => !prev) } });
 
   return (
-    <div className={`flex flex-col h-screen gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
+    <div className={`flex flex-col gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
       <HelpGuide id='help-guide' onClose={() => setPaused(false)} />
 
       <div className='flex justify-between items-center'>

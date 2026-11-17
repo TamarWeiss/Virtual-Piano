@@ -6,25 +6,19 @@
   width: var(--width);
   height: var(--height);
 
-  .slider,
-  .sun-moon,
-  .sun-moon::after,
-  .stars {
-    transition: 0.4s;
-  }
-
   .slider {
     background-color: #2196f3;
+    transition: background-color 0.4s;
   }
 
   .sun-moon {
-    position: absolute;
     height: calc(var(--height) - 2 * var(--padding));
     inset: var(--padding);
     background-color: yellow;
     box-shadow:
       0 0 0 0.5625em rgb(255 255 255 / 0.1),
       0 0 0 0.9375em rgb(255 255 255 / 0.1);
+    transition: 0.4s;
 
     &::after {
       content: '';
@@ -33,9 +27,10 @@
       aspect-ratio: 1;
       top: 0.1875em;
       left: 0.625em;
-      border-radius: calc(infinity * 1px);
+      border-radius: inherit;
       color: gray;
       opacity: 0;
+      transition: opacity 0.4s;
       background-color: currentColor;
       box-shadow:
         -0.375em 0.5625em 0 0.125em currentColor,
@@ -49,7 +44,7 @@
     position: absolute;
     width: 2.5em;
     aspect-ratio: 1;
-    border-radius: calc(infinity * 1px);
+    border-radius: inherit;
     background-color: currentColor;
     animation: cloud-move 6s ease infinite;
   }
@@ -76,10 +71,10 @@
   .stars {
     opacity: 0;
     transform: translateY(calc(-1 * var(--height)));
+    transition: 0.4s;
   }
 
   .star {
-    position: absolute;
     animation: star-twinkle 2s ease infinite;
   }
 

@@ -91,6 +91,9 @@ export const DEFAULT_DICE_VALUE = 4;
 export const ADSR_DEFAULTS: ADSR = { volume: 0.3, attack: e, decay: 0, sustain: 1, release: e };
 export const REVERB_DEFAULTS: Omit<ReverbOptions, 'active'> = { volume: 0.5, duration: 2, decay: 2 };
 
+export const toRadians = (angle: number) => angle * (Math.PI / 180);
+export const modulo = (num: number, divisor: number) => ((num % divisor) + divisor) % divisor;
+
 export const clamp = (num: number, min?: number, max?: number) =>
   min !== undefined
     ? max !== undefined

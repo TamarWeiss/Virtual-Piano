@@ -39,13 +39,13 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className, ...prop
       />
 
       <div className='slider relative h-full w-full rounded-full overflow-hidden'>
-        <div className='sun-moon rounded-full aspect-square'>
-          <div className='clouds' />
+        <div className='sun-moon absolute rounded-full aspect-square'>
+          <div className='clouds rounded-full' />
         </div>
 
         <div className='stars'>
           {stars.map(({ width, top, left, animationDelay }, i) => (
-            <Star key={i} className='star' color='white' width={width} style={{ animationDelay, top, left }} />
+            <Star key={i} className='star absolute' color='white' width={width} style={{ animationDelay, top, left }} />
           ))}
         </div>
       </div>

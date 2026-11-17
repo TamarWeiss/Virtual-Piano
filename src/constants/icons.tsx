@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import Point from './Point';
-import { DEFAULT_DICE_VALUE } from './pianoConfig';
+import { DEFAULT_DICE_VALUE, modulo, toRadians } from './pianoConfig';
 
 const height = 0.6;
 const top = (1 - height) / 2;
@@ -14,8 +14,6 @@ const bottom2 = 1 - top2;
 const left2 = 0.1;
 const right2 = 1 - left2;
 
-const toRadians = (angle: number) => angle * (Math.PI / 180);
-const modulo = (num: number, divisor: number) => ((num % divisor) + divisor) % divisor;
 const Mix = (start: number, end: number, ratio: number) => (1 - ratio) * start + ratio * end;
 const Control = (start: Point, peak: Point, end: Point) => peak.mult(2).subtract(start.add(end).divide(2));
 const SCurve = (p1: Point, p2: Point, strength = 0.75) =>
@@ -68,7 +66,7 @@ export const SineQaudIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
 
   return (
     <SVG {...props}>
-      <path d={` M 0 0.5 H ${l} Q ${control.x} ${control.y}, 0.5 0.5 T ${1 - l} 0.5 H 1 `} />
+      <path d={` M 0 0.5 H ${l} Q ${control}, 0.5 0.5 T ${1 - l} 0.5 H 1 `} />
     </SVG>
   );
 };
@@ -193,8 +191,8 @@ export const ResetIcon: React.FC<ResetProps> = ({
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
-      <path d={`M ${p1.x} ${p1.y} A ${radius} ${radius} 0 ${large} ${Number(clockwise)} ${p2.x} ${p2.y}`} />
-      <path fill={stroke} d={`M ${p3.x} ${p3.y} L ${p4.x} ${p4.y} L ${p5.x} ${p5.y} z`} strokeWidth={0} />
+      <path d={`M ${p1} A ${radius} ${radius} 0 ${large} ${Number(clockwise)} ${p2}`} />
+      <path fill={stroke} d={`M ${p3} L ${p4} L ${p5} z`} strokeWidth={0} />
     </SVG>
   );
 };
@@ -222,8 +220,8 @@ export const ShuffleIcon: React.FC<ShuffleProps> = ({
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
       <path
-        d={`M ${p1.x} ${p1.y} ${SCurve(p1, p2, 0.5)}
-            M ${p3.x} ${p3.y} ${SCurve(p3, p4, 0.5)}`}
+        d={`M ${p1} ${SCurve(p1, p2, 0.5)}
+            M ${p3} ${SCurve(p3, p4, 0.5)}`}
       />
       <path
         strokeWidth={0}
@@ -309,8 +307,40 @@ export const Circle: React.FC<CircleProps> = ({ r = 0.5, cx = 0.5, cy = 0.5, ...
   </SVG>
 );
 
-export const Star: React.FC<CircleProps> = (props) => (
-  <svg strokeWidth={0} fill='currentColor' viewBox='0 0 20 20' {...props}>
-    <path d='M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z' />
-  </svg>
-);
+interface StarProps extends React.SVGProps<SVGSVGElement> {
+  innerRadius?: number;
+}
+
+export const Star: React.FC<StarProps> = ({ innerRadius = Math.SQRT2 / 16, ...props }) => {
+  const bottom = new Point(0.5, 1);
+  const right = new Point(1, 0.5);
+  const top = new Point(0.5, 0);
+  const left = new Point(0, 0.5);
+  const mid = new Point(0.5, 0.5);
+
+  const config = [
+    { angle: 45, start: right, end: bottom },
+    { angle: 135, start: bottom, end: left },
+    { angle: 225, start: left, end: top },
+    { angle: 315, start: top, end: right },
+  ];
+
+  const C = config.map(({ angle, start, end }) =>
+    mid
+      .destination(innerRadius, angle)
+      .subtract(start.clone().add(end).divide(8))
+      .mult(4 / 3),
+  );
+
+  return (
+    <SVG strokeWidth={0} fill='currentColor' {...props}>
+      <path
+        d={`M ${right}
+            C ${C[0]}, ${C[0]}, ${bottom}
+            C ${C[1]}, ${C[1]}, ${left}
+            C ${C[2]}, ${C[2]}, ${top}
+            C ${C[3]}, ${C[3]}, ${right} Z`}
+      />
+    </SVG>
+  );
+};
