@@ -42,7 +42,7 @@ class Point {
     return Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2));
   }
 
-  destination(distance: number, angle: number) {
+  project(distance: number, angle: number) {
     return new Point(Math.sin(toRadians(angle)), Math.cos(toRadians(angle))).mult(distance).add(this);
   }
 

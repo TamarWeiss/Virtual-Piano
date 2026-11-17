@@ -180,11 +180,11 @@ export const ResetIcon: React.FC<ResetProps> = ({
   const mid = new Point(0.5, 0.5);
   const height = arrowLength / 2 / Math.tan(toRadians(arrowAngle) / 2);
 
-  const p1 = mid.destination(radius, start);
-  const p2 = mid.destination(radius, end);
-  const p3 = mid.destination(radius + arrowLength / 2, end);
-  const p4 = mid.destination(radius - arrowLength / 2, end);
-  const p5 = p2.destination(height, end + 90 * (clockwise ? -1 : 1));
+  const p1 = mid.project(radius, start);
+  const p2 = mid.project(radius, end);
+  const p3 = mid.project(radius + arrowLength / 2, end);
+  const p4 = mid.project(radius - arrowLength / 2, end);
+  const p5 = p2.project(height, end + 90 * (clockwise ? -1 : 1));
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
@@ -317,7 +317,7 @@ export const Star: React.FC<StarProps> = ({ innerRadius = Math.SQRT2 / 16, ...pr
 
   const C = config.map(({ angle, start, end }) =>
     mid
-      .destination(innerRadius, angle)
+      .project(innerRadius, angle)
       .subtract(start.clone().add(end).divide(8))
       .mult(4 / 3),
   );
