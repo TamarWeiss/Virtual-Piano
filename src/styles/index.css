@@ -28,8 +28,8 @@ button {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(black 70%, #0000) 0 0 / 100% 0.75%,
-    linear-gradient(135deg in hsl longer hue, var(--color-red-600), var(--color-rose-600)) 0 0 / contain;
+    radial-gradient(var(--color-black) 70%, transparent) 0 0 / 100% 0.75%,
+    linear-gradient(135deg in hsl longer hue, var(--color-red-500), var(--color-rose-500)) 0 0 / contain;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
