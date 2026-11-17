@@ -15,9 +15,8 @@ const left2 = 0.1;
 const right2 = 1 - left2;
 
 const Mix = (start: number, end: number, ratio: number) => (1 - ratio) * start + ratio * end;
-const Control = (start: Point, peak: Point, end: Point) => peak.mult(2).subtract(start.add(end).divide(2));
 const SCurve = (p1: Point, p2: Point, strength = 0.75) =>
-  `C ${Mix(p1.x, p2.x, strength)} ${p1.y}, ${Mix(p1.x, p2.x, 1 - strength)} ${p2.y}, ${p2.x} ${p2.y}`;
+  `C ${Mix(p1.x, p2.x, strength)} ${p1.y}, ${Mix(p1.x, p2.x, 1 - strength)} ${p2.y}, ${p2}`;
 
 const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', strokeWidth = 8, ...props }) => (
   <svg
@@ -62,7 +61,7 @@ export const SquareIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 export const SineQaudIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   const l = 0.2;
   const peak = 0.375;
-  const control = Control(new Point(l, 0.5), new Point(peak, bottom), new Point(0.5, 0.5));
+  const control = new Point(peak, bottom).mult(2).subtract(new Point(l, 0.5).add(new Point(0.5, 0.5)).divide(2));
 
   return (
     <SVG {...props}>
@@ -134,6 +133,7 @@ export const StopIcon: React.FC<StopProps> = ({ borderRadius = 20, strokeWidth =
   const p = strokeWidth / 200;
   const stroke = props.stroke ?? (props.fill && props.fill !== 'none' ? props.fill : 'currentColor');
   const fill = props.fill ?? (props.stroke && props.stroke !== 'none' ? props.stroke : 'currentColor');
+
   return (
     <SVG {...props} fill={fill} strokeWidth={strokeWidth} stroke={stroke}>
       <rect width={1 - 2 * p} height={1 - 2 * p} x={p} y={p} rx={borderRadius / 100} ry={borderRadius / 100} />
@@ -145,10 +145,9 @@ export const PlayIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ strokeWidth 
   const stroke = props.stroke ?? (props.fill && props.fill !== 'none' ? props.fill : 'currentColor');
   const fill = props.fill ?? (props.stroke && props.stroke !== 'none' ? props.stroke : 'currentColor');
   const padding = Number(strokeWidth) / 200;
-  const radius = 1 - 2 * padding;
-  const height = radius * Math.sin(toRadians(60));
+  const height = (1 - 2 * padding) * Math.sin(toRadians(60));
   const x1 = (1 + height) / 2;
-  const x2 = x1 + radius * -Math.sin(toRadians(60));
+  const x2 = (1 - height) / 2;
 
   return (
     <SVG {...props} fill={fill} stroke={stroke} strokeWidth={strokeWidth}>
@@ -176,18 +175,16 @@ export const ResetIcon: React.FC<ResetProps> = ({
   arrowLength = (3 * strokeWidth) / 100,
   ...props
 }) => {
-  start = toRadians(start);
-  end = toRadians(end);
   const radius = 0.5 - arrowLength / 2;
-  const large = Number(modulo(clockwise ? start - end : end - start, 2 * Math.PI) > Math.PI);
+  const large = Number(modulo(clockwise ? start - end : end - start, 360) > 180);
   const mid = new Point(0.5, 0.5);
   const height = arrowLength / 2 / Math.tan(toRadians(arrowAngle) / 2);
 
-  const p1 = new Point(Math.sin(start), Math.cos(start)).mult(radius).add(mid);
-  const p2 = new Point(Math.sin(end), Math.cos(end)).mult(radius).add(mid);
-  const p3 = new Point(Math.sin(end), Math.cos(end)).mult(radius + arrowLength / 2).add(mid);
-  const p4 = new Point(Math.sin(end), Math.cos(end)).mult(radius - arrowLength / 2).add(mid);
-  const p5 = new Point(Math.cos(end), -Math.sin(end)).mult(height * (clockwise ? -1 : 1)).add(p2);
+  const p1 = mid.destination(radius, start);
+  const p2 = mid.destination(radius, end);
+  const p3 = mid.destination(radius + arrowLength / 2, end);
+  const p4 = mid.destination(radius - arrowLength / 2, end);
+  const p5 = p2.destination(height, end + 90 * (clockwise ? -1 : 1));
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
@@ -240,7 +237,7 @@ interface DiceProps extends React.SVGProps<SVGSVGElement> {
 
 export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, strokeWidth = 8, ...props }) => {
   const p = strokeWidth / 200;
-  const br = 0.2;
+  const borderRadius = 0.2;
   const radius = 0.1;
   const left = (0.5 + p) / 2;
   const size = 1 - 2 * p;
@@ -275,17 +272,22 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, stro
 
   return (
     <SVG {...props} stroke={stroke} strokeWidth={strokeWidth}>
-      <defs>
-        <mask id={maskId}>
-          <rect x='0' y='0' width='1' height='1' fill='white' />
-          {indexes[value]?.map((i) => (
-            <circle key={i} cx={points[i].x} cy={points[i].y} r={radius} fill='black' strokeWidth={0} />
-          ))}
-        </mask>
-      </defs>
+      {hasFill && (
+        <>
+          <defs>
+            <mask id={maskId}>
+              <rect x='0' y='0' width='1' height='1' fill='white' />
+              {indexes[value]?.map((i) => (
+                <circle key={i} cx={points[i].x} cy={points[i].y} r={radius} fill='black' strokeWidth={0} />
+              ))}
+            </mask>
+          </defs>
 
-      {hasFill && <rect width={size} height={size} x={p} y={p} rx={br} ry={br} mask={`url(#${maskId})`} />}
-      <rect width={size} height={size} x={p} y={p} rx={br} ry={br} fill='none' />
+          <rect width={size} height={size} x={p} y={p} rx={borderRadius} ry={borderRadius} mask={`url(#${maskId})`} />
+        </>
+      )}
+
+      <rect width={size} height={size} x={p} y={p} rx={borderRadius} ry={borderRadius} fill='none' />
 
       {!hasFill &&
         indexes[value]?.map((i) => (
@@ -294,18 +296,6 @@ export const DiceIcon: React.FC<DiceProps> = ({ value = DEFAULT_DICE_VALUE, stro
     </SVG>
   );
 };
-
-interface CircleProps extends React.SVGProps<SVGSVGElement> {
-  r?: number | string;
-  cx?: number | string;
-  cy?: number | string;
-}
-
-export const Circle: React.FC<CircleProps> = ({ r = 0.5, cx = 0.5, cy = 0.5, ...props }) => (
-  <SVG strokeWidth={0} fill='currentColor' {...props}>
-    <circle cx={cx} cy={cy} r={r} />
-  </SVG>
-);
 
 interface StarProps extends React.SVGProps<SVGSVGElement> {
   innerRadius?: number;
@@ -319,10 +309,10 @@ export const Star: React.FC<StarProps> = ({ innerRadius = Math.SQRT2 / 16, ...pr
   const mid = new Point(0.5, 0.5);
 
   const config = [
-    { angle: 45, start: right, end: bottom },
-    { angle: 135, start: bottom, end: left },
-    { angle: 225, start: left, end: top },
-    { angle: 315, start: top, end: right },
+    { angle: 45, start: bottom, end: right },
+    { angle: 135, start: right, end: top },
+    { angle: 225, start: top, end: left },
+    { angle: 315, start: left, end: bottom },
   ];
 
   const C = config.map(({ angle, start, end }) =>
@@ -335,11 +325,11 @@ export const Star: React.FC<StarProps> = ({ innerRadius = Math.SQRT2 / 16, ...pr
   return (
     <SVG strokeWidth={0} fill='currentColor' {...props}>
       <path
-        d={`M ${right}
-            C ${C[0]}, ${C[0]}, ${bottom}
-            C ${C[1]}, ${C[1]}, ${left}
-            C ${C[2]}, ${C[2]}, ${top}
-            C ${C[3]}, ${C[3]}, ${right} Z`}
+        d={`M ${bottom}
+            C ${C[0]}, ${C[0]}, ${right}
+            C ${C[1]}, ${C[1]}, ${top}
+            C ${C[2]}, ${C[2]}, ${left}
+            C ${C[3]}, ${C[3]}, ${bottom} Z`}
       />
     </SVG>
   );

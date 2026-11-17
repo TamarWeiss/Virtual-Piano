@@ -43,9 +43,7 @@ class Point {
   }
 
   destination(distance: number, angle: number) {
-    const x = this.x + distance * Math.cos(toRadians(angle));
-    const y = this.y + distance * Math.sin(toRadians(angle));
-    return new Point(x, y);
+    return new Point(Math.sin(toRadians(angle)), Math.cos(toRadians(angle))).mult(distance).add(this);
   }
 
   clone() {
