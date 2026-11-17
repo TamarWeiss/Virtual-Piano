@@ -60,7 +60,7 @@ const App = () => {
         <Piano />
       </PauseContext.Provider>
 
-      <ParticleField dark={darkMode} />
+      <ParticleField />
     </div>
   );
 };

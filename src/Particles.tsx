@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles/particles.css';
 import { Star } from './constants/icons';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 interface ParticleConfig {
   x: string;
@@ -33,42 +34,25 @@ const PARTICLES: ParticleConfig[] = [
   { x: '95%', duration: '9.2s', delay: '-5.5s', wobble: '32px', size: '1.7rem' },
 ];
 
-const ParticleField = ({ dark }: { dark: boolean }) => {
-  return (
-    <div className='particle-field' aria-hidden='true'>
-      {PARTICLES.map((particle, i) =>
-        dark ? (
-          <Star
-            key={i}
-            className='particle'
-            style={
-              {
-                '--x': particle.x,
-                '--duration': particle.duration,
-                '--delay': particle.delay,
-                '--wobble': particle.wobble,
-                '--size': particle.size,
-              } as React.CSSProperties
-            }
-          />
-        ) : (
-          <div
-            key={i}
-            className='particle'
-            style={
-              {
-                '--x': particle.x,
-                '--duration': particle.duration,
-                '--delay': particle.delay,
-                '--wobble': particle.wobble,
-                '--size': particle.size,
-              } as React.CSSProperties
-            }
-          />
-        ),
-      )}
-    </div>
-  );
-};
+const ParticleField = () => (
+  <div className='particle-field'>
+    {PARTICLES.map((particle, i) => (
+      <div
+        key={i}
+        className='particle'
+        style={
+          {
+            '--x': particle.x,
+            '--duration': particle.duration,
+            '--delay': particle.delay,
+            '--wobble': particle.wobble,
+            '--size': particle.size,
+            '--mask': `url("${URL.createObjectURL(new Blob([renderToStaticMarkup(<Star xmlns='http://www.w3.org/2000/svg' />)], { type: 'image/svg+xml' }))}")`,
+          } as React.CSSProperties
+        }
+      />
+    ))}
+  </div>
+);
 
 export default ParticleField;

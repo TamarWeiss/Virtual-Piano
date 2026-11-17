@@ -11,28 +11,52 @@
   font-size: var(--size);
   height: 1em;
   aspect-ratio: 1;
-  border: 1px solid --opacity(var(--color-white), 0.8);
   border-radius: calc(infinity * 1px);
-  background:
-    radial-gradient(circle at 70% 30%, var(--color-white), transparent 25%),
-    radial-gradient(circle at 60% 55%, transparent 60%, --opacity(Fuchsia, 0.8) 100%),
-    radial-gradient(circle at 50% 50%, transparent 40%, --opacity(Aqua, 0.2) 60%, transparent 68%),
-    radial-gradient(circle at 50% 55%, transparent 35%, --opacity(Yellow, 0.2) 45%, transparent 55%);
-  box-shadow:
-    inset 0 0 0.5em --opacity(var(--color-white), 0.3),
-    0 0.2em 0.5em --opacity(var(--color-black), 0.5);
-  animation: float var(--duration) ease-in-out infinite var(--delay);
-  will-change: transform, opacity;
+  animation: float var(--duration) linear infinite var(--delay);
+  will-change: transform, translate, scale, opacity;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    will-change: opacity;
+    transition: opacity 0.4s ease;
+  }
+
+  &::before {
+    opacity: 1;
+    border: 1px solid --opacity(var(--color-white), 0.8);
+    background:
+      radial-gradient(circle at 70% 30%, var(--color-white), transparent 25%),
+      radial-gradient(circle at 60% 55%, transparent 60%, --opacity(Fuchsia, 0.8) 100%),
+      radial-gradient(circle at 50% 50%, transparent 40%, --opacity(Aqua, 0.2) 60%, transparent 68%),
+      radial-gradient(circle at 50% 55%, transparent 35%, --opacity(Yellow, 0.2) 45%, transparent 55%);
+    box-shadow:
+      inset 0 0 0.5em --opacity(var(--color-white), 0.3),
+      0 0.2em 0.5em --opacity(var(--color-black), 0.5);
+  }
+
+  &::after {
+    opacity: 0;
+    background-color: var(--color-white);
+    mask: var(--mask) center / contain no-repeat;
+  }
 }
 
 .dark .particle {
-  border: none;
-  box-shadow: none;
-  background: none;
-  color: var(--color-white);
   animation:
     float var(--duration) linear infinite var(--delay),
     twinkle 2s ease infinite;
+
+  &::before {
+    opacity: 0;
+  }
+
+  &::after {
+    opacity: 1;
+  }
 }
 
 @keyframes float {

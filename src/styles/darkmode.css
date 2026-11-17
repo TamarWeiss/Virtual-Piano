@@ -19,6 +19,7 @@
       0 0 0 0.5625em rgb(255 255 255 / 0.1),
       0 0 0 0.9375em rgb(255 255 255 / 0.1);
     transition: 0.4s;
+    will-change: transform;
 
     &::after {
       content: '';
