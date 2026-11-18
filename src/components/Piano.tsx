@@ -87,7 +87,7 @@ const Piano = () => {
             isBlack={isBlack}
             isActive={synth.activeKeys.has(note)}
             onNoteStart={synth.playNote}
-            onNoteEnd={(note) => synth.stopNote(note)}
+            onNoteEnd={synth.stopNote}
           />
         ))}
       </div>
