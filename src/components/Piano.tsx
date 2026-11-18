@@ -2,7 +2,6 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/piano.css';
 import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
-import PianoKey from './Buttons/PianoKey';
 import ControlPanel from './ControlPanel/ControlPanel';
 import { useKeybinds, type KeyBind } from '../hooks/useKeybinds';
 import { PauseContext } from '../contexts/PauseContext';
@@ -79,16 +78,22 @@ const Piano = () => {
 
       <div className='flex'>
         {keys.map(({ note, name, isBlack, text }) => (
-          <PianoKey
-            key={note}
-            note={note}
-            name={name}
-            keybind={text}
-            isBlack={isBlack}
-            isActive={synth.activeKeys.has(note)}
-            onNoteStart={synth.playNote}
-            onNoteEnd={synth.stopNote}
-          />
+          <button
+            className={`flex flex-col justify-end font-bold pb-4 ${isBlack ? 'black' : 'white'}${synth.activeKeys.has(note) ? ' active' : ''}`}
+            onPointerDown={(e) => {
+              e.currentTarget.setPointerCapture(e.pointerId);
+              synth.playNote(note);
+            }}
+            onPointerUp={(e) => {
+              e.currentTarget.releasePointerCapture(e.pointerId);
+              e.currentTarget.blur();
+              synth.stopNote(note);
+            }}
+            onPointerCancel={() => synth.stopNote(note)}
+          >
+            <span className='text-sm capitalize font-semibold opacity-50'>{text}</span>
+            {name}
+          </button>
         ))}
       </div>
     </div>
