@@ -4,7 +4,6 @@ import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { clamp, KEYBINDS } from '../../constants/pianoConfig';
 import { useMetronome, MIN_INTERVAL, type TimeSignature } from '../../hooks/useMetronome';
-import '../../styles/led.css';
 import LED from './LED';
 import ResetButton from '../Buttons/ResetButton';
 import Button from '../Buttons/Button';
