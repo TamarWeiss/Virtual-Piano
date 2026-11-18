@@ -1,6 +1,6 @@
 import type { ADSR } from '../../hooks/useSynth';
 import Button from '../Buttons/Button';
-import ResetButton from '../Buttons/ResetButton';
+import { ResetIcon } from '../../constants/icons';
 import Slider from '../Inputs/Slider';
 import { ADSR_DEFAULTS, KEYBINDS, randomRange } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
@@ -15,7 +15,7 @@ type props = {
 };
 
 const inputs = { volume: { max: 1 }, attack: { max: 5 }, decay: { max: 5 }, sustain: { max: 1 }, release: { max: 5 } };
-const { SUSTAIN, RESET_ADSR, RANDOM_ADSR } = KEYBINDS;
+const { SUSTAIN, RESET_ADSR, RANDOM_ADSR, RESET_ALL } = KEYBINDS;
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
@@ -63,7 +63,9 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         </div>
 
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybind={RESET_ADSR.code} />
+          <Button className='p-1' onClick={() => setADSR(ADSR_DEFAULTS)} keybinds={[RESET_ALL.code, RESET_ADSR.code]}>
+            <ResetIcon height='1.5em' />
+          </Button>
           <RandomButton onClick={randomize} keybind={RANDOM_ADSR.code} alt={alt} />
         </div>
       </div>

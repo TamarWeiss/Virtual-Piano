@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { PlayIcon, StopIcon } from '../../constants/icons';
+import { PlayIcon, StopIcon, ResetIcon } from '../../constants/icons';
 import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { clamp, KEYBINDS } from '../../constants/pianoConfig';
 import { useMetronome, MIN_INTERVAL, type TimeSignature } from '../../hooks/useMetronome';
 import LED from './LED';
-import ResetButton from '../Buttons/ResetButton';
 import Button from '../Buttons/Button';
 
 const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
 const METRONOME_DEFAULTS: { bpm: number; timeSignature: TimeSignature } = { bpm: 120, timeSignature: [4, 4] };
-const { TOGGLE_METRONOME, BPM_DOWN, BPM_UP, TIME_SIGNATURE_UP, TIME_SIGNATURE_DOWN, RESET_METRONOME } = KEYBINDS;
+const { TOGGLE_METRONOME, BPM_DOWN, BPM_UP, TIME_SIGNATURE_UP, TIME_SIGNATURE_DOWN, RESET_METRONOME, RESET_ALL } =
+  KEYBINDS;
 
 const Metronome = () => {
   const [bpm, setBPM] = useState(METRONOME_DEFAULTS.bpm);
@@ -70,7 +70,9 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module flex flex-col gap-2 p-2 min-h-min'>
         <div className='flex items-center justify-between gap-2'>
-          <ResetButton onClick={reset} keybind={RESET_METRONOME.code} />
+          <Button className='p-1' onClick={reset} keybinds={[RESET_ALL.code, RESET_METRONOME.code]}>
+            <ResetIcon height='1.5em' />
+          </Button>
           <span className='label mx-auto'>Metronome</span>
           <LED state={flashState} className='mr-3' />
         </div>

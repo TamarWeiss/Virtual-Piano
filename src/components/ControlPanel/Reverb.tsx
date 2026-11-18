@@ -1,9 +1,10 @@
 import Switch from '../Inputs/Switch';
 import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
-import ResetButton from '../Buttons/ResetButton';
+import Button from '../Buttons/Button';
 import { KEYBINDS, randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
+import { ResetIcon } from '../../constants/icons';
 
 type props = {
   reverb: ReverbOptions;
@@ -17,7 +18,7 @@ const inputs = {
   decay: { max: 5 },
 };
 
-const { TOGGLE_REVERB, RESET_REVERB, RANDOM_REVERB } = KEYBINDS;
+const { TOGGLE_REVERB, RESET_REVERB, RANDOM_REVERB, RESET_ALL } = KEYBINDS;
 
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
@@ -58,7 +59,13 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
         </div>
 
         <div className='flex flex-col gap-2'>
-          <ResetButton onClick={() => setReverb(REVERB_DEFAULTS)} keybind={RESET_REVERB.code} />
+          <Button
+            className='p-1'
+            onClick={() => setReverb(REVERB_DEFAULTS)}
+            keybinds={[RESET_ALL.code, RESET_REVERB.code]}
+          >
+            <ResetIcon height='1.5em' />
+          </Button>
           <RandomButton onClick={randomize} keybind={RANDOM_REVERB.code} alt={alt} />
         </div>
       </div>
