@@ -79,6 +79,7 @@ const Piano = () => {
       <div className='flex'>
         {keys.map(({ note, name, isBlack, text }) => (
           <button
+            key={note}
             className={`flex flex-col justify-end font-bold pb-4 ${isBlack ? 'black' : 'white'}${synth.activeKeys.has(note) ? ' active' : ''}`}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
