@@ -62,7 +62,7 @@ const Modal = ({ keybinds = [], className = '', ...props }: ModalProps) => {
         onClose();
       }}
       onAnimationEnd={handleAnimationEnd}
-      className={`modal min-w-min whitespace-nowrap rounded-lg p-6 self-center justify-self-center transition-colors ${className}`.trim()}
+      className={`modal min-w-min whitespace-nowrap rounded-lg p-6 self-center justify-self-center ${className}`.trim()}
       {...props}
     />
   );

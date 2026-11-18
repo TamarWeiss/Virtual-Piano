@@ -66,7 +66,7 @@ const Piano = () => {
 
   return (
     <div
-      className='piano grid min-h-min min-w-min rounded-2xl gap-1 px-12'
+      className='piano grid h-[75dvh] min-h-min min-w-min rounded-2xl gap-1 px-12'
       style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}
     >
       <ControlPanel

@@ -5,7 +5,7 @@ import { PauseContext } from './contexts/PauseContext';
 import HelpGuide from './components/Modals/HelpGuide';
 import { KEYBINDS } from './constants/pianoConfig';
 import { useKeybinds } from './hooks/useKeybinds';
-import ParticleField from './Particles';
+import ParticleField from './components/Particles';
 import DarkModeSwitch from './components/Inputs/DarkModeSwitch';
 
 const App = () => {
@@ -35,8 +35,6 @@ const App = () => {
 
   return (
     <div className={`flex flex-col gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
-      <HelpGuide id='help-guide' onClose={() => setPaused(false)} />
-
       <div className='flex justify-between items-center'>
         <DarkModeSwitch
           id='darkmode'
@@ -45,7 +43,7 @@ const App = () => {
           keybinds={[KEYBINDS.TOGGLE_DARK_MODE.code]}
         />
         <Button
-          className='help text-xl min-h-min aspect-square rounded-full shadow-none transition-colors'
+          className='help text-xl text-zinc-400 bg-none bg-transparent min-h-min aspect-square rounded-full shadow-none transition opacity-50 hover:opacity-75'
           keybinds={[KEYBINDS.HELP.code]}
           onClick={() => setPaused((prev) => !prev)}
           command='show-modal'
@@ -60,6 +58,7 @@ const App = () => {
       </PauseContext.Provider>
 
       <ParticleField />
+      <HelpGuide id='help-guide' onClose={() => setPaused(false)} />
     </div>
   );
 };

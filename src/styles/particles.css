@@ -10,19 +10,19 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s;
   }
 
   &::before {
     opacity: 1;
-    border: 1px solid --opacity(var(--color-white), 0.8);
+    border: 1px solid --opacity(var(--color-white), 0.75);
     background:
       radial-gradient(circle at 70% 30%, var(--color-white), transparent 25%),
-      radial-gradient(circle at 60% 55%, transparent 60%, --opacity(Fuchsia, 0.8) 100%),
+      radial-gradient(circle at 60% 55%, transparent 60%, --opacity(Fuchsia, 0.75)),
       radial-gradient(circle at 50% 50%, transparent 40%, --opacity(Aqua, 0.2) 60%, transparent 68%),
       radial-gradient(circle at 50% 55%, transparent 35%, --opacity(Yellow, 0.2) 45%, transparent 55%);
     box-shadow:
-      inset 0 0 0.5em --opacity(var(--color-white), 0.3),
+      inset 0 0 0.5em --opacity(var(--color-white), 0.25),
       0 0.2em 0.5em --opacity(var(--color-black), 0.5);
   }
 
@@ -30,18 +30,18 @@
     opacity: 0;
     background-color: var(--color-white);
     mask: var(--mask) center / contain no-repeat;
-    animation: twinkle 2s ease infinite var(--delay) paused;
-  }
-}
-
-.dark .particle {
-  &::before {
-    opacity: 0;
+    animation: twinkle 2s infinite var(--delay) paused;
   }
 
-  &::after {
-    opacity: 1;
-    animation-play-state: running;
+  .dark & {
+    &::before {
+      opacity: 0;
+    }
+
+    &::after {
+      opacity: 1;
+      animation-play-state: running;
+    }
   }
 }
 

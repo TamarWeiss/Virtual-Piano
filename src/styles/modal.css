@@ -5,21 +5,27 @@
   background: var(--color-zinc-100);
   color: var(--color-zinc-400);
   border: 1px solid var(--color-zinc-400);
-  width: 33vw;
-  box-shadow: 0 1.25rem 2.5rem --opacity(var(--color-black), 0.8);
-  animation: modalSlideInFromTop var(--duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  width: calc(100vw / 3);
+  box-shadow:
+    0 1.25rem 2.5rem --opacity(var(--color-black), 0.75),
+    inset 0 0.0625rem 0 --opacity(var(--color-white), 0.1);
+  animation: modalSlideInFromTop var(--duration);
+  transition:
+    color 0.4s,
+    background-color 0.4s,
+    border-color 0.4s;
 
   &.is-closing {
-    animation: modalSlideOutToTop var(--duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: modalSlideOutToTop var(--duration);
     &::backdrop {
-      animation: fadeOut var(--duration) ease forwards;
+      animation: fadeOut var(--duration);
     }
   }
 
   &::backdrop {
     background: --opacity(var(--color-neutral-950), 0.75);
     backdrop-filter: blur(0.25rem);
-    animation: fadeIn var(--duration) ease forwards;
+    animation: fadeIn var(--duration);
   }
 
   kbd {
@@ -27,21 +33,22 @@
     font-weight: bold;
     background: var(--color-zinc-200);
     border: 1px solid var(--color-zinc-300);
-    border-bottom-width: 2px;
+    border-bottom-width: 0.125rem;
     border-radius: 0.25em;
     padding: 0.2rem 0.5rem;
-    box-shadow: 0 1px 2px --opacity(var(--color-black), 0.4);
+    box-shadow: 0 0.0625rem 0.125rem --opacity(var(--color-black), 0.4);
+    transition:
+      color 0.4s,
+      background-color 0.4s,
+      border-color 0.4s;
   }
 
   .dark & {
     background-color: var(--color-zinc-900);
     color: var(--color-zinc-500);
     border-color: var(--color-zinc-800);
-    box-shadow:
-      0 1.25rem 2.5rem --opacity(var(--color-black), 0.8),
-      inset 0 1px 0 --opacity(var(--color-white), 0.1);
 
-    & kbd {
+    kbd {
       background-color: var(--color-zinc-800);
       border-color: var(--color-zinc-700);
     }

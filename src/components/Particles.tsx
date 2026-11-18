@@ -1,6 +1,6 @@
 import React from 'react';
-import './styles/particles.css';
-import { Star } from './constants/icons';
+import '../styles/particles.css';
+import { Star } from '../constants/icons';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 interface ParticleConfig {
