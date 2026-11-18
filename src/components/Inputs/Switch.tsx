@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../styles/switch.css';
 import { useKeybinds } from '../../hooks/useKeybinds';
+import { range } from '../../constants/pianoConfig';
 
 export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
   value?: boolean;
@@ -42,9 +43,9 @@ const Switch = ({ id, onChange, value, keybinds = [], ...props }: SwitchProps) =
         />
 
         <label htmlFor={id} className='thumb cursor-pointer flex justify-center border border-zinc-600'>
-          <span className='grip' />
-          <span className='grip' />
-          <span className='grip' />
+          {range(3).map((i) => (
+            <span key={i} className='grip' />
+          ))}
         </label>
       </div>
     </div>
