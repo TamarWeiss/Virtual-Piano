@@ -1,5 +1,5 @@
 import type { ADSR } from '../../hooks/useSynth';
-import PillButton from '../Buttons/PillButton';
+import Button from '../Buttons/Button';
 import ResetButton from '../Buttons/ResetButton';
 import Slider from '../Inputs/Slider';
 import { ADSR_DEFAULTS, KEYBINDS, randomRange } from '../../constants/pianoConfig';
@@ -33,13 +33,17 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
     <div className='module flex flex-col gap-2 p-2'>
       <div className='flex items-center justify-between gap-4'>
         <span className='label'>ADSR</span>
-        <PillButton
-          text='Sustain'
-          keybind={SUSTAIN.code}
+        <Button
+          className='gap-1.5 rounded-full text-xs py-1 px-2'
+          keybinds={[SUSTAIN.code]}
           isActive={sustain}
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
-        />
+        >
+          <span className='indicator rounded-full bg-current w-2 aspect-square' />
+          <span className='label text-inherit font-normal'>Sustain</span>
+          <span className='keybind'>{SUSTAIN.code}</span>
+        </Button>
       </div>
 
       <div className='flex gap-2'>
