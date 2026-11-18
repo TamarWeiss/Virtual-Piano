@@ -46,21 +46,18 @@
 }
 
 @keyframes float {
-  0% {
+  0%,
+  100% {
     opacity: 0;
   }
-  10% {
+  5%,
+  95% {
     opacity: 1;
   }
   50% {
     translate: var(--wobble) -50vh 0;
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
   }
   100% {
     translate: calc(-1 * var(--wobble)) -100vh 0;
-    opacity: 0;
   }
 }
