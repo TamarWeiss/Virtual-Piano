@@ -3,8 +3,7 @@ import { PlayIcon, StopIcon, ResetIcon } from '../../constants/icons';
 import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { clamp, KEYBINDS } from '../../constants/pianoConfig';
-import { useMetronome, MIN_INTERVAL, type TimeSignature } from '../../hooks/useMetronome';
-import LED from './LED';
+import { useMetronome, MIN_INTERVAL, type TimeSignature, FlashState } from '../../hooks/useMetronome';
 import Button from '../Buttons/Button';
 
 const MAX_INTERVAL = 2;
@@ -74,7 +73,11 @@ const Metronome = () => {
             <ResetIcon height='1.5em' />
           </Button>
           <span className='label mx-auto'>Metronome</span>
-          <LED state={flashState} className='mr-3' />
+          <div className='led-indicator mr-3'>
+            <div
+              className={`led-light${flashState ? (flashState == FlashState.ACCENT ? ' accent' : ' active') : ''}`}
+            />
+          </div>
         </div>
 
         <div className='flex flex-1 items-stretch gap-2'>
