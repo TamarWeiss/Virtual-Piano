@@ -3,7 +3,7 @@ import '../styles/piano.css';
 import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
 import ControlPanel from './ControlPanel/ControlPanel';
-import { useKeybinds, type KeyBind } from '../hooks/useKeybinds';
+import { useKeybinds } from '../hooks/useKeybinds';
 import { PauseContext } from '../contexts/PauseContext';
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -54,14 +54,14 @@ const Piano = () => {
     [keys],
   );
 
-  const noteKeybinds: Record<string, KeyBind> = Object.fromEntries(
-    keys.map(({ note, keybind }) => [
-      keybind,
-      { onKeyDown: () => synth.playNote(note), onKeyUp: () => synth.stopNote(note) },
-    ]),
+  useKeybinds(
+    Object.fromEntries(
+      keys.map(({ note, keybind }) => [
+        keybind,
+        { onKeyDown: () => synth.playNote(note), onKeyUp: () => synth.stopNote(note) },
+      ]),
+    ),
   );
-
-  useKeybinds(noteKeybinds);
 
   return (
     <div

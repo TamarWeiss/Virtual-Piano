@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from 'react';
 import { PauseContext } from '../contexts/PauseContext';
 
-export type KeyBind = {
+type KeyBind = {
   onKeyDown?: (e: KeyboardEvent) => void;
   onKeyUp?: (e: KeyboardEvent) => void;
   allowRepeat?: boolean;

@@ -12,11 +12,7 @@ type props = {
   alt: boolean;
 };
 
-const inputs = {
-  volume: { max: 1 },
-  duration: { max: 5 },
-  decay: { max: 5 },
-};
+const inputs = { volume: { max: 1 }, duration: { max: 5 }, decay: { max: 5 } };
 
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
