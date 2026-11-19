@@ -16,7 +16,11 @@ const Shortcut = ({ desc, keybinds, alt }: props) => (
       ))}
       {alt && (
         <>
-          /<kbd>{keybinds}</kbd>+<kbd>Alt</kbd>
+          /
+          {keybinds.map((keybind) => (
+            <kbd key={keybind}>{keybind}</kbd>
+          ))}
+          +<kbd>Alt</kbd>
         </>
       )}
     </span>

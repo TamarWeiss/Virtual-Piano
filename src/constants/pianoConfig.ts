@@ -69,20 +69,18 @@ export const KEYBINDS: Record<string, KeybindConfig> = {
 
   TOGGLE_METRONOME: { code: ['KeyC'], text: ['C'], desc: 'Metronome on / off', category: 'Metronome' },
   RESET_METRONOME: { code: ['KeyD'], text: ['D'], desc: 'Reset Metronome values', category: 'Metronome' },
-  BPM_UP: { code: ['ArrowUp'], text: ['↑'], alt: true, desc: 'Increase BPM by 1 / 10', category: 'Metronome' },
-  BPM_DOWN: { code: ['ArrowDown'], text: ['↓'], alt: true, desc: 'Decrease BPM by 1 / 10', category: 'Metronome' },
-  TIME_SIGNATURE_UP: {
-    code: ['ArrowRight'],
-    text: ['→'],
+  BPM: {
+    code: ['ArrowDown', 'ArrowUp'],
+    text: ['↓', '↑'],
     alt: true,
-    desc: 'Increase beats per measures / note type',
+    desc: 'Decrease / Increase BPM by 1 / 10',
     category: 'Metronome',
   },
-  TIME_SIGNATURE_DOWN: {
-    code: ['ArrowLeft'],
-    text: ['←'],
+  TIME_SIGNATURE: {
+    code: ['ArrowLeft', 'ArrowRight'],
+    text: ['←', '→'],
     alt: true,
-    desc: 'Decrease beats per measure / note type',
+    desc: 'Decrease / Increase beats per measures / note type',
     category: 'Metronome',
   },
 

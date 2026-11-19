@@ -10,8 +10,7 @@ const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
 const METRONOME_DEFAULTS: { bpm: number; timeSignature: TimeSignature } = { bpm: 120, timeSignature: [4, 4] };
-const { TOGGLE_METRONOME, BPM_DOWN, BPM_UP, TIME_SIGNATURE_UP, TIME_SIGNATURE_DOWN, RESET_METRONOME, RESET_ALL } =
-  KEYBINDS;
+const { TOGGLE_METRONOME, BPM, TIME_SIGNATURE, RESET_METRONOME, RESET_ALL } = KEYBINDS;
 
 const Metronome = () => {
   const [bpm, setBPM] = useState(METRONOME_DEFAULTS.bpm);
@@ -45,20 +44,20 @@ const Metronome = () => {
   };
 
   useKeybinds({
-    [BPM_UP.code[0]]: {
+    [BPM.code[1]]: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [BPM_DOWN.code[0]]: {
+    [BPM.code[0]]: {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE_UP.code[0]]: {
+    [TIME_SIGNATURE.code[1]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE_DOWN.code[0]]: {
+    [TIME_SIGNATURE.code[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] - Number(!e.altKey), timeSignature[1] - Number(e.altKey)]),
       allowRepeat: true,
