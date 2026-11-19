@@ -46,7 +46,7 @@ export const KEYBINDS: Record<string, KeybindConfig> = {
 
   OCTAVE: {
     code: ['ShiftLeft', 'ShiftRight'],
-    text: ['Left Shift', 'Right Shift'],
+    text: ['L Shift', 'R Shift'],
     desc: 'Shift one octave down / up',
     category: 'Piano',
   },
