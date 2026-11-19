@@ -63,7 +63,7 @@ export const KEYBINDS: Record<string, KeybindConfig> = {
   WAVEFORMS: {
     code: ['KeyM', 'Comma', 'Period', 'Slash'],
     text: ['M', ',', '.', '/'],
-    desc: 'Switch to between waveforms',
+    desc: 'Switch between waveforms',
     category: 'Piano',
   },
 

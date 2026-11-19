@@ -7,25 +7,23 @@ type props = {
   alt?: boolean;
 };
 
-const Shortcut = ({ desc, keybinds, alt }: props) => (
-  <li className='label flex justify-between items-center gap-4 text-inherit'>
-    {desc}
-    <span>
-      {keybinds.map((keybind) => (
-        <kbd key={keybind}>{keybind}</kbd>
-      ))}
-      {alt && (
-        <>
-          /
-          {keybinds.map((keybind) => (
-            <kbd key={keybind}>{keybind}</kbd>
-          ))}
-          +<kbd>Alt</kbd>
-        </>
-      )}
-    </span>
-  </li>
-);
+const Shortcut = ({ desc, keybinds, alt }: props) => {
+  const kbds = keybinds.map((keybind) => <kbd key={keybind}>{keybind}</kbd>);
+
+  return (
+    <li className='label flex justify-between items-center gap-4 text-inherit'>
+      {desc}
+      <span>
+        {kbds}
+        {alt && (
+          <>
+            /{kbds}+<kbd>Alt</kbd>
+          </>
+        )}
+      </span>
+    </li>
+  );
+};
 
 const HelpGuide = (props: ModalProps) => (
   <Modal keybinds={KEYBINDS.HELP.code} {...props}>
