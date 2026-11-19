@@ -2,12 +2,12 @@ import { KEYBIND_CATEGORIES, KEYBINDS } from '../../constants/pianoConfig';
 import Modal, { type ModalProps } from './Modal';
 
 type props = {
-  desc: string;
   keybinds: string[];
+  desc?: string;
   alt?: boolean;
 };
 
-const Shortcut = ({ desc, keybinds, alt }: props) => {
+const Shortcut = ({ keybinds, desc = '', alt }: props) => {
   const kbds = keybinds.map((keybind) => <kbd key={keybind}>{keybind}</kbd>);
 
   return (
