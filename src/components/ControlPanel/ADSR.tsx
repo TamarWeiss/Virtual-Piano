@@ -65,7 +65,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
           <Button
             className='p-1'
             onClick={() => setADSR(ADSR_DEFAULTS)}
-            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_ADSR.code]}
+            keybinds={KEYBINDS.RESET_ALL.code.concat(KEYBINDS.RESET_ADSR.code)}
           >
             <ResetIcon height='1.5em' />
           </Button>

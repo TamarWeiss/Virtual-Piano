@@ -60,7 +60,7 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
           <Button
             className='p-1'
             onClick={() => setReverb(REVERB_DEFAULTS)}
-            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_REVERB.code]}
+            keybinds={KEYBINDS.RESET_ALL.code.concat(KEYBINDS.RESET_REVERB.code)}
           >
             <ResetIcon height='1.5em' />
           </Button>

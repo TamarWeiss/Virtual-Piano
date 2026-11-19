@@ -70,7 +70,7 @@ const Metronome = () => {
           <Button
             className='p-1'
             onClick={reset}
-            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_METRONOME.code]}
+            keybinds={KEYBINDS.RESET_ALL.code.concat(KEYBINDS.RESET_METRONOME.code)}
           >
             <ResetIcon height='1.5em' />
           </Button>
