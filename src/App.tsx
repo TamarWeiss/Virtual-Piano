@@ -31,7 +31,7 @@ const App = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [darkMode]);
 
-  useKeybinds({ [KEYBINDS.TOGGLE_DARK_MODE.code[0]]: { onKeyDown: () => setDarkMode((prev) => !prev) } });
+  useKeybinds({ [Object.keys(KEYBINDS.TOGGLE_DARK_MODE.keys)[0]]: { onKeyDown: () => setDarkMode((prev) => !prev) } });
 
   return (
     <div className={`flex flex-col gap-4 py-4 px-12 app${darkMode ? ' dark' : ''}`}>
@@ -40,11 +40,11 @@ const App = () => {
           id='darkmode'
           value={darkMode}
           onClick={() => setDarkMode((prev) => !prev)}
-          keybinds={KEYBINDS.TOGGLE_DARK_MODE.code}
+          keybinds={Object.keys(KEYBINDS.TOGGLE_DARK_MODE.keys)}
         />
         <Button
           className='help text-xl text-zinc-400 bg-none bg-transparent min-h-min aspect-square rounded-full shadow-none transition opacity-50 hover:opacity-75'
-          keybinds={KEYBINDS.HELP.code}
+          keybinds={Object.keys(KEYBINDS.HELP.keys)}
           onClick={() => setPaused((prev) => !prev)}
           command='show-modal'
           commandfor='help-guide'

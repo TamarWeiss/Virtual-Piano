@@ -43,20 +43,20 @@ const Metronome = () => {
   };
 
   useKeybinds({
-    [KEYBINDS.BPM.code[1]]: {
+    [Object.keys(KEYBINDS.BPM.keys)[1]]: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [KEYBINDS.BPM.code[0]]: {
+    [Object.keys(KEYBINDS.BPM.keys)[0]]: {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [KEYBINDS.TIME_SIGNATURE.code[1]]: {
+    [Object.keys(KEYBINDS.TIME_SIGNATURE.keys)[1]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
       allowRepeat: true,
     },
-    [KEYBINDS.TIME_SIGNATURE.code[0]]: {
+    [Object.keys(KEYBINDS.TIME_SIGNATURE.keys)[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] - Number(!e.altKey), timeSignature[1] - Number(e.altKey)]),
       allowRepeat: true,
@@ -70,7 +70,7 @@ const Metronome = () => {
           <Button
             className='p-1'
             onClick={reset}
-            keybinds={KEYBINDS.RESET_ALL.code.concat(KEYBINDS.RESET_METRONOME.code)}
+            keybinds={Object.keys(KEYBINDS.RESET_ALL.keys).concat(Object.keys(KEYBINDS.RESET_METRONOME.keys))}
           >
             <ResetIcon height='1.5em' />
           </Button>
@@ -118,7 +118,7 @@ const Metronome = () => {
           </div>
 
           <Button
-            keybinds={KEYBINDS.TOGGLE_METRONOME.code}
+            keybinds={Object.keys(KEYBINDS.TOGGLE_METRONOME.keys)}
             onClick={onToggle}
             isActive={isPlaying}
             className='w-12 stop'

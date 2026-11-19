@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/piano.css';
-import { MIN_OCTAVE, MAX_OCTAVE, KEY_MAPPING, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
+import { MIN_OCTAVE, MAX_OCTAVE, KEYBINDS, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
 import ControlPanel from './ControlPanel/ControlPanel';
 import { useKeybinds } from '../hooks/useKeybinds';
@@ -36,7 +36,7 @@ const Piano = () => {
 
   const keys = useMemo(
     () =>
-      Object.entries(KEY_MAPPING).map(([keybind, text], index) => {
+      Object.entries(KEYBINDS.Piano.keys).map(([keybind, text], index) => {
         const note = (baseOctave + 1) * 12 + index;
         return {
           keybind,

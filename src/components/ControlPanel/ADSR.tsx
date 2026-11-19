@@ -34,14 +34,14 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         <span className='label'>ADSR</span>
         <Button
           className='gap-1.5 rounded-full text-xs py-1 px-2'
-          keybinds={KEYBINDS.SUSTAIN.code}
+          keybinds={Object.keys(KEYBINDS.SUSTAIN.keys)}
           isActive={sustain}
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
         >
           <span className='indicator rounded-full bg-current w-2 aspect-square' />
           <span className='label text-inherit font-normal'>Sustain</span>
-          <span className='keybind'>{KEYBINDS.SUSTAIN.code}</span>
+          <span className='keybind'>{Object.values(KEYBINDS.SUSTAIN.keys)}</span>
         </Button>
       </div>
 
@@ -65,11 +65,11 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
           <Button
             className='p-1'
             onClick={() => setADSR(ADSR_DEFAULTS)}
-            keybinds={KEYBINDS.RESET_ALL.code.concat(KEYBINDS.RESET_ADSR.code)}
+            keybinds={Object.keys(KEYBINDS.RESET_ALL.keys).concat(Object.keys(KEYBINDS.RESET_ADSR.keys))}
           >
             <ResetIcon height='1.5em' />
           </Button>
-          <RandomButton onClick={randomize} keybinds={KEYBINDS.RANDOM_ADSR.code} alt={alt} />
+          <RandomButton onClick={randomize} keybinds={Object.keys(KEYBINDS.RANDOM_ADSR.keys)} alt={alt} />
         </div>
       </div>
     </div>

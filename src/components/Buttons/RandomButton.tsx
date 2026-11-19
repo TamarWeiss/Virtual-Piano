@@ -40,7 +40,11 @@ const ResetButton = ({ className = '', keybinds = [], alt, ...props }: props) =>
   };
 
   return (
-    <Button keybinds={KEYBINDS.RANDOM_ALL.code.concat(keybinds)} className={`p-1.5 ${className}`} onClick={onClick}>
+    <Button
+      keybinds={Object.keys(KEYBINDS.RANDOM_ALL.keys).concat(keybinds)}
+      className={`p-1.5 ${className}`}
+      onClick={onClick}
+    >
       {alt ? <DiceIcon height='1.25em' value={value} /> : <ShuffleIcon height='1.25em' />}
     </Button>
   );

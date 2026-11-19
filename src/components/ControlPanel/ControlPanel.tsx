@@ -47,7 +47,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
     [setConfig],
   );
 
-  useKeybinds({ [KEYBINDS.TOGGLE_ICON.code[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
+  useKeybinds({ [Object.keys(KEYBINDS.TOGGLE_ICON.keys)[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
     <div className='flex items-center justify-between py-2 gap-2'>
@@ -55,7 +55,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
           onClick={() => shiftOctave(-1)}
-          keybinds={KEYBINDS.OCTAVE.code.slice(0, 1)}
+          keybinds={Object.keys(KEYBINDS.OCTAVE.keys).slice(0, 1)}
         >
           -
         </Button>
@@ -70,7 +70,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-l-0 rounded-r-lg rounded-l-none'
           onClick={() => shiftOctave(1)}
-          keybinds={KEYBINDS.OCTAVE.code.slice(1, 2)}
+          keybinds={Object.keys(KEYBINDS.OCTAVE.keys).slice(1, 2)}
         >
           +
         </Button>
@@ -94,7 +94,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
             id={type}
             value={type as OscillatorType}
             currentValue={config.waveform}
-            keybinds={KEYBINDS.WAVEFORMS.code.slice(i, i + 1)}
+            keybinds={Object.keys(KEYBINDS.WAVEFORMS.keys).slice(i, i + 1)}
             Icon={alt ? altIcon : icon}
             onChange={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
           />
