@@ -34,6 +34,8 @@ const PARTICLES: ParticleConfig[] = [
   { x: '95%', duration: '9.2s', delay: '-5.5s', wobble: '32px', size: '1.7rem' },
 ];
 
+const STAR_MASK = `url("${URL.createObjectURL(new Blob([renderToStaticMarkup(<Star xmlns='http://www.w3.org/2000/svg' />)], { type: 'image/svg+xml' }))}")`;
+
 const ParticleField = () => (
   <div className='fixed inset-0 -z-1'>
     {PARTICLES.map((particle, i) => (
@@ -47,7 +49,7 @@ const ParticleField = () => (
             '--delay': particle.delay,
             '--wobble': particle.wobble,
             '--size': particle.size,
-            '--mask': `url("${URL.createObjectURL(new Blob([renderToStaticMarkup(<Star xmlns='http://www.w3.org/2000/svg' />)], { type: 'image/svg+xml' }))}")`,
+            '--mask': STAR_MASK,
           } as React.CSSProperties
         }
       />
