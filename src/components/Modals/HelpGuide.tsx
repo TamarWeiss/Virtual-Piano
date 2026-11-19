@@ -1,4 +1,4 @@
-import { KEYBINDS } from '../../constants/pianoConfig';
+import { KEYBIND_CATEGORIES, KEYBINDS } from '../../constants/pianoConfig';
 import Modal, { type ModalProps } from './Modal';
 
 type props = {
@@ -23,15 +23,22 @@ const Shortcut = ({ desc, keybind, alt }: props) => (
 
 const HelpGuide = (props: ModalProps) => (
   <Modal keybinds={[KEYBINDS.HELP.code]} {...props}>
-    <h2 className='label text-inherit flex justify-center mb-4 text-base pb-3 border-b border-current'>
-      Keyboard Shortcuts
-    </h2>
+    <h2 className='label text-inherit text-center mb-3 text-base pb-1 border-b border-current'>Keyboard Shortcuts</h2>
 
-    <ul className='hotkeys-list flex flex-col gap-4'>
-      {Object.values(KEYBINDS).map(({ text, desc, alt = false }, i) => (
-        <Shortcut key={i} desc={desc} keybind={text} alt={alt} />
+    <div className='hotkeys-groups flex flex-col gap-3'>
+      {KEYBIND_CATEGORIES.map((category) => (
+        <section key={category} className='flex flex-col gap-2'>
+          <h3 className='label text-inherit self-center text-sm border-b border-current'>{category}</h3>
+          <ul className='hotkeys-list flex flex-col gap-4'>
+            {Object.values(KEYBINDS)
+              .filter((bind) => bind.category === category)
+              .map(({ code, text, desc, alt = false }) => (
+                <Shortcut key={code} desc={desc} keybind={text} alt={alt} />
+              ))}
+          </ul>
+        </section>
       ))}
-    </ul>
+    </div>
   </Modal>
 );
 

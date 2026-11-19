@@ -37,37 +37,54 @@ export const KEY_MAPPING: Record<string, string> = {
   Backslash: '\\',
 };
 
+export type KeybindCategory = 'General' | 'Piano' | 'Metronome' | 'ADSR' | 'Reverb';
+
+export const KEYBIND_CATEGORIES: KeybindCategory[] = ['General', 'Piano', 'Metronome', 'ADSR', 'Reverb'];
+
 type KeybindConfig = {
   code: string;
   text: string;
   desc: string;
   alt?: boolean;
+  category: KeybindCategory;
 };
 
 export const KEYBINDS: Record<string, KeybindConfig> = {
-  HELP: { code: 'KeyH', text: 'H', desc: 'Open / close help guide' },
-  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter', desc: 'Switch between light / dark modes' },
-  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock', desc: 'Switch between icon sets' },
+  HELP: { code: 'KeyH', text: 'H', desc: 'Open / close help guide', category: 'General' },
+  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter', desc: 'Switch between light / dark mode', category: 'General' },
+  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock', desc: 'Switch between icon sets', category: 'General' },
+  RESET_ALL: { code: 'KeyA', text: 'A', desc: 'Reset all', category: 'General' },
+  RANDOM_ALL: { code: 'KeyZ', text: 'Z', desc: 'Randomize all', category: 'General' },
 
-  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift', desc: 'Shift one octave up' },
-  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift', desc: 'Shift one octave down' },
-  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true, desc: 'Increase BPM by 1 / 10' },
-  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true, desc: 'Decrease BPM by 1 / 10' },
-  TIME_SIGNATURE_UP: { code: 'ArrowRight', text: '→', alt: true, desc: 'Increase beats per measures / note type' },
-  TIME_SIGNATURE_DOWN: { code: 'ArrowLeft', text: '←', alt: true, desc: 'Decrease beats per measure / note type' },
+  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift', desc: 'Shift one octave up', category: 'Piano' },
+  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift', desc: 'Shift one octave down', category: 'Piano' },
 
-  SUSTAIN: { code: 'Space', text: 'Space', desc: 'Sustain pedal' },
-  TOGGLE_METRONOME: { code: 'KeyC', text: 'C', desc: 'Metronome on / off' },
-  TOGGLE_REVERB: { code: 'KeyG', text: 'G', desc: 'Reverb on / off' },
+  TOGGLE_METRONOME: { code: 'KeyC', text: 'C', desc: 'Metronome on / off', category: 'Metronome' },
+  RESET_METRONOME: { code: 'KeyD', text: 'D', desc: 'Reset Metronome values', category: 'Metronome' },
+  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true, desc: 'Increase BPM by 1 / 10', category: 'Metronome' },
+  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true, desc: 'Decrease BPM by 1 / 10', category: 'Metronome' },
+  TIME_SIGNATURE_UP: {
+    code: 'ArrowRight',
+    text: '→',
+    alt: true,
+    desc: 'Increase beats per measures / note type',
+    category: 'Metronome',
+  },
+  TIME_SIGNATURE_DOWN: {
+    code: 'ArrowLeft',
+    text: '←',
+    alt: true,
+    desc: 'Decrease beats per measure / note type',
+    category: 'Metronome',
+  },
 
-  RESET_ALL: { code: 'KeyA', text: 'A', desc: 'Reset all' },
-  RESET_ADSR: { code: 'KeyS', text: 'S', desc: 'Reset ADSR values' },
-  RESET_METRONOME: { code: 'KeyD', text: 'D', desc: 'Reset Metronome values' },
-  RESET_REVERB: { code: 'KeyF', text: 'F', desc: 'Reset Reverb values' },
+  SUSTAIN: { code: 'Space', text: 'Space', desc: 'Sustain pedal', category: 'ADSR' },
+  RESET_ADSR: { code: 'KeyS', text: 'S', desc: 'Reset ADSR values', category: 'ADSR' },
+  RANDOM_ADSR: { code: 'KeyX', text: 'X', desc: 'Randomize ADSR values', category: 'ADSR' },
 
-  RANDOM_ALL: { code: 'KeyZ', text: 'Z', desc: 'Randomize all' },
-  RANDOM_ADSR: { code: 'KeyX', text: 'X', desc: 'Randomize ADSR values' },
-  RANDOM_REVERB: { code: 'KeyV', text: 'V', desc: 'Randomize Reverb values' },
+  TOGGLE_REVERB: { code: 'KeyG', text: 'G', desc: 'Reverb on / off', category: 'Reverb' },
+  RESET_REVERB: { code: 'KeyF', text: 'F', desc: 'Reset Reverb values', category: 'Reverb' },
+  RANDOM_REVERB: { code: 'KeyV', text: 'V', desc: 'Randomize Reverb values', category: 'Reverb' },
 };
 
 type WaveformData = {
