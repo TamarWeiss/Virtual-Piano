@@ -1,14 +1,4 @@
 import type { ADSR, ReverbOptions } from '../hooks/useSynth';
-import {
-  SawtoothAltIcon,
-  SawtoothIcon,
-  SineAltIcon,
-  SineIcon,
-  SquareAltIcon,
-  SquareIcon,
-  TriangleAltIcon,
-  TriangleIcon,
-} from './icons';
 
 export const KEY_MAPPING: Record<string, string> = {
   Tab: 'Tab',
@@ -93,24 +83,10 @@ export const KEYBINDS: Record<string, KeybindConfig> = {
   RANDOM_REVERB: { code: ['KeyV'], text: ['V'], desc: 'Randomize Reverb values', category: 'Reverb' },
 };
 
-type WaveformData = {
-  type: OscillatorType;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  alt: React.FC<React.SVGProps<SVGSVGElement>>;
-};
-
-export const waveforms: WaveformData[] = [
-  { type: 'triangle', icon: TriangleIcon, alt: TriangleAltIcon },
-  { type: 'sine', icon: SineIcon, alt: SineAltIcon },
-  { type: 'sawtooth', icon: SawtoothIcon, alt: SawtoothAltIcon },
-  { type: 'square', icon: SquareIcon, alt: SquareAltIcon },
-];
-
 export const MAX_OCTAVE = 6;
 export const MIN_OCTAVE = 1;
 export const e = 0.05;
 export const DEFAULT_DICE_VALUE = 4;
-
 export const ADSR_DEFAULTS: ADSR = { volume: 0.3, attack: e, decay: 0, sustain: 1, release: e };
 export const REVERB_DEFAULTS: Omit<ReverbOptions, 'active'> = { volume: 0.5, duration: 2, decay: 2 };
 
@@ -138,7 +114,6 @@ export function range(start: number, stop?: number, step = 1): number[] {
     stop = start;
     start = 0;
   }
-
   const length = Math.max(Math.ceil((stop - start) / step), 0);
   return Array.from({ length }, (_, i) => start + i * step);
 }

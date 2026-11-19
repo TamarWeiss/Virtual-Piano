@@ -18,8 +18,6 @@ const inputs = {
   decay: { max: 5 },
 };
 
-const { TOGGLE_REVERB, RESET_REVERB, RANDOM_REVERB, RESET_ALL } = KEYBINDS;
-
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
     const randomReverb = {
@@ -38,7 +36,7 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
           id='reverb'
           value={reverb.active}
           onChange={(active) => setReverb({ active })}
-          keybinds={TOGGLE_REVERB.code}
+          keybinds={KEYBINDS.TOGGLE_REVERB.code}
         />
       </div>
 
@@ -62,11 +60,11 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
           <Button
             className='p-1'
             onClick={() => setReverb(REVERB_DEFAULTS)}
-            keybinds={[...RESET_ALL.code, ...RESET_REVERB.code]}
+            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_REVERB.code]}
           >
             <ResetIcon height='1.5em' />
           </Button>
-          <RandomButton onClick={randomize} keybinds={RANDOM_REVERB.code} alt={alt} />
+          <RandomButton onClick={randomize} keybinds={KEYBINDS.RANDOM_REVERB.code} alt={alt} />
         </div>
       </div>
     </div>

@@ -10,7 +10,6 @@ const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
 const MAX = 240 / MIN_INTERVAL;
 const METRONOME_DEFAULTS: { bpm: number; timeSignature: TimeSignature } = { bpm: 120, timeSignature: [4, 4] };
-const { TOGGLE_METRONOME, BPM, TIME_SIGNATURE, RESET_METRONOME, RESET_ALL } = KEYBINDS;
 
 const Metronome = () => {
   const [bpm, setBPM] = useState(METRONOME_DEFAULTS.bpm);
@@ -44,20 +43,20 @@ const Metronome = () => {
   };
 
   useKeybinds({
-    [BPM.code[1]]: {
+    [KEYBINDS.BPM.code[1]]: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [BPM.code[0]]: {
+    [KEYBINDS.BPM.code[0]]: {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE.code[1]]: {
+    [KEYBINDS.TIME_SIGNATURE.code[1]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE.code[0]]: {
+    [KEYBINDS.TIME_SIGNATURE.code[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] - Number(!e.altKey), timeSignature[1] - Number(e.altKey)]),
       allowRepeat: true,
@@ -68,7 +67,11 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module flex flex-col gap-2 p-2 min-h-min'>
         <div className='flex items-center justify-between gap-2'>
-          <Button className='p-1' onClick={reset} keybinds={[...RESET_ALL.code, ...RESET_METRONOME.code]}>
+          <Button
+            className='p-1'
+            onClick={reset}
+            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_METRONOME.code]}
+          >
             <ResetIcon height='1.5em' />
           </Button>
           <span className='label mx-auto'>Metronome</span>
@@ -114,7 +117,12 @@ const Metronome = () => {
             </label>
           </div>
 
-          <Button keybinds={TOGGLE_METRONOME.code} onClick={onToggle} isActive={isPlaying} className='w-12 stop'>
+          <Button
+            keybinds={KEYBINDS.TOGGLE_METRONOME.code}
+            onClick={onToggle}
+            isActive={isPlaying}
+            className='w-12 stop'
+          >
             {isPlaying ? <StopIcon height='1rem' /> : <PlayIcon height='1rem' />}
           </Button>
         </div>

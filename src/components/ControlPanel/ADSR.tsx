@@ -15,7 +15,6 @@ type props = {
 };
 
 const inputs = { volume: { max: 1 }, attack: { max: 5 }, decay: { max: 5 }, sustain: { max: 1 }, release: { max: 5 } };
-const { SUSTAIN, RESET_ADSR, RANDOM_ADSR, RESET_ALL } = KEYBINDS;
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
@@ -35,14 +34,14 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         <span className='label'>ADSR</span>
         <Button
           className='gap-1.5 rounded-full text-xs py-1 px-2'
-          keybinds={SUSTAIN.code}
+          keybinds={KEYBINDS.SUSTAIN.code}
           isActive={sustain}
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
         >
           <span className='indicator rounded-full bg-current w-2 aspect-square' />
           <span className='label text-inherit font-normal'>Sustain</span>
-          <span className='keybind'>{SUSTAIN.code}</span>
+          <span className='keybind'>{KEYBINDS.SUSTAIN.code}</span>
         </Button>
       </div>
 
@@ -66,11 +65,11 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
           <Button
             className='p-1'
             onClick={() => setADSR(ADSR_DEFAULTS)}
-            keybinds={[...RESET_ALL.code, ...RESET_ADSR.code]}
+            keybinds={[...KEYBINDS.RESET_ALL.code, ...KEYBINDS.RESET_ADSR.code]}
           >
             <ResetIcon height='1.5em' />
           </Button>
-          <RandomButton onClick={randomize} keybinds={RANDOM_ADSR.code} alt={alt} />
+          <RandomButton onClick={randomize} keybinds={KEYBINDS.RANDOM_ADSR.code} alt={alt} />
         </div>
       </div>
     </div>

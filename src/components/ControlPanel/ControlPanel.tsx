@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { KEYBINDS, MAX_OCTAVE, MIN_OCTAVE, waveforms } from '../../constants/pianoConfig';
+import { KEYBINDS, MAX_OCTAVE, MIN_OCTAVE } from '../../constants/pianoConfig';
 import Button from '../Buttons/Button';
 import WaveformButton from '../Inputs/WaveformButton';
 import Metronome from './Metronome';
@@ -8,6 +8,16 @@ import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
 import type { ADSR, Config, ReverbOptions } from '../../hooks/useSynth';
 import ADSRPanel from './ADSR';
+import {
+  SawtoothAltIcon,
+  SawtoothIcon,
+  SineAltIcon,
+  SineIcon,
+  SquareAltIcon,
+  SquareIcon,
+  TriangleAltIcon,
+  TriangleIcon,
+} from '../../constants/icons';
 
 type props = {
   baseOctave: number;
@@ -17,7 +27,12 @@ type props = {
   onSustainRelease: () => void;
 };
 
-const { TOGGLE_ICON, OCTAVE, WAVEFORMS } = KEYBINDS;
+const waveforms = [
+  { type: 'triangle', icon: TriangleIcon, alt: TriangleAltIcon },
+  { type: 'sine', icon: SineIcon, alt: SineAltIcon },
+  { type: 'sawtooth', icon: SawtoothIcon, alt: SawtoothAltIcon },
+  { type: 'square', icon: SquareIcon, alt: SquareAltIcon },
+];
 
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(true);
@@ -32,7 +47,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
     [setConfig],
   );
 
-  useKeybinds({ [TOGGLE_ICON.code[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
+  useKeybinds({ [KEYBINDS.TOGGLE_ICON.code[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
     <div className='flex items-center justify-between py-2 gap-2'>
@@ -40,7 +55,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
           onClick={() => shiftOctave(-1)}
-          keybinds={[OCTAVE.code[0]]}
+          keybinds={[KEYBINDS.OCTAVE.code[0]]}
         >
           -
         </Button>
@@ -55,7 +70,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-l-0 rounded-r-lg rounded-l-none'
           onClick={() => shiftOctave(1)}
-          keybinds={[OCTAVE.code[1]]}
+          keybinds={[KEYBINDS.OCTAVE.code[1]]}
         >
           +
         </Button>
@@ -77,9 +92,9 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
           <WaveformButton
             key={type}
             id={type}
-            value={type}
+            value={type as OscillatorType}
             currentValue={config.waveform}
-            keybinds={[WAVEFORMS.code[i]]}
+            keybinds={[KEYBINDS.WAVEFORMS.code[i]]}
             Icon={alt ? altIcon : icon}
             onChange={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
           />
