@@ -29,40 +29,36 @@ export const KEY_MAPPING: Record<string, string> = {
 
 export const KEYBIND_CATEGORIES = ['General', 'Piano', 'Metronome', 'ADSR', 'Reverb'] as const;
 
-export const KEYBINDS = {
-  HELP: { code: ['KeyH'], text: ['H'], alt: false, desc: 'Open / close help guide', category: 'General' },
-  TOGGLE_DARK_MODE: {
-    code: ['Enter'],
-    text: ['Enter'],
-    alt: false,
-    desc: 'Switch between light / dark mode',
-    category: 'General',
-  },
-  TOGGLE_ICON: {
-    code: ['CapsLock'],
-    text: ['CapsLock'],
-    alt: false,
-    desc: 'Switch between icon sets',
-    category: 'General',
-  },
-  RESET_ALL: { code: ['KeyA'], text: ['A'], alt: false, desc: 'Reset all', category: 'General' },
-  RANDOM_ALL: { code: ['KeyZ'], text: ['Z'], alt: false, desc: 'Randomize all', category: 'General' },
+type KeybindConfig = {
+  code: string[];
+  text?: string[];
+  desc: string;
+  alt?: boolean;
+  category: (typeof KEYBIND_CATEGORIES)[number];
+};
+
+export const KEYBINDS: Record<string, KeybindConfig> = {
+  HELP: { code: ['KeyH'], text: ['H'], desc: 'Open / close help guide', category: 'General' },
+  TOGGLE_DARK_MODE: { code: ['Enter'], desc: 'Switch between light / dark mode', category: 'General' },
+  TOGGLE_ICON: { code: ['CapsLock'], desc: 'Switch between icon sets', category: 'General' },
+  RESET_ALL: { code: ['KeyA'], text: ['A'], desc: 'Reset all', category: 'General' },
+  RANDOM_ALL: { code: ['KeyZ'], text: ['Z'], desc: 'Randomize all', category: 'General' },
+
   OCTAVE: {
     code: ['ShiftLeft', 'ShiftRight'],
     text: ['Left Shift', 'Right Shift'],
-    alt: false,
     desc: 'Shift one octave down / up',
     category: 'Piano',
   },
   WAVEFORMS: {
     code: ['KeyM', 'Comma', 'Period', 'Slash'],
     text: ['M', ',', '.', '/'],
-    alt: false,
     desc: 'Switch between waveforms',
     category: 'Piano',
   },
-  TOGGLE_METRONOME: { code: ['KeyC'], text: ['C'], alt: false, desc: 'Metronome on / off', category: 'Metronome' },
-  RESET_METRONOME: { code: ['KeyD'], text: ['D'], alt: false, desc: 'Reset Metronome values', category: 'Metronome' },
+
+  TOGGLE_METRONOME: { code: ['KeyC'], text: ['C'], desc: 'Metronome on / off', category: 'Metronome' },
+  RESET_METRONOME: { code: ['KeyD'], text: ['D'], desc: 'Reset Metronome values', category: 'Metronome' },
   BPM: {
     code: ['ArrowDown', 'ArrowUp'],
     text: ['↓', '↑'],
@@ -78,12 +74,13 @@ export const KEYBINDS = {
     category: 'Metronome',
   },
 
-  SUSTAIN: { code: ['Space'], text: ['Space'], alt: false, desc: 'Sustain pedal', category: 'ADSR' },
-  RESET_ADSR: { code: ['KeyS'], text: ['S'], alt: false, desc: 'Reset ADSR values', category: 'ADSR' },
-  RANDOM_ADSR: { code: ['KeyX'], text: ['X'], alt: false, desc: 'Randomize ADSR values', category: 'ADSR' },
-  TOGGLE_REVERB: { code: ['KeyG'], text: ['G'], alt: false, desc: 'Reverb on / off', category: 'Reverb' },
-  RESET_REVERB: { code: ['KeyF'], text: ['F'], alt: false, desc: 'Reset Reverb values', category: 'Reverb' },
-  RANDOM_REVERB: { code: ['KeyV'], text: ['V'], alt: false, desc: 'Randomize Reverb values', category: 'Reverb' },
+  SUSTAIN: { code: ['Space'], desc: 'Sustain pedal', category: 'ADSR' },
+  RESET_ADSR: { code: ['KeyS'], text: ['S'], desc: 'Reset ADSR values', category: 'ADSR' },
+  RANDOM_ADSR: { code: ['KeyX'], text: ['X'], desc: 'Randomize ADSR values', category: 'ADSR' },
+
+  TOGGLE_REVERB: { code: ['KeyG'], text: ['G'], desc: 'Reverb on / off', category: 'Reverb' },
+  RESET_REVERB: { code: ['KeyF'], text: ['F'], desc: 'Reset Reverb values', category: 'Reverb' },
+  RANDOM_REVERB: { code: ['KeyV'], text: ['V'], desc: 'Randomize Reverb values', category: 'Reverb' },
 };
 
 export const MAX_OCTAVE = 6;
