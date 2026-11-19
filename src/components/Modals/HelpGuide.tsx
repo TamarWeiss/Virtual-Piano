@@ -27,9 +27,8 @@ const Shortcut = ({ desc, keybinds, alt }: props) => {
 
 const HelpGuide = (props: ModalProps) => (
   <Modal keybinds={KEYBINDS.HELP.code} {...props}>
-    <h2 className='label text-inherit text-center mb-3 text-base pb-1 border-b border-current'>Keyboard Shortcuts</h2>
-
-    <div className='hotkeys-groups flex flex-col gap-3'>
+    <h2 className='label text-inherit text-center mb-4 text-base pb-2 border-b border-current'>Keyboard Shortcuts</h2>
+    <div className='hotkeys-groups flex flex-col gap-4'>
       {KEYBIND_CATEGORIES.map((category) => (
         <section key={category} className='flex flex-col gap-2'>
           <h3 className='label text-inherit self-center text-sm border-b border-current'>{category}</h3>
