@@ -81,7 +81,6 @@
     }
   }
 
-  &.active,
   &:has(input[type='checkbox']:checked) {
     background-color: var(--color-black);
 

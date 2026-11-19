@@ -15,7 +15,6 @@
       border-radius: 0.25em;
       box-shadow: inset 0 0.125em 0.25em --opacity(var(--color-black), 0.75);
 
-      &.active .thumb,
       input[type='checkbox']:checked + .thumb {
         translate: calc(var(--track-width) - 100%) 0;
       }
