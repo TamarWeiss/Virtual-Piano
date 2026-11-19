@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../styles/switch.css';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { range } from '../../constants/pianoConfig';
 
