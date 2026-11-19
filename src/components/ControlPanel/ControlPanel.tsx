@@ -17,7 +17,7 @@ type props = {
   onSustainRelease: () => void;
 };
 
-const { TOGGLE_ICON, OCTAVE_DOWN, OCTAVE_UP } = KEYBINDS;
+const { TOGGLE_ICON, OCTAVE, WAVEFORMS } = KEYBINDS;
 
 const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRelease }: props) => {
   const [alt, setAlt] = useState<boolean>(true);
@@ -32,7 +32,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
     [setConfig],
   );
 
-  useKeybinds({ [TOGGLE_ICON.code]: { onKeyDown: () => setAlt((alt) => !alt) } });
+  useKeybinds({ [TOGGLE_ICON.code[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
     <div className='flex items-center justify-between py-2 gap-2'>
@@ -40,7 +40,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
           onClick={() => shiftOctave(-1)}
-          keybinds={[OCTAVE_DOWN.code]}
+          keybinds={[OCTAVE.code[0]]}
         >
           -
         </Button>
@@ -55,7 +55,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
         <Button
           className='aspect-square border-l-0 rounded-r-lg rounded-l-none'
           onClick={() => shiftOctave(1)}
-          keybinds={[OCTAVE_UP.code]}
+          keybinds={[OCTAVE.code[1]]}
         >
           +
         </Button>
@@ -73,12 +73,13 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
       <Reverb reverb={config.reverb} setReverb={setReverb} alt={alt} />
 
       <div className='module waveform-module grid gap-2 min-h-min'>
-        {waveforms.map(({ type, icon, alt: altIcon }) => (
+        {waveforms.map(({ type, icon, alt: altIcon }, i) => (
           <WaveformButton
             key={type}
             id={type}
             value={type}
             currentValue={config.waveform}
+            keybinds={[WAVEFORMS.code[i]]}
             Icon={alt ? altIcon : icon}
             onChange={(waveform) => setConfig((prev) => ({ ...prev, waveform }))}
           />

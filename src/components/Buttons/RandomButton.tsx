@@ -5,12 +5,12 @@ import { DEFAULT_DICE_VALUE, KEYBINDS, randomRange } from '../../constants/piano
 
 type props = {
   className?: string;
-  keybind?: string;
+  keybinds?: string[];
   onClick?: () => void;
   alt?: boolean;
 };
 
-const ResetButton = ({ className = '', keybind = '', alt, ...props }: props) => {
+const ResetButton = ({ className = '', keybinds = [], alt, ...props }: props) => {
   const [value, setValue] = useState(DEFAULT_DICE_VALUE);
   const isRollingRef = useRef(false);
 
@@ -40,7 +40,7 @@ const ResetButton = ({ className = '', keybind = '', alt, ...props }: props) => 
   };
 
   return (
-    <Button keybinds={[keybind, KEYBINDS.RANDOM_ALL.code]} className={`p-1.5 ${className}`} onClick={onClick}>
+    <Button keybinds={[...keybinds, ...KEYBINDS.RANDOM_ALL.code]} className={`p-1.5 ${className}`} onClick={onClick}>
       {alt ? <DiceIcon height='1.25em' value={value} /> : <ShuffleIcon height='1.25em' />}
     </Button>
   );

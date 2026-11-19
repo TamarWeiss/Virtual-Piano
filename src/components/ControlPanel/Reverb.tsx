@@ -38,7 +38,7 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
           id='reverb'
           value={reverb.active}
           onChange={(active) => setReverb({ active })}
-          keybinds={[TOGGLE_REVERB.code]}
+          keybinds={TOGGLE_REVERB.code}
         />
       </div>
 
@@ -62,11 +62,11 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
           <Button
             className='p-1'
             onClick={() => setReverb(REVERB_DEFAULTS)}
-            keybinds={[RESET_ALL.code, RESET_REVERB.code]}
+            keybinds={[...RESET_ALL.code, ...RESET_REVERB.code]}
           >
             <ResetIcon height='1.5em' />
           </Button>
-          <RandomButton onClick={randomize} keybind={RANDOM_REVERB.code} alt={alt} />
+          <RandomButton onClick={randomize} keybinds={RANDOM_REVERB.code} alt={alt} />
         </div>
       </div>
     </div>

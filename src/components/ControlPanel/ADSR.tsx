@@ -35,7 +35,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         <span className='label'>ADSR</span>
         <Button
           className='gap-1.5 rounded-full text-xs py-1 px-2'
-          keybinds={[SUSTAIN.code]}
+          keybinds={SUSTAIN.code}
           isActive={sustain}
           onPointerDown={onSustainDown}
           onPointerUp={onSustainRelease}
@@ -63,10 +63,14 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         </div>
 
         <div className='flex flex-col gap-2'>
-          <Button className='p-1' onClick={() => setADSR(ADSR_DEFAULTS)} keybinds={[RESET_ALL.code, RESET_ADSR.code]}>
+          <Button
+            className='p-1'
+            onClick={() => setADSR(ADSR_DEFAULTS)}
+            keybinds={[...RESET_ALL.code, ...RESET_ADSR.code]}
+          >
             <ResetIcon height='1.5em' />
           </Button>
-          <RandomButton onClick={randomize} keybind={RANDOM_ADSR.code} alt={alt} />
+          <RandomButton onClick={randomize} keybinds={RANDOM_ADSR.code} alt={alt} />
         </div>
       </div>
     </div>

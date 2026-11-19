@@ -37,54 +37,62 @@ export const KEY_MAPPING: Record<string, string> = {
   Backslash: '\\',
 };
 
-export type KeybindCategory = 'General' | 'Piano' | 'Metronome' | 'ADSR' | 'Reverb';
-
-export const KEYBIND_CATEGORIES: KeybindCategory[] = ['General', 'Piano', 'Metronome', 'ADSR', 'Reverb'];
+export const KEYBIND_CATEGORIES = ['General', 'Piano', 'Metronome', 'ADSR', 'Reverb'] as const;
 
 type KeybindConfig = {
-  code: string;
-  text: string;
+  code: string[];
+  text: string[];
   desc: string;
   alt?: boolean;
-  category: KeybindCategory;
+  category: (typeof KEYBIND_CATEGORIES)[number];
 };
 
 export const KEYBINDS: Record<string, KeybindConfig> = {
-  HELP: { code: 'KeyH', text: 'H', desc: 'Open / close help guide', category: 'General' },
-  TOGGLE_DARK_MODE: { code: 'Enter', text: 'Enter', desc: 'Switch between light / dark mode', category: 'General' },
-  TOGGLE_ICON: { code: 'CapsLock', text: 'CapsLock', desc: 'Switch between icon sets', category: 'General' },
-  RESET_ALL: { code: 'KeyA', text: 'A', desc: 'Reset all', category: 'General' },
-  RANDOM_ALL: { code: 'KeyZ', text: 'Z', desc: 'Randomize all', category: 'General' },
+  HELP: { code: ['KeyH'], text: ['H'], desc: 'Open / close help guide', category: 'General' },
+  TOGGLE_DARK_MODE: { code: ['Enter'], text: ['Enter'], desc: 'Switch between light / dark mode', category: 'General' },
+  TOGGLE_ICON: { code: ['CapsLock'], text: ['CapsLock'], desc: 'Switch between icon sets', category: 'General' },
+  RESET_ALL: { code: ['KeyA'], text: ['A'], desc: 'Reset all', category: 'General' },
+  RANDOM_ALL: { code: ['KeyZ'], text: ['Z'], desc: 'Randomize all', category: 'General' },
 
-  OCTAVE_UP: { code: 'ShiftRight', text: 'Right Shift', desc: 'Shift one octave up', category: 'Piano' },
-  OCTAVE_DOWN: { code: 'ShiftLeft', text: 'Left Shift', desc: 'Shift one octave down', category: 'Piano' },
+  OCTAVE: {
+    code: ['ShiftLeft', 'ShiftRight'],
+    text: ['Left Shift', 'Right Shift'],
+    desc: 'Shift one octave down / up',
+    category: 'Piano',
+  },
+  WAVEFORMS: {
+    code: ['KeyM', 'Comma', 'Period', 'Slash'],
+    text: ['M', ',', '.', '/'],
+    desc: 'Switch to between waveforms',
+    category: 'Piano',
+  },
 
-  TOGGLE_METRONOME: { code: 'KeyC', text: 'C', desc: 'Metronome on / off', category: 'Metronome' },
-  RESET_METRONOME: { code: 'KeyD', text: 'D', desc: 'Reset Metronome values', category: 'Metronome' },
-  BPM_UP: { code: 'ArrowUp', text: '↑', alt: true, desc: 'Increase BPM by 1 / 10', category: 'Metronome' },
-  BPM_DOWN: { code: 'ArrowDown', text: '↓', alt: true, desc: 'Decrease BPM by 1 / 10', category: 'Metronome' },
+  TOGGLE_METRONOME: { code: ['KeyC'], text: ['C'], desc: 'Metronome on / off', category: 'Metronome' },
+  RESET_METRONOME: { code: ['KeyD'], text: ['D'], desc: 'Reset Metronome values', category: 'Metronome' },
+  BPM_UP: { code: ['ArrowUp'], text: ['↑'], alt: true, desc: 'Increase BPM by 1 / 10', category: 'Metronome' },
+  BPM_DOWN: { code: ['ArrowDown'], text: ['↓'], alt: true, desc: 'Decrease BPM by 1 / 10', category: 'Metronome' },
   TIME_SIGNATURE_UP: {
-    code: 'ArrowRight',
-    text: '→',
+    code: ['ArrowRight'],
+    text: ['→'],
     alt: true,
     desc: 'Increase beats per measures / note type',
     category: 'Metronome',
   },
   TIME_SIGNATURE_DOWN: {
-    code: 'ArrowLeft',
-    text: '←',
+    code: ['ArrowLeft'],
+    text: ['←'],
     alt: true,
     desc: 'Decrease beats per measure / note type',
     category: 'Metronome',
   },
 
-  SUSTAIN: { code: 'Space', text: 'Space', desc: 'Sustain pedal', category: 'ADSR' },
-  RESET_ADSR: { code: 'KeyS', text: 'S', desc: 'Reset ADSR values', category: 'ADSR' },
-  RANDOM_ADSR: { code: 'KeyX', text: 'X', desc: 'Randomize ADSR values', category: 'ADSR' },
+  SUSTAIN: { code: ['Space'], text: ['Space'], desc: 'Sustain pedal', category: 'ADSR' },
+  RESET_ADSR: { code: ['KeyS'], text: ['S'], desc: 'Reset ADSR values', category: 'ADSR' },
+  RANDOM_ADSR: { code: ['KeyX'], text: ['X'], desc: 'Randomize ADSR values', category: 'ADSR' },
 
-  TOGGLE_REVERB: { code: 'KeyG', text: 'G', desc: 'Reverb on / off', category: 'Reverb' },
-  RESET_REVERB: { code: 'KeyF', text: 'F', desc: 'Reset Reverb values', category: 'Reverb' },
-  RANDOM_REVERB: { code: 'KeyV', text: 'V', desc: 'Randomize Reverb values', category: 'Reverb' },
+  TOGGLE_REVERB: { code: ['KeyG'], text: ['G'], desc: 'Reverb on / off', category: 'Reverb' },
+  RESET_REVERB: { code: ['KeyF'], text: ['F'], desc: 'Reset Reverb values', category: 'Reverb' },
+  RANDOM_REVERB: { code: ['KeyV'], text: ['V'], desc: 'Randomize Reverb values', category: 'Reverb' },
 };
 
 type WaveformData = {

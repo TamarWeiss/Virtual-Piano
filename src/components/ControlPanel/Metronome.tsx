@@ -45,20 +45,20 @@ const Metronome = () => {
   };
 
   useKeybinds({
-    [BPM_UP.code]: {
+    [BPM_UP.code[0]]: {
       onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [BPM_DOWN.code]: {
+    [BPM_DOWN.code[0]]: {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE_UP.code]: {
+    [TIME_SIGNATURE_UP.code[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
       allowRepeat: true,
     },
-    [TIME_SIGNATURE_DOWN.code]: {
+    [TIME_SIGNATURE_DOWN.code[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] - Number(!e.altKey), timeSignature[1] - Number(e.altKey)]),
       allowRepeat: true,
@@ -69,7 +69,7 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module flex flex-col gap-2 p-2 min-h-min'>
         <div className='flex items-center justify-between gap-2'>
-          <Button className='p-1' onClick={reset} keybinds={[RESET_ALL.code, RESET_METRONOME.code]}>
+          <Button className='p-1' onClick={reset} keybinds={[...RESET_ALL.code, ...RESET_METRONOME.code]}>
             <ResetIcon height='1.5em' />
           </Button>
           <span className='label mx-auto'>Metronome</span>
@@ -115,7 +115,7 @@ const Metronome = () => {
             </label>
           </div>
 
-          <Button keybinds={[TOGGLE_METRONOME.code]} onClick={onToggle} isActive={isPlaying} className='w-12 stop'>
+          <Button keybinds={TOGGLE_METRONOME.code} onClick={onToggle} isActive={isPlaying} className='w-12 stop'>
             {isPlaying ? <StopIcon height='1rem' /> : <PlayIcon height='1rem' />}
           </Button>
         </div>
