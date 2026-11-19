@@ -28,6 +28,7 @@ const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', 
     strokeLinecap='round'
     strokeLinejoin='round'
     vectorEffect='non-scaling-stroke'
+    xmlns='http://www.w3.org/2000/svg'
     {...props}
   />
 );
