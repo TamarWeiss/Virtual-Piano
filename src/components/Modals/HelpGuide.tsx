@@ -36,7 +36,7 @@ const HelpGuide = (props: ModalProps) => (
           <ul className='hotkeys-list flex flex-col gap-4'>
             {Object.values(KEYBINDS)
               .filter((bind) => bind.category === category)
-              .map(({ text, desc, alt = false }, i) => (
+              .map(({ text, desc, alt }, i) => (
                 <Shortcut key={i} desc={desc} keybinds={text} alt={alt} />
               ))}
           </ul>
