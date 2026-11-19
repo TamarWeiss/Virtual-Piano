@@ -1,8 +1,8 @@
 @layer components {
   .switch {
     --track-width: 3.25em;
-    --track-height: 1.25em;
-    --thumb-width: 1.625em;
+    --track-height: 1em;
+    --thumb-width: 1.5em;
     --thumb-height: 1.5em;
 
     .led-indicator {
