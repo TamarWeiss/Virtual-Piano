@@ -20,6 +20,7 @@ const SCurve = (p1: Point, p2: Point, strength = 0.75) =>
 
 const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', strokeWidth = 8, ...props }) => (
   <svg
+    xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 1 1'
     fill='none'
     color={color}
@@ -28,7 +29,6 @@ const SVG: React.FC<React.SVGProps<SVGSVGElement>> = ({ color = 'currentColor', 
     strokeLinecap='round'
     strokeLinejoin='round'
     vectorEffect='non-scaling-stroke'
-    xmlns='http://www.w3.org/2000/svg'
     {...props}
   />
 );

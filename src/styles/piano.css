@@ -1,3 +1,4 @@
+/* design source: https://codepen.io/zastrow/pen/kxdYdk */
 .piano {
   grid-template-rows: 1fr 3fr;
   background: linear-gradient(to bottom right, var(--color-neutral-900), var(--color-neutral-800));

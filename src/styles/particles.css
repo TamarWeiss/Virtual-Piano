@@ -1,3 +1,4 @@
+/* bubble design source: https://codepen.io/DeyJordan/pen/poQvgaz */
 .particle {
   left: var(--x);
   font-size: var(--size);
