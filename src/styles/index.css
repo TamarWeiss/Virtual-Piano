@@ -28,6 +28,7 @@ button {
   }
 
   &::after {
+    /* design source: https://uiverse.io/ish7o/bad-baboon-47 */
     background:
       radial-gradient(var(--color-black) 55%, transparent) 0 0 / 100% 0.5%,
       linear-gradient(135deg in hsl longer hue, var(--color-red-500), var(--color-rose-500)) 0 0 / contain;
