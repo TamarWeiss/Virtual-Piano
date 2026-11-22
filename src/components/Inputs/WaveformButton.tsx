@@ -25,15 +25,6 @@ const WaveformButton = ({ id, Icon, value, currentValue, onChange, keybinds = []
         checked={value == currentValue}
         onChange={(e) => onChange(e.target.value as OscillatorType)}
         className='absolute size-full z-1 appearance-none cursor-pointer'
-        onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
-          props.onPointerDown?.(e);
-        }}
-        onPointerUp={(e) => {
-          e.currentTarget.releasePointerCapture(e.pointerId);
-          e.currentTarget.blur();
-          props.onPointerUp?.(e);
-        }}
         {...props}
       />
       <Icon height='2rem' />

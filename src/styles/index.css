@@ -149,6 +149,7 @@ button {
     grid-template-columns: repeat(5, auto);
 
     input[type='range'] {
+      touch-action: none;
       min-width: 3em;
       width: 100%;
       font-size: calc(4em / 3);

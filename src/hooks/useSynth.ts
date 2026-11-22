@@ -85,7 +85,7 @@ export const useSynth = ({ rampType = 'linear', waveform, adsr, reverb }: Props)
     osc.onended = () => {
       osc.disconnect();
       gain.disconnect();
-      if (reverb && reverbGain) setTimeout(reverbGain.disconnect, (reverb.duration + e) * 1000);
+      if (reverb && reverbGain) setTimeout(() => reverbGain.disconnect(), (reverb.duration + e) * 1000);
     };
 
     return { osc, gain };

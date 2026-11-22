@@ -18,6 +18,11 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
     setLocalValue(value);
   }
 
+  const commit = (value: number) => {
+    if (value !== undefined) setPrevValue(value);
+    onChange?.(value);
+  };
+
   return (
     <div className={`slider grid items-center gap-1.5 text-xs text-zinc-600 ${className}`.trim()}>
       {label && (
@@ -33,20 +38,11 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
         value={localValue}
         min={min}
         max={max}
-        onChange={(e) => setLocalValue(Number(e.target.value))}
+        onChange={(e) => setLocalValue(Number(e.currentTarget.value))}
         onPointerUp={(e) => {
           e.currentTarget.releasePointerCapture(e.pointerId);
           e.currentTarget.blur();
-        }}
-        onBlur={(e) => {
-          const newValue = Number(e.target.value);
-          if (value !== undefined) setPrevValue(newValue);
-          onChange?.(newValue);
-          props.onBlur?.(e);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') e.currentTarget.blur();
-          props.onKeyDown?.(e);
+          commit(Number(e.currentTarget.value));
         }}
         {...props}
       />
@@ -61,8 +57,7 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
         step={props.step}
         onChange={(value) => {
           setLocalValue(value);
-          if (value !== undefined) setPrevValue(value);
-          onChange(value);
+          commit(value);
         }}
       />
     </div>

@@ -63,7 +63,10 @@ const Button = ({
         e.currentTarget.blur();
         onPointerUp?.();
       }}
-      onPointerCancel={onPointerUp}
+      onPointerCancel={(e) => {
+        onPointerUp?.();
+        props.onPointerCancel?.(e);
+      }}
     >
       {children}
     </button>

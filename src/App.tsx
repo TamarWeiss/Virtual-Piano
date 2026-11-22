@@ -16,7 +16,12 @@ const App = () => {
     // Check if the click target is a button (or inside a button)
     // prevent releasing space from retrigerring a focused button
     const handlePointerDown = (e: PointerEvent) => {
-      if ((e.target as HTMLElement).closest('button')) e.preventDefault();
+      const control = (e.target as HTMLElement)?.closest('button, input[type="checkbox"], input[type="radio"]');
+      if (!control) return;
+
+      const active = document.activeElement;
+      if (active instanceof HTMLInputElement && active !== control) active.blur();
+      e.preventDefault();
     };
 
     window.addEventListener('pointerdown', handlePointerDown);

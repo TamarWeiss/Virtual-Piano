@@ -39,15 +39,6 @@ const DarkModeSwitch = ({ id, onChange, value, keybinds = [], className = '', ..
         className='hidden'
         checked={value}
         onChange={(e) => onChange?.(e.target.checked)}
-        onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture(e.pointerId);
-          props.onPointerDown?.(e);
-        }}
-        onPointerUp={(e) => {
-          e.currentTarget.releasePointerCapture(e.pointerId);
-          e.currentTarget.blur();
-          props.onPointerUp?.(e);
-        }}
         {...props}
       />
     </label>
