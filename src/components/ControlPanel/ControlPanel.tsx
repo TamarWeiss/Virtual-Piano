@@ -50,7 +50,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
   useKeybinds({ [Object.keys(KEYBINDS.TOGGLE_ICON.keys)[0]]: { onKeyDown: () => setAlt((alt) => !alt) } });
 
   return (
-    <div className='flex items-center justify-between py-2 gap-2'>
+    <div className='flex flex-wrap items-center justify-between py-2 gap-2'>
       <div className='module grid octave-module text-2xl min-h-min'>
         <Button
           className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
