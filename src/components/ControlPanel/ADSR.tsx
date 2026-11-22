@@ -36,8 +36,14 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
           className='gap-1.5 rounded-full text-xs py-1 px-2'
           keybinds={Object.keys(KEYBINDS.SUSTAIN.keys)}
           isActive={sustain}
-          onPointerDown={onSustainDown}
-          onPointerUp={onSustainRelease}
+          onPointerDown={(e) => {
+            if ('pointerId' in e) e.currentTarget.setPointerCapture(e.pointerId);
+            onSustainDown?.();
+          }}
+          onPointerUp={(e) => {
+            if ('pointerId' in e) e.currentTarget?.releasePointerCapture(e.pointerId);
+            onSustainRelease();
+          }}
         >
           <span className='indicator rounded-full bg-current w-2 aspect-square' />
           <span className='label text-inherit font-normal'>Sustain</span>

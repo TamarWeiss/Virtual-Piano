@@ -6,8 +6,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   isActive?: boolean;
   keybinds?: string[];
   onClick?: () => void;
-  onPointerDown?: () => void;
-  onPointerUp?: () => void;
+  onPointerDown?: (e: KeyboardEvent | React.PointerEvent<HTMLButtonElement>) => void;
+  onPointerUp?: (e: KeyboardEvent | React.PointerEvent<HTMLButtonElement>) => void;
   commandfor?: string;
   command?: string;
 }
@@ -35,13 +35,13 @@ const Button = ({
         .map((code) => [
           code,
           {
-            onKeyDown: () => {
+            onKeyDown: (e) => {
               setActive(true);
-              onPointerDown?.();
+              onPointerDown?.(e);
             },
-            onKeyUp: () => {
+            onKeyUp: (e) => {
               if (!active) return;
-              onPointerUp?.();
+              onPointerUp?.(e);
               props.onClick?.();
               setActive(false);
             },
@@ -54,17 +54,8 @@ const Button = ({
     <button
       {...props}
       className={`btn${(isActive ?? active) ? ' active' : ''} ${className}`.trim()}
-      onPointerDown={(e) => {
-        e.currentTarget.setPointerCapture(e.pointerId);
-        onPointerDown?.();
-      }}
-      onPointerUp={(e) => {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-        e.currentTarget.blur();
-        onPointerUp?.();
-      }}
       onPointerCancel={(e) => {
-        onPointerUp?.();
+        onPointerUp?.(e);
         props.onPointerCancel?.(e);
       }}
     >

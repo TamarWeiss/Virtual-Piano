@@ -87,7 +87,6 @@ const Piano = () => {
             }}
             onPointerUp={(e) => {
               e.currentTarget.releasePointerCapture(e.pointerId);
-              e.currentTarget.blur();
               synth.stopNote(note);
             }}
             onPointerCancel={() => synth.stopNote(note)}
