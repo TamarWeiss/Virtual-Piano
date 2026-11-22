@@ -8,6 +8,7 @@
 
 .white {
   flex: 1;
+  min-height: 10em;
   border: 1px solid var(--color-neutral-300);
   background: linear-gradient(to bottom, var(--color-neutral-200), var(--color-white));
   box-shadow:

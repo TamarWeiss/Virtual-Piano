@@ -65,7 +65,7 @@ const Piano = () => {
 
   return (
     <div
-      className='piano grid h-[75dvh] min-h-min min-w-min rounded-2xl gap-1 px-12'
+      className='piano flex flex-col grow min-h-min min-w-min rounded-2xl gap-1 px-12'
       style={{ '--white-key-count': whiteKeyCount } as React.CSSProperties}
     >
       <ControlPanel
@@ -76,7 +76,7 @@ const Piano = () => {
         onSustainRelease={onSustainRelease}
       />
 
-      <div className='flex'>
+      <div className='flex grow'>
         {keys.map(({ note, name, isBlack, text }) => (
           <button
             key={note}

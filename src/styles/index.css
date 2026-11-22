@@ -14,6 +14,8 @@ button {
 }
 
 .app {
+  height: 95dvh;
+
   &::before,
   &::after {
     content: '';
