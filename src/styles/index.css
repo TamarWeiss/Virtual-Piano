@@ -13,6 +13,11 @@ button {
   cursor: pointer;
 }
 
+#root {
+  overflow: auto;
+  height: 100dvh;
+}
+
 .app {
   height: 95dvh;
 
