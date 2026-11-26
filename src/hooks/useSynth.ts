@@ -75,7 +75,6 @@ export const useSynth = ({ rampType = 'linear', waveform, adsr, reverb }: Props)
       reverbGain = ctx.createGain();
       reverbGain.gain.value = reverb.volume;
 
-      // Route: source -> main gain -> convolver -> wet gain -> destination
       gain.connect(convolver);
       convolver.connect(reverbGain);
       reverbGain.connect(ctx.destination);

@@ -3,7 +3,7 @@ import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
 import { KEYBINDS, randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
-import ResetButton from '../Buttons/RandomButton';
+import ResetButton from '../Buttons/ResetButton';
 
 type props = {
   reverb: ReverbOptions;
@@ -15,11 +15,11 @@ const inputs = { volume: { max: 1 }, duration: { max: 5 }, decay: { max: 5 } };
 
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
-    const randomReverb = {
-      volume: randomRange(0, inputs.volume.max, 0.1),
-      duration: randomRange(0, inputs.duration.max, 0.1),
-      decay: randomRange(0, inputs.decay.max, 0.1),
-    };
+    const fields = Object.keys(inputs) as (keyof Omit<ReverbOptions, 'active'>)[];
+    const randomReverb = fields.reduce(
+      (acc, field) => ({ ...acc, [field]: randomRange(0, inputs[field].max, 0.1) }),
+      {} as ReverbOptions,
+    );
     setReverb(randomReverb);
   };
 

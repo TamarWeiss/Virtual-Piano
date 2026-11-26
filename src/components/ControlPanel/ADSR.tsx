@@ -18,13 +18,11 @@ const inputs = { volume: { max: 1 }, attack: { max: 5 }, decay: { max: 5 }, sust
 
 const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, alt }: props) => {
   const randomize = () => {
-    const randomADSR: ADSR = {
-      volume: randomRange(0, inputs.volume.max, 0.1),
-      attack: randomRange(0, inputs.attack.max, 0.1),
-      decay: randomRange(0, inputs.decay.max, 0.1),
-      sustain: randomRange(0, inputs.sustain.max, 0.1),
-      release: randomRange(0, inputs.release.max, 0.1),
-    };
+    const fields = Object.keys(inputs) as (keyof ADSR)[];
+    const randomADSR = fields.reduce(
+      (acc, field) => ({ ...acc, [field]: randomRange(0, inputs[field].max, 0.1) }),
+      {} as ADSR,
+    );
     setADSR(randomADSR);
   };
 
