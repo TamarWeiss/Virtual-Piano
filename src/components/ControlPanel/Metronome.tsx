@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { PlayIcon, StopIcon, ResetIcon } from '../../constants/icons';
+import { PlayIcon, StopIcon } from '../../constants/icons';
 import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import { clamp, KEYBINDS } from '../../constants/pianoConfig';
-import { useMetronome, MIN_INTERVAL, type TimeSignature, FlashState } from '../../hooks/useMetronome';
+import { useMetronome, MIN_INTERVAL, type TimeSignature } from '../../hooks/useMetronome';
+import LED from './LED';
 import Button from '../Buttons/Button';
+import ResetButton from '../Buttons/ResetButton';
 
 const MAX_INTERVAL = 2;
 const MIN = 240 / MAX_INTERVAL;
@@ -43,22 +45,22 @@ const Metronome = () => {
   };
 
   useKeybinds({
-    [Object.keys(KEYBINDS.BPM.keys)[1]]: {
-      onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
-      allowRepeat: true,
-    },
     [Object.keys(KEYBINDS.BPM.keys)[0]]: {
       onKeyDown: (e) => onBPMChange(bpm - (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
-    [Object.keys(KEYBINDS.TIME_SIGNATURE.keys)[1]]: {
-      onKeyDown: (e) =>
-        onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
+    [Object.keys(KEYBINDS.BPM.keys)[1]]: {
+      onKeyDown: (e) => onBPMChange(bpm + (e.altKey ? 10 : 1)),
       allowRepeat: true,
     },
     [Object.keys(KEYBINDS.TIME_SIGNATURE.keys)[0]]: {
       onKeyDown: (e) =>
         onTimeSignatureChange([timeSignature[0] - Number(!e.altKey), timeSignature[1] - Number(e.altKey)]),
+      allowRepeat: true,
+    },
+    [Object.keys(KEYBINDS.TIME_SIGNATURE.keys)[1]]: {
+      onKeyDown: (e) =>
+        onTimeSignatureChange([timeSignature[0] + Number(!e.altKey), timeSignature[1] + Number(e.altKey)]),
       allowRepeat: true,
     },
   });
@@ -67,19 +69,9 @@ const Metronome = () => {
     <div className='flex items-center gap-2'>
       <div className='module flex flex-col gap-2 p-2 min-h-min'>
         <div className='flex items-center justify-between gap-2'>
-          <Button
-            className='p-1'
-            onClick={reset}
-            keybinds={Object.keys(KEYBINDS.RESET_ALL.keys).concat(Object.keys(KEYBINDS.RESET_METRONOME.keys))}
-          >
-            <ResetIcon height='1.5em' />
-          </Button>
+          <ResetButton onClick={reset} keybinds={Object.keys(KEYBINDS.RESET_METRONOME.keys)} />
           <span className='label mx-auto'>Metronome</span>
-          <div className='led-indicator mr-3'>
-            <div
-              className={`led-light${flashState ? (flashState == FlashState.ACCENT ? ' accent' : ' active') : ''}`}
-            />
-          </div>
+          <LED state={flashState} className='mr-3' />
         </div>
 
         <div className='flex flex-1 items-stretch gap-2'>

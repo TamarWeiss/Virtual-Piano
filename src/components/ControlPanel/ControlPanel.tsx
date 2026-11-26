@@ -1,9 +1,8 @@
 import { useCallback, useState } from 'react';
-import { KEYBINDS, MAX_OCTAVE, MIN_OCTAVE } from '../../constants/pianoConfig';
-import Button from '../Buttons/Button';
+import { KEYBINDS } from '../../constants/pianoConfig';
+import OctaveModule from './OctaveModule';
 import WaveformButton from '../Inputs/WaveformButton';
 import Metronome from './Metronome';
-import NumberInput from '../Inputs/NumberInput';
 import { useKeybinds } from '../../hooks/useKeybinds';
 import Reverb from './Reverb';
 import type { ADSR, Config, ReverbOptions } from '../../hooks/useSynth';
@@ -51,31 +50,7 @@ const ControlPanel = ({ baseOctave, shiftOctave, config, setConfig, onSustainRel
 
   return (
     <div className='flex items-center justify-between py-2 gap-2'>
-      <div className='module grid octave-module text-2xl min-h-min'>
-        <Button
-          className='aspect-square border-r-0 rounded-l-lg rounded-r-none'
-          onClick={() => shiftOctave(-1)}
-          keybinds={Object.keys(KEYBINDS.OCTAVE.keys).slice(0, 1)}
-        >
-          -
-        </Button>
-        <NumberInput
-          id='octave'
-          value={baseOctave}
-          className='display rounded-none px-3'
-          min={MIN_OCTAVE}
-          max={MAX_OCTAVE}
-          onChange={(num) => shiftOctave(num - baseOctave)}
-        />
-        <Button
-          className='aspect-square border-l-0 rounded-r-lg rounded-l-none'
-          onClick={() => shiftOctave(1)}
-          keybinds={Object.keys(KEYBINDS.OCTAVE.keys).slice(1, 2)}
-        >
-          +
-        </Button>
-      </div>
-
+      <OctaveModule baseOctave={baseOctave} shiftOctave={shiftOctave} />
       <ADSRPanel
         sustain={config.sustain}
         onSustainDown={() => setConfig((prev) => ({ ...prev, sustain: true }))}

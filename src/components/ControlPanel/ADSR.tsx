@@ -1,9 +1,9 @@
 import type { ADSR } from '../../hooks/useSynth';
-import Button from '../Buttons/Button';
-import { ResetIcon } from '../../constants/icons';
+import PillButton from '../Buttons/PillButton';
+import ResetButton from '../Buttons/ResetButton';
+import RandomButton from '../Buttons/RandomButton';
 import Slider from '../Inputs/Slider';
 import { ADSR_DEFAULTS, KEYBINDS, randomRange } from '../../constants/pianoConfig';
-import RandomButton from '../Buttons/RandomButton';
 
 type props = {
   sustain: boolean;
@@ -32,23 +32,17 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
     <div className='module flex flex-col gap-2 p-2'>
       <div className='flex items-center justify-between gap-4'>
         <span className='label'>ADSR</span>
-        <Button
-          className='gap-1.5 rounded-full text-xs py-1 px-2'
+        <PillButton
+          text='Sustain'
           keybinds={Object.keys(KEYBINDS.SUSTAIN.keys)}
+          keybindText={Object.values(KEYBINDS.SUSTAIN.keys)}
           isActive={sustain}
           onPointerDown={(e) => {
             if ('pointerId' in e) e.currentTarget.setPointerCapture(e.pointerId);
-            onSustainDown?.();
+            onSustainDown();
           }}
-          onPointerUp={(e) => {
-            if ('pointerId' in e) e.currentTarget?.releasePointerCapture(e.pointerId);
-            onSustainRelease();
-          }}
-        >
-          <span className='indicator rounded-full bg-current w-2 aspect-square' />
-          <span className='label text-inherit font-normal'>Sustain</span>
-          <span className='keybind'>{Object.values(KEYBINDS.SUSTAIN.keys)}</span>
-        </Button>
+          onPointerUp={() => onSustainRelease()}
+        />
       </div>
 
       <div className='flex gap-2'>
@@ -68,13 +62,7 @@ const ADSRPanel = ({ sustain, onSustainDown, onSustainRelease, adsr, setADSR, al
         </div>
 
         <div className='flex flex-col gap-2'>
-          <Button
-            className='p-1'
-            onClick={() => setADSR(ADSR_DEFAULTS)}
-            keybinds={Object.keys(KEYBINDS.RESET_ALL.keys).concat(Object.keys(KEYBINDS.RESET_ADSR.keys))}
-          >
-            <ResetIcon height='1.5em' />
-          </Button>
+          <ResetButton onClick={() => setADSR(ADSR_DEFAULTS)} keybinds={Object.keys(KEYBINDS.RESET_ADSR.keys)} />
           <RandomButton onClick={randomize} keybinds={Object.keys(KEYBINDS.RANDOM_ADSR.keys)} alt={alt} />
         </div>
       </div>

@@ -2,15 +2,17 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import '../styles/piano.css';
 import { MIN_OCTAVE, MAX_OCTAVE, KEYBINDS, clamp, ADSR_DEFAULTS, REVERB_DEFAULTS } from '../constants/pianoConfig';
 import { useSynth } from '../hooks/useSynth';
+import PianoKey from './Buttons/PianoKey';
 import ControlPanel from './ControlPanel/ControlPanel';
 import { useKeybinds } from '../hooks/useKeybinds';
 import { PauseContext } from '../contexts/PauseContext';
 
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const BLACK_KEY_MASK = 0x54a;
+const DEFAULT_OCTAVE = 4;
 
 const Piano = () => {
-  const [baseOctave, setBaseOctave] = useState<number>(4);
+  const [baseOctave, setBaseOctave] = useState<number>(DEFAULT_OCTAVE);
   const synth = useSynth({ waveform: 'square', adsr: ADSR_DEFAULTS, reverb: { active: false, ...REVERB_DEFAULTS } });
   const disabled = useContext(PauseContext);
   const prevDisabledRef = useRef(false);
@@ -78,22 +80,16 @@ const Piano = () => {
 
       <div className='flex grow'>
         {keys.map(({ note, name, isBlack, text }) => (
-          <button
+          <PianoKey
             key={note}
-            className={`flex flex-col justify-end font-bold pb-4 ${isBlack ? 'black' : 'white'}${synth.activeKeys.has(note) ? ' active' : ''}`}
-            onPointerDown={(e) => {
-              e.currentTarget.setPointerCapture(e.pointerId);
-              synth.playNote(note);
-            }}
-            onPointerUp={(e) => {
-              e.currentTarget.releasePointerCapture(e.pointerId);
-              synth.stopNote(note);
-            }}
-            onPointerCancel={() => synth.stopNote(note)}
-          >
-            <span className='text-sm capitalize font-semibold opacity-50'>{text}</span>
-            {name}
-          </button>
+            note={note}
+            name={name}
+            keybind={text}
+            isBlack={isBlack}
+            isActive={synth.activeKeys.has(note)}
+            onNoteStart={synth.playNote}
+            onNoteEnd={synth.stopNote}
+          />
         ))}
       </div>
     </div>

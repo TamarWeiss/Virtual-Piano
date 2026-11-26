@@ -40,7 +40,6 @@ const Slider = ({ label, value, min, max, onChange, className = '', ...props }: 
         max={max}
         onChange={(e) => setLocalValue(Number(e.currentTarget.value))}
         onPointerUp={(e) => {
-          e.currentTarget.releasePointerCapture(e.pointerId);
           e.currentTarget.blur();
           commit(Number(e.currentTarget.value));
         }}
