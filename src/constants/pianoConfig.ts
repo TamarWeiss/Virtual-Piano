@@ -113,3 +113,6 @@ export function range(start: number, stop?: number, step = 1): number[] {
   const length = Math.max(Math.ceil((stop - start) / step), 0);
   return Array.from({ length }, (_, i) => start + i * step);
 }
+
+export const Keys = <T extends object>(obj: T) => Object.keys(obj) as (keyof T)[];
+export const Entries = <T extends object>(obj: T) => Object.entries(obj) as [keyof T, T[keyof T]][];

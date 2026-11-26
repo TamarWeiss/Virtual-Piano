@@ -1,7 +1,7 @@
 import Switch from '../Inputs/Switch';
 import Slider from '../Inputs/Slider';
 import type { ReverbOptions } from '../../hooks/useSynth';
-import { KEYBINDS, randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
+import { Entries, KEYBINDS, Keys, randomRange, REVERB_DEFAULTS } from '../../constants/pianoConfig';
 import RandomButton from '../Buttons/RandomButton';
 import ResetButton from '../Buttons/ResetButton';
 
@@ -15,10 +15,9 @@ const inputs = { volume: { max: 1 }, duration: { max: 5 }, decay: { max: 5 } };
 
 const Reverb = ({ reverb, setReverb, alt }: props) => {
   const randomize = () => {
-    const fields = Object.keys(inputs) as (keyof Omit<ReverbOptions, 'active'>)[];
-    const randomReverb = fields.reduce(
+    const randomReverb = Keys(inputs).reduce(
       (acc, field) => ({ ...acc, [field]: randomRange(0, inputs[field].max, 0.1) }),
-      {} as ReverbOptions,
+      {} as Partial<ReverbOptions>,
     );
     setReverb(randomReverb);
   };
@@ -37,13 +36,13 @@ const Reverb = ({ reverb, setReverb, alt }: props) => {
 
       <div className='flex gap-2'>
         <div className='container grid gap-1'>
-          {Object.entries(inputs).map(([field, { max }]) => (
+          {Entries(inputs).map(([field, { max }]) => (
             <Slider
               key={field}
               id={'reverb' + field}
               label={field}
-              value={reverb[field as keyof Omit<ReverbOptions, 'active'>]}
-              onChange={(value) => setReverb({ [field as keyof ReverbOptions]: value })}
+              value={reverb[field]}
+              onChange={(value) => setReverb({ [field]: value })}
               min={0}
               max={max}
               step={0.1}
